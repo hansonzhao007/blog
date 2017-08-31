@@ -5,7 +5,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="https://hansonzhao007.github.io/blog/"/>
-  <updated>2017-08-24T14:13:01.033Z</updated>
+  <updated>2017-08-31T16:56:27.600Z</updated>
   <id>https://hansonzhao007.github.io/blog/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://hansonzhao007.github.io/blog/2017/08/23/LevelDb-Introduction/"/>
     <id>https://hansonzhao007.github.io/blog/2017/08/23/LevelDb-Introduction/</id>
     <published>2017-08-23T20:50:17.000Z</published>
-    <updated>2017-08-24T14:13:01.033Z</updated>
+    <updated>2017-08-31T16:56:27.600Z</updated>
     
     <content type="html"><![CDATA[<p>说起LevelDb也许您不清楚，但是如果作为IT工程师，不知道下面两位大神级别的工程师，那您的领导估计会Hold不住了：Jeff Dean和Sanjay Ghemawat。这两位是Google公司重量级的工程师，为数甚少的Google Fellow之二。</p>
 <p>Jeff Dean其人：<a href="http://research.google.com/people/jeff/index.html，Google大规模分布式平台Bigtable和MapReduce主要设计和实现者。" target="_blank" rel="external">http://research.google.com/people/jeff/index.html，Google大规模分布式平台Bigtable和MapReduce主要设计和实现者。</a></p>
@@ -39,7 +39,7 @@
 <p>从静态角度，可以假想整个系统正在运行过程中（不断插入删除读取数据），此时我们给LevelDb照相，从照片可以看到之前系统的数据在内存和磁盘中是如何分布的，处于什么状态等；<br>从动态的角度，主要是了解系统是如何写入一条记录，读出一条记录，删除一条记录的，同时也包括除了这些接口操作外的内部操作比如compaction，系统运行时崩溃后如何恢复系统等等方面。</p>
 <p> 本节所讲的整体架构主要从静态角度来描述，之后接下来的几节内容会详述静态结构涉及到的文件或者内存数据结构，LevelDb日知录后半部分主要介绍动态视角下的LevelDb，就是说整个系统是怎么运转起来的。</p>
 <p>LevelDb作为存储系统，数据记录的存储介质包括内存以及磁盘文件，如果像上面说的，当LevelDb运行了一段时间，此时我们给LevelDb进行透视拍照，那么您会看到如下一番景象：</p>
-<p><img src="/img/post/201708/LevelDb1.png" alt="LevelDb1"></p>
+<p><img src="img/post/201708/LevelDb1.png" alt="LevelDb1"></p>
 <p>从图中可以看出，构成LevelDb静态结构的包括六个主要部分：内存中的<code>MemTable</code>和<code>Immutable MemTable</code>以及磁盘上的几种主要文件：<code>Current文件</code>，<code>Manifest文件</code>，<code>log文件</code>以及<code>SSTable文件</code>。当然，LevelDb除了这六个主要部分还有一些辅助的文件，但是以上六个文件和数据结构是LevelDb的主体构成元素。</p>
 <p>LevelDb的Log文件和Memtable与Bigtable论文中介绍的是一致的，当应用写入一条Key:Value记录的时候，LevelDb会先往log文件里写入，成功后将记录插进Memtable中，这样基本就算完成了写入操作，因为一次写入操作只涉及一次磁盘顺序写和一次内存写入，所以这是为何说LevelDb写入速度极快的主要原因。</p>
 <p>Log文件在系统中的作用主要是用于系统崩溃恢复而不丢失数据，假如没有Log文件，因为写入的记录刚开始是保存在内存中的，此时如果系统崩溃，内存中的数据还没有来得及Dump到磁盘，所以会丢失数据（Redis就存在这个问题）。为了避免这种情况，LevelDb在写入内存前先将操作记录到Log文件中，然后再记入内存中，这样即使系统崩溃，也可以从Log文件中恢复内存中的Memtable，不会造成数据的丢失。</p>
@@ -924,12 +924,9 @@ _   底线
     <link href="https://hansonzhao007.github.io/blog/2017/03/25/how-to-use-requirejs/"/>
     <id>https://hansonzhao007.github.io/blog/2017/03/25/how-to-use-requirejs/</id>
     <published>2017-03-25T05:00:00.000Z</published>
-    <updated>2017-08-20T13:32:45.199Z</updated>
+    <updated>2017-08-31T16:55:48.933Z</updated>
     
-    <content type="html"><![CDATA[<ul>
-<li>目录<br>{:toc }</li>
-</ul>
-<h1 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h1><hr>
+    <content type="html"><![CDATA[<h1 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h1><hr>
 <p>下载 <code>requireJs</code>，然后在 <code>head</code> 中</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script src=<span class="string">"js/require.js"</span> data-main=<span class="string">"js/main"</span> defer <span class="keyword">async</span>=<span class="string">"true"</span>&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
 <p><code>async</code> 属性表明这个文件需要异步加载，避免网页失去响应。IE不支持这个属性，只支持 <code>defer</code>，所以把 <code>defer</code> 也写上。</p>
@@ -973,9 +970,9 @@ _   底线
 <h1 id="加载不符合AMD规范模块"><a href="#加载不符合AMD规范模块" class="headerlink" title="加载不符合AMD规范模块"></a>加载不符合AMD规范模块</h1><hr>
 <p>标准的写法是需要使用一个：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">// your code here</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
 <p>将你的代码写在这个 <code>define</code> 内部。但是我们如果想要使用一个不是这种标准的 js 模块怎么破？</p>
-<p>这里就要使用到 <code>shim</code>。我们看下面的完整配置 <code>main.js</code> ：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">requirejs.config(&#123;</div><div class="line">        paths: &#123;</div><div class="line">            jquery: [               </div><div class="line">                <span class="string">'lib/jquery.min'</span></div><div class="line">            ],</div><div class="line">            bootstrap: [</div><div class="line">                <span class="string">'//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min'</span>, <span class="comment">// 这里支持输入多个备选路径，前一个失败就是选择下一个</span></div><div class="line">                <span class="string">'lib/bootstrap.min'</span></div><div class="line">            ],</div><div class="line">            my:<span class="string">'my'</span></div><div class="line">        &#125;,</div><div class="line">        shim:&#123;</div><div class="line">            <span class="string">'bootstrap'</span>:&#123; </div><div class="line">                deps:[<span class="string">'jquery'</span>] <span class="comment">// 这里指定依赖关系，bootstrap 要在 jquery 加载完成之后再加载</span></div><div class="line">            &#125;,</div><div class="line">            <span class="string">'my'</span>:&#123;</div><div class="line">                deps:[<span class="string">'jquery'</span>,<span class="string">'bootstrap'</span>],</div><div class="line">                exports:<span class="string">'my_alis'</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="built_in">require</span>([</div><div class="line">        <span class="string">'jquery'</span>,<span class="string">'bootstrap'</span>,<span class="string">'my'</span></div><div class="line">        ],</div><div class="line">        <span class="function"><span class="keyword">function</span>(<span class="params">$, my_alis</span>)</span>&#123;</div><div class="line">            <span class="comment">// my 中的变量和函数，只在这里有效。</span></div><div class="line">        &#125;);</div></pre></td></tr></table></figure></p>
+<p>这里就要使用到 <code>shim</code>。我们看下面的完整配置 <code>main.js</code> ：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">requirejs.config(&#123;</div><div class="line">        paths: &#123;</div><div class="line">            jquery: [               </div><div class="line">                <span class="string">'lib/jquery.min'</span></div><div class="line">            ],</div><div class="line">            bootstrap: [</div><div class="line">                <span class="string">'//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min'</span>, <span class="comment">// 这里支持输入多个备选路径，前一个失败就是选择下一个</span></div><div class="line">                <span class="string">'lib/bootstrap.min'</span></div><div class="line">            ],</div><div class="line">            my:<span class="string">'my'</span></div><div class="line">        &#125;,</div><div class="line">        shim:&#123;</div><div class="line">            <span class="string">'bootstrap'</span>:&#123;</div><div class="line">                deps:[<span class="string">'jquery'</span>] <span class="comment">// 这里指定依赖关系，bootstrap 要在 jquery 加载完成之后再加载</span></div><div class="line">            &#125;,</div><div class="line">            <span class="string">'my'</span>:&#123;</div><div class="line">                deps:[<span class="string">'jquery'</span>,<span class="string">'bootstrap'</span>],</div><div class="line">                exports:<span class="string">'my_alis'</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="built_in">require</span>([</div><div class="line">        <span class="string">'jquery'</span>,<span class="string">'bootstrap'</span>,<span class="string">'my'</span></div><div class="line">        ],</div><div class="line">        <span class="function"><span class="keyword">function</span>(<span class="params">$, my_alis</span>)</span>&#123;</div><div class="line">            <span class="comment">// my 中的变量和函数，只在这里有效。</span></div><div class="line">        &#125;);</div></pre></td></tr></table></figure></p>
 <p>这里假设我使用了 <code>jquery</code> 和 <code>bootstrap</code> 模块，还有一个自己写的业务脚本 <code>my.js</code>。 <code>my.js</code> 因为要依赖于 <code>jquery</code> 和 <code>bootstrap</code> 所以在依赖关系中写了上面的配置。</p>
-<p>关键在于 <code>export</code> 关键字的声明。这样我们就可以加载一个没有使用 <code>AMD</code> 规范编程的 js 模块了。并且模块的所有变量，和函数，都不是在全局域的，只在 回调函数中有效。从而避免了全局变量的污染问题。 </p>
+<p>关键在于 <code>export</code> 关键字的声明。这样我们就可以加载一个没有使用 <code>AMD</code> 规范编程的 js 模块了。并且模块的所有变量，和函数，都不是在全局域的，只在 回调函数中有效。从而避免了全局变量的污染问题。</p>
 <h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><hr>
 <ul>
 <li><a href="http://www.runoob.com/w3cnote/requirejs-tutorial-2.html" target="_blank" rel="external">JS模块化工具requirejs教程(二)：基本知识</a></li>
@@ -985,11 +982,9 @@ _   底线
     
     <summary type="html">
     
-      &lt;ul&gt;
-&lt;li&gt;目录&lt;br&gt;{:toc }&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h1 id=&quot;引入&quot;&gt;&lt;a href=&quot;#引入&quot; class=&quot;headerlink&quot; title=&quot;引入&quot;&gt;&lt;/a&gt;引入&lt;/h1&gt;&lt;hr&gt;
-&lt;p&gt;下载 &lt;code&gt;requireJs&lt;/code&gt;，然后在 &lt;
+      &lt;h1 id=&quot;引入&quot;&gt;&lt;a href=&quot;#引入&quot; class=&quot;headerlink&quot; title=&quot;引入&quot;&gt;&lt;/a&gt;引入&lt;/h1&gt;&lt;hr&gt;
+&lt;p&gt;下载 &lt;code&gt;requireJs&lt;/code&gt;，然后在 &lt;code&gt;head&lt;/code&gt; 中&lt;/p&gt;
+&lt;figure cla
     
     </summary>
     
