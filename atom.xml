@@ -5,7 +5,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="https://hansonzhao007.github.io/blog/"/>
-  <updated>2017-09-02T15:29:57.603Z</updated>
+  <updated>2017-09-04T23:14:02.614Z</updated>
   <id>https://hansonzhao007.github.io/blog/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://hansonzhao007.github.io/blog/2017/08/23/leveldb-intro/"/>
     <id>https://hansonzhao007.github.io/blog/2017/08/23/leveldb-intro/</id>
     <published>2017-08-23T20:50:17.000Z</published>
-    <updated>2017-09-02T15:29:57.603Z</updated>
+    <updated>2017-09-04T23:14:02.614Z</updated>
     
     <content type="html"><![CDATA[<p>说起LevelDb也许您不清楚，但是如果作为IT工程师，不知道下面两位大神级别的工程师，那您的领导估计会Hold不住了：Jeff Dean和Sanjay Ghemawat。这两位是Google公司重量级的工程师，为数甚少的Google Fellow之二。</p>
 <p>Jeff Dean其人：<a href="http://research.google.com/people/jeff/index.html，Google大规模分布式平台Bigtable和MapReduce主要设计和实现者。" target="_blank" rel="external">http://research.google.com/people/jeff/index.html，Google大规模分布式平台Bigtable和MapReduce主要设计和实现者。</a></p>
@@ -39,7 +39,7 @@
 <p>从静态角度，可以假想整个系统正在运行过程中（不断插入删除读取数据），此时我们给LevelDb照相，从照片可以看到之前系统的数据在内存和磁盘中是如何分布的，处于什么状态等；<br>从动态的角度，主要是了解系统是如何写入一条记录，读出一条记录，删除一条记录的，同时也包括除了这些接口操作外的内部操作比如compaction，系统运行时崩溃后如何恢复系统等等方面。</p>
 <p> 本节所讲的整体架构主要从静态角度来描述，之后接下来的几节内容会详述静态结构涉及到的文件或者内存数据结构，LevelDb日知录后半部分主要介绍动态视角下的LevelDb，就是说整个系统是怎么运转起来的。</p>
 <p>LevelDb作为存储系统，数据记录的存储介质包括内存以及磁盘文件，如果像上面说的，当LevelDb运行了一段时间，此时我们给LevelDb进行透视拍照，那么您会看到如下一番景象：</p>
-<p><img src="LevelDb1.png" alt="LevelDb1"></p>
+<p><img src="img/post/201708/LevelDb1.png" alt="LevelDb1"></p>
 <p>从图中可以看出，构成LevelDb静态结构的包括六个主要部分：内存中的<code>MemTable</code>和<code>Immutable MemTable</code>以及磁盘上的几种主要文件：<code>Current文件</code>，<code>Manifest文件</code>，<code>log文件</code>以及<code>SSTable文件</code>。当然，LevelDb除了这六个主要部分还有一些辅助的文件，但是以上六个文件和数据结构是LevelDb的主体构成元素。</p>
 <p>LevelDb的Log文件和Memtable与Bigtable论文中介绍的是一致的，当应用写入一条Key:Value记录的时候，LevelDb会先往log文件里写入，成功后将记录插进Memtable中，这样基本就算完成了写入操作，因为一次写入操作只涉及一次磁盘顺序写和一次内存写入，所以这是为何说LevelDb写入速度极快的主要原因。</p>
 <p>Log文件在系统中的作用主要是用于系统崩溃恢复而不丢失数据，假如没有Log文件，因为写入的记录刚开始是保存在内存中的，此时如果系统崩溃，内存中的数据还没有来得及Dump到磁盘，所以会丢失数据（Redis就存在这个问题）。为了避免这种情况，LevelDb在写入内存前先将操作记录到Log文件中，然后再记入内存中，这样即使系统崩溃，也可以从Log文件中恢复内存中的Memtable，不会造成数据的丢失。</p>
@@ -213,15 +213,15 @@
     <link href="https://hansonzhao007.github.io/blog/2017/08/20/inode-command/"/>
     <id>https://hansonzhao007.github.io/blog/2017/08/20/inode-command/</id>
     <published>2017-08-20T05:00:00.000Z</published>
-    <updated>2017-08-31T18:30:11.769Z</updated>
+    <updated>2017-09-04T23:13:23.006Z</updated>
     
-    <content type="html"><![CDATA[<p>​<img src="../img/post/201708/inode1.png" alt="inode1"><br><code>touch</code>：新建文件<br><code>ls -i</code>：显示文件的inode<br><code>stat filename</code>：显示文件的所有状态信息，包括大小，inode id，link 数目，创建时间，修改时间等<br><code>ln file1 filelink1</code>：给file1创建一个名字叫做filelink1的链接，具有相同的 inode id<br><img src="../img/post/201708/1503226895173.png" alt="inodeid"><br>如果有一个文件名很奇怪，无法使用正常的 rm 命令删除，比如：“ab*<br>那么可以使用 <code>find . -inum xxxx -delete</code> 命令删除<br><img src="../img/post/201708/findcmd.png" alt="findcmd"><br><code>df -i</code>：查看inode资源的使用情况<br><img src="../img/post/201708/dfi.png" alt="dfi"><br>可以清楚看到inode的最大使用数目。</p>
-<p>也可以使用 find 命令找出文件所在目录<br><img src="../img/post/201708/dir.png" alt="dir"></p>
+    <content type="html"><![CDATA[<p>​<img src="inode1.png" alt="inode1"><br><code>touch</code>：新建文件<br><code>ls -i</code>：显示文件的inode<br><code>stat filename</code>：显示文件的所有状态信息，包括大小，inode id，link 数目，创建时间，修改时间等<br><code>ln file1 filelink1</code>：给file1创建一个名字叫做filelink1的链接，具有相同的 inode id<br><img src="1503226895173.png" alt="inodeid"><br>如果有一个文件名很奇怪，无法使用正常的 rm 命令删除，比如：“ab*<br>那么可以使用 <code>find . -inum xxxx -delete</code> 命令删除<br><img src="findcmd.png" alt="findcmd"><br><code>df -i</code>：查看inode资源的使用情况<br><img src="dfi.png" alt="dfi"><br>可以清楚看到inode的最大使用数目。</p>
+<p>也可以使用 find 命令找出文件所在目录<br><img src="dir.png" alt="dir"></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;​&lt;img src=&quot;../img/post/201708/inode1.png&quot; alt=&quot;inode1&quot;&gt;&lt;br&gt;&lt;code&gt;touch&lt;/code&gt;：新建文件&lt;br&gt;&lt;code&gt;ls -i&lt;/code&gt;：显示文件的inode&lt;br&gt;&lt;code&gt;stat filenam
+      &lt;p&gt;​&lt;img src=&quot;inode1.png&quot; alt=&quot;inode1&quot;&gt;&lt;br&gt;&lt;code&gt;touch&lt;/code&gt;：新建文件&lt;br&gt;&lt;code&gt;ls -i&lt;/code&gt;：显示文件的inode&lt;br&gt;&lt;code&gt;stat filename&lt;/code&gt;：显示文件的所有状态信
     
     </summary>
     
@@ -496,9 +496,9 @@
       <category term="Technology" scheme="https://hansonzhao007.github.io/blog/categories/Technology/"/>
     
     
-      <category term="Cpp" scheme="https://hansonzhao007.github.io/blog/tags/Cpp/"/>
-    
       <category term="查阅" scheme="https://hansonzhao007.github.io/blog/tags/%E6%9F%A5%E9%98%85/"/>
+    
+      <category term="Cpp" scheme="https://hansonzhao007.github.io/blog/tags/Cpp/"/>
     
   </entry>
   
@@ -913,9 +913,9 @@ _   底线
       <category term="Technology" scheme="https://hansonzhao007.github.io/blog/categories/Technology/"/>
     
     
-      <category term="查阅" scheme="https://hansonzhao007.github.io/blog/tags/%E6%9F%A5%E9%98%85/"/>
-    
       <category term="MarkDown" scheme="https://hansonzhao007.github.io/blog/tags/MarkDown/"/>
+    
+      <category term="查阅" scheme="https://hansonzhao007.github.io/blog/tags/%E6%9F%A5%E9%98%85/"/>
     
   </entry>
   

@@ -106,7 +106,7 @@
 <meta property="og:site_name" content="Infinite">
 <meta property="og:description" content="说起LevelDb也许您不清楚，但是如果作为IT工程师，不知道下面两位大神级别的工程师，那您的领导估计会Hold不住了：Jeff Dean和Sanjay Ghemawat。这两位是Google公司重量级的工程师，为数甚少的Google Fellow之二。 Jeff Dean其人：http://research.google.com/people/jeff/index.html，Google大规模分">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://hansonzhao007.github.io/blog/LevelDb1.png">
+<meta property="og:image" content="https://hansonzhao007.github.io/blog/img/post/201708/LevelDb1.png">
 <meta property="og:image" content="https://hansonzhao007.github.io/blog/LevelDb2.png">
 <meta property="og:image" content="https://hansonzhao007.github.io/blog/LevelDb3.png">
 <meta property="og:image" content="https://hansonzhao007.github.io/blog/LevelDb4.png">
@@ -122,11 +122,11 @@
 <meta property="og:image" content="https://hansonzhao007.github.io/blog/LevelDb14.png">
 <meta property="og:image" content="https://hansonzhao007.github.io/blog/LevelDb15.png">
 <meta property="og:image" content="https://hansonzhao007.github.io/blog/LevelDb16.png">
-<meta property="og:updated_time" content="2017-09-02T15:29:57.603Z">
+<meta property="og:updated_time" content="2017-09-04T23:14:02.614Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LevelDb 详解">
 <meta name="twitter:description" content="说起LevelDb也许您不清楚，但是如果作为IT工程师，不知道下面两位大神级别的工程师，那您的领导估计会Hold不住了：Jeff Dean和Sanjay Ghemawat。这两位是Google公司重量级的工程师，为数甚少的Google Fellow之二。 Jeff Dean其人：http://research.google.com/people/jeff/index.html，Google大规模分">
-<meta name="twitter:image" content="https://hansonzhao007.github.io/blog/LevelDb1.png">
+<meta name="twitter:image" content="https://hansonzhao007.github.io/blog/img/post/201708/LevelDb1.png">
 
 
 
@@ -455,7 +455,7 @@
 <p>从静态角度，可以假想整个系统正在运行过程中（不断插入删除读取数据），此时我们给LevelDb照相，从照片可以看到之前系统的数据在内存和磁盘中是如何分布的，处于什么状态等；<br>从动态的角度，主要是了解系统是如何写入一条记录，读出一条记录，删除一条记录的，同时也包括除了这些接口操作外的内部操作比如compaction，系统运行时崩溃后如何恢复系统等等方面。</p>
 <p> 本节所讲的整体架构主要从静态角度来描述，之后接下来的几节内容会详述静态结构涉及到的文件或者内存数据结构，LevelDb日知录后半部分主要介绍动态视角下的LevelDb，就是说整个系统是怎么运转起来的。</p>
 <p>LevelDb作为存储系统，数据记录的存储介质包括内存以及磁盘文件，如果像上面说的，当LevelDb运行了一段时间，此时我们给LevelDb进行透视拍照，那么您会看到如下一番景象：</p>
-<p><img src="LevelDb1.png" alt="LevelDb1"></p>
+<p><img src="img/post/201708/LevelDb1.png" alt="LevelDb1"></p>
 <p>从图中可以看出，构成LevelDb静态结构的包括六个主要部分：内存中的<code>MemTable</code>和<code>Immutable MemTable</code>以及磁盘上的几种主要文件：<code>Current文件</code>，<code>Manifest文件</code>，<code>log文件</code>以及<code>SSTable文件</code>。当然，LevelDb除了这六个主要部分还有一些辅助的文件，但是以上六个文件和数据结构是LevelDb的主体构成元素。</p>
 <p>LevelDb的Log文件和Memtable与Bigtable论文中介绍的是一致的，当应用写入一条Key:Value记录的时候，LevelDb会先往log文件里写入，成功后将记录插进Memtable中，这样基本就算完成了写入操作，因为一次写入操作只涉及一次磁盘顺序写和一次内存写入，所以这是为何说LevelDb写入速度极快的主要原因。</p>
 <p>Log文件在系统中的作用主要是用于系统崩溃恢复而不丢失数据，假如没有Log文件，因为写入的记录刚开始是保存在内存中的，此时如果系统崩溃，内存中的数据还没有来得及Dump到磁盘，所以会丢失数据（Redis就存在这个问题）。为了避免这种情况，LevelDb在写入内存前先将操作记录到Log文件中，然后再记入内存中，这样即使系统崩溃，也可以从Log文件中恢复内存中的Memtable，不会造成数据的丢失。</p>
