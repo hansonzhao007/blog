@@ -5,7 +5,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="https://hansonzhao007.github.io/blog/"/>
-  <updated>2017-09-05T02:58:57.964Z</updated>
+  <updated>2017-09-09T20:31:52.337Z</updated>
   <id>https://hansonzhao007.github.io/blog/</id>
   
   <author>
@@ -14,6 +14,201 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>FSCK-and-journaling</title>
+    <link href="https://hansonzhao007.github.io/blog/2017/09/09/FSCK-and-journaling/"/>
+    <id>https://hansonzhao007.github.io/blog/2017/09/09/FSCK-and-journaling/</id>
+    <published>2017-09-09T18:00:15.000Z</published>
+    <updated>2017-09-09T20:31:52.337Z</updated>
+    
+    <content type="html"><![CDATA[<p>old approach: <code>fsck</code>(file system checker)<br>new approach: <code>journaling</code>(also known as <code>write-ahead-logging</code>)</p>
+<h1 id="A-Detailed-Example"><a href="#A-Detailed-Example" class="headerlink" title="A Detailed Example"></a>A Detailed Example</h1><p><img src="Selection_001.png" alt=""><br>If you look at the structures in the picture, you can see that a single inode is allocated (<code>inode number 2</code>), which is marked in the <code>inode bitmap</code>, and a single allocated data block (<code>data block 4</code>), also marked in the <code>data bitmap</code>. The inode is denoted <code>I[v1]</code>,</p>
+<p>let’s see the simple inode inside:</p>
+<p><img src="Selection_002.png" alt=""><br>In this simplified inode,</p>
+<ul>
+<li>the size of the file is 1 (it has one block allocated),</li>
+<li>the first direct pointer points to block 4 (the first data block of the file, Da)</li>
+<li>all three other direct pointers are set to null (indicating that they are not used)</li>
+</ul>
+<p>When we append to the file, we are adding a new data block to it, and update on-disk structures.</p>
+<p><img src="Selection_003.png" alt=""></p>
+<p><img src="Selection_004.png" alt=""><br>we must update three blocks to do this update.</p>
+<ul>
+<li>Data bitmap</li>
+<li>Inodes</li>
+<li>Data Blocks</li>
+</ul>
+<p>when user issues a write() system call, usually it will cache them in the main memory first for some time, then to the disk. If a crash happens and will interfere with these updates to the disk.</p>
+<h1 id="Crash-Scenarios"><a href="#Crash-Scenarios" class="headerlink" title="Crash Scenarios"></a>Crash Scenarios</h1><p>Three outcomes when crash:</p>
+<ul>
+<li>Just the data block (Db) is written to disk.(no a bit deal)</li>
+<li>Just the updated inode (I[v2]) is written to disk.(it could cause new problem: file-system inconsistency. The on-disk bitmap is telling us that data block 5 has not been allocated, but the inode is saying that it has. This disagreement in the file system data structures is an inconsistency in the data structures of the file system;)</li>
+<li>Just the updated Data bitmap (B[v2]) is written to disk.(this cause a space leak, as block 5 would never be used by the file system)</li>
+<li>…</li>
+</ul>
+<h1 id="Solution-1-The-File-System-Checker"><a href="#Solution-1-The-File-System-Checker" class="headerlink" title="Solution #1: The File System Checker"></a>Solution #1: The File System Checker</h1><p>fsck is too slow:<br>scanning the entire disk to find all the allocated blocks and read the entire directory tree may take many minutes or hours. Performance of fsck, as disks grew in capacity and RAIDs grew in popularity, became prohibitive.</p>
+<p>This situation is akin to dropping your keys on the floor in your bedroom, and then commencing a search-the-entire-house-for-keys recovery algorithm, starting in the basement and working your way through every room. It works but is wasteful.</p>
+<h1 id="Solution-2-Journaling-or-Write-Ahead-Logging"><a href="#Solution-2-Journaling-or-Write-Ahead-Logging" class="headerlink" title="Solution #2: Journaling (or Write-Ahead Logging)"></a>Solution #2: Journaling (or Write-Ahead Logging)</h1><p>Let’s see EXT3.</p>
+<p>Most of the on-disk structures are identical to Linux ext2(disk is divided into block groups). The new key structure is the <code>journal</code> itself.<br>ext2 file system looks like:</p>
+<p><img src="Selection_005.png" alt=""><br>Assuming the journal is palced within the same file system image (though sometimes it is placed on a separate device, or as a file within the file system), an ext3 file system with a journal looks like this:</p>
+<p><img src="Selection_006.png" alt=""></p>
+<h1 id="Data-Journaling"><a href="#Data-Journaling" class="headerlink" title="Data Journaling"></a>Data Journaling</h1><p>Let’s look at a simple example to understand how data journaling works.<br>Say we have our canonical update again, where we wish to write the inode (I[v2]), bitmap (B[v2]), and data block (Db) to disk again. Before writing them to their final disk locations, we are now first going to write them to the log (a.k.a. journal). This is what this will look like in the log:</p>
+<p><img src="Selection_007.png" alt=""><br>You can see we have written five blocks here. The transaction begin (<code>TxB</code>) tells us about this update, including information about the pending update to the file system), as well as some kind of <code>transaction identifier (TID)</code>. The middle three blocks just contain the exact contents of the blocks themselves; this is known as <code>physical logging</code> as we are putting the exact physical contents of the update in the journal (an alternate idea, <code>logical logging</code>, puts a more compact logical representation of the update in the journal, e.g., “this update wishes to append data block Db to file X”, which is a little more complex but can save space in the log and perhaps improve performance). The final block (<code>TxE</code>) is a marker of the end of this transaction, and will also contain the TID.</p>
+<p>Once this transaction is safely on disk, we are ready to overwrite the old structures in the file system; this process is called <code>checkpointing</code>. Thus, to <code>checkpoint</code> the file system (i.e., bring it up to date with the pending update in the journal), we issue the writes I[v2], B[v2], and Db to their disk locations as seen above; if these writes complete successfully, we have successfully checkpointed the file system and are basically done.</p>
+<p>So the steps of operation:</p>
+<ul>
+<li>Journal write:</li>
+<li>Checkpoint: 就是将 journal 里面的disk更新信息，写到原本的位置中</li>
+</ul>
+<p>Best way is to issue all the five block at once. However, when the changing data is big, OS may reorder the write sequence, it may write TxB, I[v2], B[v2], and TxE and only later write Db. Unfortunately, if the disk loses power between (1) and (2), this is what ends up on disk:</p>
+<p><img src="Selection_008.png" alt=""></p>
+<p>FS can not know if the fourth block is wrong. so in recovery, it can cause problem, even worse if the data in there belongs to superblock, which could render the FS unmountable.</p>
+<blockquote>
+<p>ASIDE: FORCING WRITES TO DISK To enforce ordering between two disk writes, modern file systems have to take a few extra precautions. In olden times, forcing ordering between two writes, A and B, was easy: just issue the write of A to the disk, wait for the disk to interrupt the OS when the write is complete, and then issue the write of B. Things got slightly more complex due to the increased use of write caches within disks. With write buffering enabled (sometimes called <code>immediate reporting</code>), a disk will inform the OS the write is complete when it simply has been placed in the disk’s memory cache, and has not yet reached disk. If the OS then issues a subsequent write, it is not guaranteed to reach the disk after previous writes; thus ordering between writes is not preserved. One solution is to disable <code>write buffering</code>. However, more modern systems take extra precautions and issue explicit write barriers; such a barrier, when it completes, guarantees that all writes issued before the barrier will reach disk before any writes issued after the barrier. All of this machinery requires a great deal of trust in the correct operation of the disk. Unfortunately, recent research shows that <strong>some disk manufacturers, in an effort to deliver “higher performing” disks, explicitly ignore write-barrier requests</strong>, thus making the disks seemingly run faster but at the risk of incorrect operation [C+13, R+11]. As Kahan said, the fast almost always beats out the slow, even if the fast is wrong.</p>
+</blockquote>
+<p>To avoid this problem, the file system issues the transactional write in two steps.</p>
+<ul>
+<li>it writes all blocks except the TxE block to the journal, issuing these writes all at once</li>
+</ul>
+<p><img src="Selection_009.png" alt=""></p>
+<ul>
+<li>When those writes complete(There will be a flush() CMD before TxE), the file system issues the write of the TxE block, thus leaving the journal in this final, safe state:</li>
+</ul>
+<p><img src="Selection_010.png" alt=""></p>
+<p>So the final process is:</p>
+<ul>
+<li><code>Journal write</code>: write the first 4 chunks</li>
+<li><code>Journal commit</code>: wait 1st complete and write TxE to the log <code>( This could cause inefficience when transfer data)</code></li>
+<li><code>Checkpoint</code>: Write contents of the update to their final on-disk locations</li>
+</ul>
+<blockquote>
+<p>to solve the efficiency problem, we could inlcude a <code>checksum</code> in TxB and TxE, then we could write the entire transaction at once, without any wait. During recovery, if the file system sees a mismatch in the computed checksum versus the stored checksum, then it can discard the update in journal.</p>
+</blockquote>
+<h1 id="Making-The-Log-Finite"><a href="#Making-The-Log-Finite" class="headerlink" title="Making The Log Finite"></a>Making The Log Finite</h1><ul>
+<li>FS buffers updates in memory for some time(few seconds);</li>
+<li>when write to the disk, first write to journal</li>
+<li>after transaction complete, FS checkpoint those blocks to final location on disk</li>
+</ul>
+<p>Log has finite size and in order to continue log new write, FS treat the log as a circular data structure, namely <code>circular log.</code></p>
+<p>Once a checkpoint success, FS should free the space. FS could simply mark the oldest and newest no-checkpointed transaction in a <code>journal superblock</code>.</p>
+<p><img src="Selection_011.png" alt=""><br>In the journal superblock (not to be confused with the main file system superblock), the journaling system records enough information to know which transactions have not yet been checkpointed, and thus reduces recovery time as well as enables re-use of the log in a circular fashion. And thus we add another step to our basic protocol:</p>
+<ol>
+<li>Journal write:</li>
+<li>Jornal commit:</li>
+<li>Checkpoint:</li>
+<li><code>Free</code>: mark the transaction free in the journal by updating the journal superblock.(意思就是标记这个更新已经结束，可以被复写）</li>
+</ol>
+<p>However, all the process discussed above indicated that we will <code>write data twice</code>（because we store all the new data in journal log)</p>
+<h1 id="Metadata-Journaling"><a href="#Metadata-Journaling" class="headerlink" title="Metadata Journaling"></a>Metadata Journaling</h1><p>all the discussion above is called <code>data journaling</code>(as in linux ext3). A simple form of journaling is called <code>orderd journaling</code>( <code>metadata journaling</code> ).</p>
+<p><img src="Selection_012.png" alt=""><br>The data block Db, previously written to the log, would instead be written to the file system proper, avoiding the extra write; given that most I/O traffic to the disk is data, not writing data twice substantially reduces the I/O load of journaling.</p>
+<p>Then when should we write data blocks to disk?</p>
+<p>ext3 do like this:</p>
+<ol>
+<li>Data write: write data to final location; wait for completion(optional)</li>
+<li>Journal metadata write</li>
+<li>Journal commit:Write the transaction commit block (containing TxE) to the log; wait for the write to complete; the transaction (including data) is now committed. 在这一步完成同时，必须保证data也被传输结束。（那如果使用checksum的话，怎么保证journalok时候，data也肯定ok呢？如果metadata journal 没有问题，data还在transaction，这时候crash了，那recovery岂不是错的？）</li>
+<li>Checkpoint commit:</li>
+<li>Free<br>（this is ordered journaling, ext3 also provide <code>unordered modes</code>, which data can be written at any time)</li>
+</ol>
+<h1 id="Solution-3-Other-Approaches"><a href="#Solution-3-Other-Approaches" class="headerlink" title="Solution #3: Other Approaches"></a>Solution #3: Other Approaches</h1><ul>
+<li><p>Soft Updates</p>
+<blockquote>
+<p>This approach carefully orders all writes to the file system to ensure that the on-disk structures are never left in an inconsistent state. For example, by writing a pointed-to data block to disk before the inode that points to it, we can ensure that the inode never points to garbage; similar rules can be derived for all the structures of the file system</p>
+</blockquote>
+</li>
+<li><p>copy-on-write(COW) like FS ZFS</p>
+<blockquote>
+<p>This technique never overwrites files or directories in place; rather, it places new updates to previously unused locations on disk. After a number of updates are completed, COW file systems flip the root structure of the file system to include pointers to the newly updated structures. Doing so makes keeping the file system consistent straightforward</p>
+</blockquote>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;old approach: &lt;code&gt;fsck&lt;/code&gt;(file system checker)&lt;br&gt;new approach: &lt;code&gt;journaling&lt;/code&gt;(also known as &lt;code&gt;write-ahead-logging&lt;/co
+    
+    </summary>
+    
+      <category term="OS" scheme="https://hansonzhao007.github.io/blog/categories/OS/"/>
+    
+    
+      <category term="storage" scheme="https://hansonzhao007.github.io/blog/tags/storage/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>fast-file-system</title>
+    <link href="https://hansonzhao007.github.io/blog/2017/09/09/fast-file-system/"/>
+    <id>https://hansonzhao007.github.io/blog/2017/09/09/fast-file-system/</id>
+    <published>2017-09-09T17:35:05.000Z</published>
+    <updated>2017-09-09T17:47:33.132Z</updated>
+    
+    <content type="html"><![CDATA[<p>Old Unix file system: Simple and block size is small( 512B )</p>
+<p><img src="Selection_001.png" alt="1"><br>Problems: Performance terrible. Because old system treats disk like a random-access memory. delivering 2% overall disk bandwith:</p>
+<pre><code>* data spread all over the place, expensive positioning cose (data block could be very far away from its inode)
+* file system getting fragmented     
+</code></pre><p><img src="Selection_002.png" alt="2"></p>
+<p>E gets spread across the disk, and as a result, when accessing E, you don’t get peak (sequential) performance from the disk. Rather, you first read E1 and E2, then seek, then read E3 and E4. This fragmentation problem happened all the time in the old UNIX file system, and it hurt performance.</p>
+<p>small block size cause transferring data from disk inefficient.</p>
+<h1 id="Fast-File-system-FFS-from-Berkeley-group"><a href="#Fast-File-system-FFS-from-Berkeley-group" class="headerlink" title="Fast File system(FFS) from Berkeley group"></a>Fast File system(FFS) from Berkeley group</h1><p>let file system be “disk aware”. Keep the same api (open(), read(), write(), close()) but changing internal implementation.</p>
+<p>Organize block into block group. cylinder groups 就是连续的柱面组合。<br><img src="Selection_003.png" alt="3"><br><img src="Selection_004.png" alt="4"></p>
+<p>In order to use groups to store files. File system includes all the structures you might expect a file system within each group.<br><img src="Selection_005.png" alt="5"><br>S: superblock.<br>ib: inode bitmap<br>db: data bitmap</p>
+<h1 id="Policies-How-To-Allocate-Files-and-Directories"><a href="#Policies-How-To-Allocate-Files-and-Directories" class="headerlink" title="Policies: How To Allocate Files and Directories"></a>Policies: How To Allocate Files and Directories</h1><p>basic mantra: keep related stuff together, keep unrelated stuff far apart.</p>
+<p>related data in same block group.</p>
+<ol>
+<li>data blocks of a file in the same group to avoid long seeks</li>
+<li>put files belong to same directory in the same cylinder group</li>
+</ol>
+<p>see an example:</p>
+<ul>
+<li>assuem there are only 10 inodes and 10 data blocks in each group</li>
+<li>the three directories (the root directory /, /a, and /b) and</li>
+<li>four files (/a/c, /a/d, /a/e, /b/f) are placed within them per the FFS policies</li>
+<li>Assume the regular files are each two blocks in size, and that the directories have just a single block of data</li>
+<li>we use the obvious symbols for each file or directory (i.e., / for the root directory, a for /a, f for /b/f, and so forth)<br><img src="Selection_006.png" alt="6"><br>FFS policy’s two positive things:</li>
+<li>data blocks of each file are near file’s inode</li>
+<li>files in the same directory are near one another</li>
+</ul>
+<h1 id="The-Large-File-Exception"><a href="#The-Large-File-Exception" class="headerlink" title="The Large-File Exception"></a>The Large-File Exception</h1><p>for large file, FFS does not save them all in one group, because it prevents subsequent “related” file from being placed within this block group, and may hurt file-access locality.</p>
+<p>So instead of saving file like this:<br><img src="Selection_007.png" alt="7"><br>actually saving like this:<br><img src="Selection_008.png" alt="8"></p>
+<p>increase chunk size can improve disk performance. because it can reduce the seek time(change to different group).</p>
+<p>Assuming</p>
+<ul>
+<li>average positioning time for disk is 10ms</li>
+<li>disk transfer data at 40MB/s<br>if we want to spend half our time seeking between chunks and half our time transferring data(achieve 50% of peak disk performance), then we need to spend 10ms transferring data for every 10ms positioning.<br>So the question becomes: how big does a chunk have to be in order to spend 10 ms in transfer?<br>  the answer is 40M/s*10ms = 400KB （因为每次peak都要耗费10ms，所以50%效率就是还有10ms用来传输，那么一个chunk至少满足这个要求，才会不用再次进行seek）</li>
+</ul>
+<p>if we want to achieve 90% of peak bandwith:<br>    the answer is 40M/s*90ms = 3.6MB （因为每次peak都要耗费10ms，所以90%效率就是还有90ms用来传输，那么一个chunk至少满足这个要求，才会不用再次进行seek）</p>
+<p>FFS did not use this type of calculation in order to spread large files across groups. based on the structure of the inode itself:</p>
+<ul>
+<li>The first twelve direct blocks were placed in the same group as the inode;</li>
+<li>each subsequent indirect block, and all the blocks it pointed to, was placed in a different group</li>
+</ul>
+<p>With a block size of 4KB, and 32-bit disk addresses, this strategy implies that every 1024 blocks of the file (4MB) were placed in separate groups</p>
+<h1 id="A-Few-Other-Things-About-FFS"><a href="#A-Few-Other-Things-About-FFS" class="headerlink" title="A Few Other Things About FFS"></a>A Few Other Things About FFS</h1><p>If use 4KB block, when many files are 2KB, then it will waste half of disk size, causing internal fragmentation.</p>
+<p>The solution is FFS introduce <code>sub-blocks</code>, which is 512-byte little blocks that file system could allocate to files. So for the 2KB small files, then it wil occupy 4 sub-blocks and not waste the entire 4KB block. As file grew, the FS will continue allocating 512-byte sub-blocks to it untill it accuire a full 4KB of data. At this point, FFS will find a 4KB block, copy the sub-blocks into it, and free the sub-blocks for future use.</p>
+<p><strong>But again, this will waste time for seeking 512byte subblocks</strong>. The FFS modifying the libc library and buffer write and then issue 4KB chunks to the file system.</p>
+<p>Before the SCSI and other modern device interface, at the time, disks were much less sophisticated and required the host CPU to control their operation in a more hands-on way. A problem arose in FFS when a file was placed on consecutive sectors of the disk.<br><img src="Selection_009.png" alt="9"><br> imagine this is the overlook of a disk, number indicates different blocks.</p>
+<p>In particular, the problem arose during sequential reads. FFS would first issue a read to block 0; by the time the read was complete, and FFS issued a read to block 1, it was too late: block 1 had rotated under the head and now the read to block 1 would incur a full rotation. (简而言之，就是发出读block0命令，刚发读取block1命令，block1已经被跳过了，所以需要等disk再转一圈）</p>
+<p><img src="Selection_010.png" alt="10"><br> FFS could use this layout to solve rotation problem.</p>
+<p>FFS was smart enough to figure out for a particular disk, how many blocks it should skip in doing layout in order to avoid the extra rotations. This technique was called <code>parameterization</code>. (这时候你会有疑问，这样的话就只能达到50%的throughput)</p>
+<p>Modern disk, in order to solve this problem, internally read the entire track in and buffer it in an internal disk cache( <code>track buffer</code>). Then<br> on subsequent reads to the track, the disk will just return the desired data from its cache.(利用disk cache 解决 throughput 问题)</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Old Unix file system: Simple and block size is small( 512B )&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;Selection_001.png&quot; alt=&quot;1&quot;&gt;&lt;br&gt;Problems: Performance terrib
+    
+    </summary>
+    
+      <category term="OS" scheme="https://hansonzhao007.github.io/blog/categories/OS/"/>
+    
+    
+      <category term="storage" scheme="https://hansonzhao007.github.io/blog/tags/storage/"/>
+    
+  </entry>
   
   <entry>
     <title>LevelDb 详解</title>
@@ -273,43 +468,6 @@
   </entry>
   
   <entry>
-    <title>构建tensorflow开发环境</title>
-    <link href="https://hansonzhao007.github.io/blog/2017/04/09/Install-tensorflow-devEnv/"/>
-    <id>https://hansonzhao007.github.io/blog/2017/04/09/Install-tensorflow-devEnv/</id>
-    <published>2017-04-09T05:00:00.000Z</published>
-    <updated>2017-09-05T02:57:37.846Z</updated>
-    
-    <content type="html"><![CDATA[<p>笔者使用的是windows 10 系统。下面会使用docker来安装 tensorflow。</p>
-<h1 id="安装-docker"><a href="#安装-docker" class="headerlink" title="安装 docker"></a>安装 docker</h1><p>对于window下docker 的安装，直接进入官网 <a href="https://www.docker.com/docker-windows" target="_blank" rel="external">https://www.docker.com/docker-windows</a> 下载安装包。需要注意的是，docker for windows 支持的是 <code>64bit</code> 操作系统。所以 <code>32bit</code> 的系统的环境，暂时这种方式还不支持。</p>
-<h1 id="安装-tensorflow"><a href="#安装-tensorflow" class="headerlink" title="安装 tensorflow"></a>安装 tensorflow</h1><p>使用命令<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -it -p <span class="number">8888</span>:<span class="number">8888</span> gcr.io/tensorflow/tensorflow</div></pre></td></tr></table></figure></p>
-<p>就会自动从 <a href="http://gcr.io" target="_blank" rel="external">http://gcr.io</a> 上，下载 <code>tensorflow</code> 的镜像并运行，等待下载安装结束，直接在浏览器中输入 <code>localhost:8888</code> 进行访问。<br><img src="/img/post/201704/ff1427c2-3dbf-4f54-84c4-ac5a3a5f823d.png" alt="tensorflow"></p>
-<p>就会进入 <a href="https://jupyter.org/" target="_blank" rel="external"><code>Jupyter Notebook</code></a> 应用。Jupter Notebook 是一个开源的 web 应用，是一款交互式的笔记。它可以在线运行输入的代码，并实时显示结果。所以我们可以在 Jupter Notebook 中，编写我们的 tensorflow 代码，同时可以直接看到代码运行结果。</p>
-<h1 id="代码编写"><a href="#代码编写" class="headerlink" title="代码编写"></a>代码编写</h1><p>这里我们尝试修改例程 <code>1_hello_tensorflow_ipynb</code> 的代码，并用快捷键 <code>ctrl+Enter</code> 查看代码运行结果。<br><img src="/img/post/201704/71d000d8-57c3-4678-866e-ff0d56fda55b.png" alt="原代码"></p>
-<p>我们这里尝试修改 <code>input2</code> 的向量为 <code>[2, 2, 4]</code> ，并使用快捷键 <code>ctrl+Enter</code> 查看二者相加的结果：<br><img src="/img/post/201704/bc16f459-722e-426e-8aa3-6429e0a369da.png" alt="修改后"></p>
-<p> 可以看到 <code>input1</code> 和 <code>input2</code> 相加的结果已经变成了 <code>[3, 3, 3, 5]</code> 。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://jupyter.org/" target="_blank" rel="external">Jupter Notebook</a></li>
-<li><a href="http://www.tuicool.com/articles/a6JRr2Y" target="_blank" rel="external">Jupyter Notebook 快速入门</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;笔者使用的是windows 10 系统。下面会使用docker来安装 tensorflow。&lt;/p&gt;
-&lt;h1 id=&quot;安装-docker&quot;&gt;&lt;a href=&quot;#安装-docker&quot; class=&quot;headerlink&quot; title=&quot;安装 docker&quot;&gt;&lt;/a&gt;安装 do
-    
-    </summary>
-    
-      <category term="Technology" scheme="https://hansonzhao007.github.io/blog/categories/Technology/"/>
-    
-    
-      <category term="tensorflow" scheme="https://hansonzhao007.github.io/blog/tags/tensorflow/"/>
-    
-      <category term="machine-learning" scheme="https://hansonzhao007.github.io/blog/tags/machine-learning/"/>
-    
-  </entry>
-  
-  <entry>
     <title>计算图形学中的微积分-反向传播算法</title>
     <link href="https://hansonzhao007.github.io/blog/2017/04/09/Calculus-on-Computational-Graphs/"/>
     <id>https://hansonzhao007.github.io/blog/2017/04/09/Calculus-on-Computational-Graphs/</id>
@@ -395,6 +553,43 @@
   </entry>
   
   <entry>
+    <title>构建tensorflow开发环境</title>
+    <link href="https://hansonzhao007.github.io/blog/2017/04/09/Install-tensorflow-devEnv/"/>
+    <id>https://hansonzhao007.github.io/blog/2017/04/09/Install-tensorflow-devEnv/</id>
+    <published>2017-04-09T05:00:00.000Z</published>
+    <updated>2017-09-05T02:57:37.846Z</updated>
+    
+    <content type="html"><![CDATA[<p>笔者使用的是windows 10 系统。下面会使用docker来安装 tensorflow。</p>
+<h1 id="安装-docker"><a href="#安装-docker" class="headerlink" title="安装 docker"></a>安装 docker</h1><p>对于window下docker 的安装，直接进入官网 <a href="https://www.docker.com/docker-windows" target="_blank" rel="external">https://www.docker.com/docker-windows</a> 下载安装包。需要注意的是，docker for windows 支持的是 <code>64bit</code> 操作系统。所以 <code>32bit</code> 的系统的环境，暂时这种方式还不支持。</p>
+<h1 id="安装-tensorflow"><a href="#安装-tensorflow" class="headerlink" title="安装 tensorflow"></a>安装 tensorflow</h1><p>使用命令<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -it -p <span class="number">8888</span>:<span class="number">8888</span> gcr.io/tensorflow/tensorflow</div></pre></td></tr></table></figure></p>
+<p>就会自动从 <a href="http://gcr.io" target="_blank" rel="external">http://gcr.io</a> 上，下载 <code>tensorflow</code> 的镜像并运行，等待下载安装结束，直接在浏览器中输入 <code>localhost:8888</code> 进行访问。<br><img src="/img/post/201704/ff1427c2-3dbf-4f54-84c4-ac5a3a5f823d.png" alt="tensorflow"></p>
+<p>就会进入 <a href="https://jupyter.org/" target="_blank" rel="external"><code>Jupyter Notebook</code></a> 应用。Jupter Notebook 是一个开源的 web 应用，是一款交互式的笔记。它可以在线运行输入的代码，并实时显示结果。所以我们可以在 Jupter Notebook 中，编写我们的 tensorflow 代码，同时可以直接看到代码运行结果。</p>
+<h1 id="代码编写"><a href="#代码编写" class="headerlink" title="代码编写"></a>代码编写</h1><p>这里我们尝试修改例程 <code>1_hello_tensorflow_ipynb</code> 的代码，并用快捷键 <code>ctrl+Enter</code> 查看代码运行结果。<br><img src="/img/post/201704/71d000d8-57c3-4678-866e-ff0d56fda55b.png" alt="原代码"></p>
+<p>我们这里尝试修改 <code>input2</code> 的向量为 <code>[2, 2, 4]</code> ，并使用快捷键 <code>ctrl+Enter</code> 查看二者相加的结果：<br><img src="/img/post/201704/bc16f459-722e-426e-8aa3-6429e0a369da.png" alt="修改后"></p>
+<p> 可以看到 <code>input1</code> 和 <code>input2</code> 相加的结果已经变成了 <code>[3, 3, 3, 5]</code> 。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://jupyter.org/" target="_blank" rel="external">Jupter Notebook</a></li>
+<li><a href="http://www.tuicool.com/articles/a6JRr2Y" target="_blank" rel="external">Jupyter Notebook 快速入门</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;笔者使用的是windows 10 系统。下面会使用docker来安装 tensorflow。&lt;/p&gt;
+&lt;h1 id=&quot;安装-docker&quot;&gt;&lt;a href=&quot;#安装-docker&quot; class=&quot;headerlink&quot; title=&quot;安装 docker&quot;&gt;&lt;/a&gt;安装 do
+    
+    </summary>
+    
+      <category term="Technology" scheme="https://hansonzhao007.github.io/blog/categories/Technology/"/>
+    
+    
+      <category term="machine-learning" scheme="https://hansonzhao007.github.io/blog/tags/machine-learning/"/>
+    
+      <category term="tensorflow" scheme="https://hansonzhao007.github.io/blog/tags/tensorflow/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Jekyll使用总结</title>
     <link href="https://hansonzhao007.github.io/blog/2017/04/06/jekyll-using/"/>
     <id>https://hansonzhao007.github.io/blog/2017/04/06/jekyll-using/</id>
@@ -419,9 +614,9 @@
       <category term="Technology" scheme="https://hansonzhao007.github.io/blog/categories/Technology/"/>
     
     
-      <category term="查阅" scheme="https://hansonzhao007.github.io/blog/tags/%E6%9F%A5%E9%98%85/"/>
-    
       <category term="前端开发" scheme="https://hansonzhao007.github.io/blog/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="查阅" scheme="https://hansonzhao007.github.io/blog/tags/%E6%9F%A5%E9%98%85/"/>
     
   </entry>
   
@@ -496,9 +691,9 @@
       <category term="Technology" scheme="https://hansonzhao007.github.io/blog/categories/Technology/"/>
     
     
-      <category term="Cpp" scheme="https://hansonzhao007.github.io/blog/tags/Cpp/"/>
-    
       <category term="查阅" scheme="https://hansonzhao007.github.io/blog/tags/%E6%9F%A5%E9%98%85/"/>
+    
+      <category term="Cpp" scheme="https://hansonzhao007.github.io/blog/tags/Cpp/"/>
     
   </entry>
   
