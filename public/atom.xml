@@ -468,6 +468,43 @@
   </entry>
   
   <entry>
+    <title>构建tensorflow开发环境</title>
+    <link href="https://hansonzhao007.github.io/blog/2017/04/09/Install-tensorflow-devEnv/"/>
+    <id>https://hansonzhao007.github.io/blog/2017/04/09/Install-tensorflow-devEnv/</id>
+    <published>2017-04-09T05:00:00.000Z</published>
+    <updated>2017-09-05T02:57:37.846Z</updated>
+    
+    <content type="html"><![CDATA[<p>笔者使用的是windows 10 系统。下面会使用docker来安装 tensorflow。</p>
+<h1 id="安装-docker"><a href="#安装-docker" class="headerlink" title="安装 docker"></a>安装 docker</h1><p>对于window下docker 的安装，直接进入官网 <a href="https://www.docker.com/docker-windows" target="_blank" rel="external">https://www.docker.com/docker-windows</a> 下载安装包。需要注意的是，docker for windows 支持的是 <code>64bit</code> 操作系统。所以 <code>32bit</code> 的系统的环境，暂时这种方式还不支持。</p>
+<h1 id="安装-tensorflow"><a href="#安装-tensorflow" class="headerlink" title="安装 tensorflow"></a>安装 tensorflow</h1><p>使用命令<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -it -p <span class="number">8888</span>:<span class="number">8888</span> gcr.io/tensorflow/tensorflow</div></pre></td></tr></table></figure></p>
+<p>就会自动从 <a href="http://gcr.io" target="_blank" rel="external">http://gcr.io</a> 上，下载 <code>tensorflow</code> 的镜像并运行，等待下载安装结束，直接在浏览器中输入 <code>localhost:8888</code> 进行访问。<br><img src="/img/post/201704/ff1427c2-3dbf-4f54-84c4-ac5a3a5f823d.png" alt="tensorflow"></p>
+<p>就会进入 <a href="https://jupyter.org/" target="_blank" rel="external"><code>Jupyter Notebook</code></a> 应用。Jupter Notebook 是一个开源的 web 应用，是一款交互式的笔记。它可以在线运行输入的代码，并实时显示结果。所以我们可以在 Jupter Notebook 中，编写我们的 tensorflow 代码，同时可以直接看到代码运行结果。</p>
+<h1 id="代码编写"><a href="#代码编写" class="headerlink" title="代码编写"></a>代码编写</h1><p>这里我们尝试修改例程 <code>1_hello_tensorflow_ipynb</code> 的代码，并用快捷键 <code>ctrl+Enter</code> 查看代码运行结果。<br><img src="/img/post/201704/71d000d8-57c3-4678-866e-ff0d56fda55b.png" alt="原代码"></p>
+<p>我们这里尝试修改 <code>input2</code> 的向量为 <code>[2, 2, 4]</code> ，并使用快捷键 <code>ctrl+Enter</code> 查看二者相加的结果：<br><img src="/img/post/201704/bc16f459-722e-426e-8aa3-6429e0a369da.png" alt="修改后"></p>
+<p> 可以看到 <code>input1</code> 和 <code>input2</code> 相加的结果已经变成了 <code>[3, 3, 3, 5]</code> 。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://jupyter.org/" target="_blank" rel="external">Jupter Notebook</a></li>
+<li><a href="http://www.tuicool.com/articles/a6JRr2Y" target="_blank" rel="external">Jupyter Notebook 快速入门</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;笔者使用的是windows 10 系统。下面会使用docker来安装 tensorflow。&lt;/p&gt;
+&lt;h1 id=&quot;安装-docker&quot;&gt;&lt;a href=&quot;#安装-docker&quot; class=&quot;headerlink&quot; title=&quot;安装 docker&quot;&gt;&lt;/a&gt;安装 do
+    
+    </summary>
+    
+      <category term="Technology" scheme="https://hansonzhao007.github.io/blog/categories/Technology/"/>
+    
+    
+      <category term="tensorflow" scheme="https://hansonzhao007.github.io/blog/tags/tensorflow/"/>
+    
+      <category term="machine-learning" scheme="https://hansonzhao007.github.io/blog/tags/machine-learning/"/>
+    
+  </entry>
+  
+  <entry>
     <title>计算图形学中的微积分-反向传播算法</title>
     <link href="https://hansonzhao007.github.io/blog/2017/04/09/Calculus-on-Computational-Graphs/"/>
     <id>https://hansonzhao007.github.io/blog/2017/04/09/Calculus-on-Computational-Graphs/</id>
@@ -549,43 +586,6 @@
     
     
       <category term="machine-learning" scheme="https://hansonzhao007.github.io/blog/tags/machine-learning/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>构建tensorflow开发环境</title>
-    <link href="https://hansonzhao007.github.io/blog/2017/04/09/Install-tensorflow-devEnv/"/>
-    <id>https://hansonzhao007.github.io/blog/2017/04/09/Install-tensorflow-devEnv/</id>
-    <published>2017-04-09T05:00:00.000Z</published>
-    <updated>2017-09-05T02:57:37.846Z</updated>
-    
-    <content type="html"><![CDATA[<p>笔者使用的是windows 10 系统。下面会使用docker来安装 tensorflow。</p>
-<h1 id="安装-docker"><a href="#安装-docker" class="headerlink" title="安装 docker"></a>安装 docker</h1><p>对于window下docker 的安装，直接进入官网 <a href="https://www.docker.com/docker-windows" target="_blank" rel="external">https://www.docker.com/docker-windows</a> 下载安装包。需要注意的是，docker for windows 支持的是 <code>64bit</code> 操作系统。所以 <code>32bit</code> 的系统的环境，暂时这种方式还不支持。</p>
-<h1 id="安装-tensorflow"><a href="#安装-tensorflow" class="headerlink" title="安装 tensorflow"></a>安装 tensorflow</h1><p>使用命令<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -it -p <span class="number">8888</span>:<span class="number">8888</span> gcr.io/tensorflow/tensorflow</div></pre></td></tr></table></figure></p>
-<p>就会自动从 <a href="http://gcr.io" target="_blank" rel="external">http://gcr.io</a> 上，下载 <code>tensorflow</code> 的镜像并运行，等待下载安装结束，直接在浏览器中输入 <code>localhost:8888</code> 进行访问。<br><img src="/img/post/201704/ff1427c2-3dbf-4f54-84c4-ac5a3a5f823d.png" alt="tensorflow"></p>
-<p>就会进入 <a href="https://jupyter.org/" target="_blank" rel="external"><code>Jupyter Notebook</code></a> 应用。Jupter Notebook 是一个开源的 web 应用，是一款交互式的笔记。它可以在线运行输入的代码，并实时显示结果。所以我们可以在 Jupter Notebook 中，编写我们的 tensorflow 代码，同时可以直接看到代码运行结果。</p>
-<h1 id="代码编写"><a href="#代码编写" class="headerlink" title="代码编写"></a>代码编写</h1><p>这里我们尝试修改例程 <code>1_hello_tensorflow_ipynb</code> 的代码，并用快捷键 <code>ctrl+Enter</code> 查看代码运行结果。<br><img src="/img/post/201704/71d000d8-57c3-4678-866e-ff0d56fda55b.png" alt="原代码"></p>
-<p>我们这里尝试修改 <code>input2</code> 的向量为 <code>[2, 2, 4]</code> ，并使用快捷键 <code>ctrl+Enter</code> 查看二者相加的结果：<br><img src="/img/post/201704/bc16f459-722e-426e-8aa3-6429e0a369da.png" alt="修改后"></p>
-<p> 可以看到 <code>input1</code> 和 <code>input2</code> 相加的结果已经变成了 <code>[3, 3, 3, 5]</code> 。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://jupyter.org/" target="_blank" rel="external">Jupter Notebook</a></li>
-<li><a href="http://www.tuicool.com/articles/a6JRr2Y" target="_blank" rel="external">Jupyter Notebook 快速入门</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;笔者使用的是windows 10 系统。下面会使用docker来安装 tensorflow。&lt;/p&gt;
-&lt;h1 id=&quot;安装-docker&quot;&gt;&lt;a href=&quot;#安装-docker&quot; class=&quot;headerlink&quot; title=&quot;安装 docker&quot;&gt;&lt;/a&gt;安装 do
-    
-    </summary>
-    
-      <category term="Technology" scheme="https://hansonzhao007.github.io/blog/categories/Technology/"/>
-    
-    
-      <category term="machine-learning" scheme="https://hansonzhao007.github.io/blog/tags/machine-learning/"/>
-    
-      <category term="tensorflow" scheme="https://hansonzhao007.github.io/blog/tags/tensorflow/"/>
     
   </entry>
   
@@ -691,9 +691,9 @@
       <category term="Technology" scheme="https://hansonzhao007.github.io/blog/categories/Technology/"/>
     
     
-      <category term="查阅" scheme="https://hansonzhao007.github.io/blog/tags/%E6%9F%A5%E9%98%85/"/>
-    
       <category term="Cpp" scheme="https://hansonzhao007.github.io/blog/tags/Cpp/"/>
+    
+      <category term="查阅" scheme="https://hansonzhao007.github.io/blog/tags/%E6%9F%A5%E9%98%85/"/>
     
   </entry>
   

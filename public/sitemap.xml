@@ -37,13 +37,6 @@
   </url>
   
   <url>
-    <loc>https://hansonzhao007.github.io/blog/2017/08/23/how-the-append-only-btree-work/</loc>
-    
-    <lastmod>2017-09-05T02:57:37.862Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://hansonzhao007.github.io/blog/about/index.html</loc>
     
     <lastmod>2017-09-05T02:57:37.862Z</lastmod>
@@ -51,9 +44,9 @@
   </url>
   
   <url>
-    <loc>https://hansonzhao007.github.io/blog/2017/08/16/talking-storage-chapter2/</loc>
+    <loc>https://hansonzhao007.github.io/blog/2017/08/23/how-the-append-only-btree-work/</loc>
     
-    <lastmod>2017-09-05T02:57:37.846Z</lastmod>
+    <lastmod>2017-09-05T02:57:37.862Z</lastmod>
     
   </url>
   
@@ -72,6 +65,13 @@
   </url>
   
   <url>
+    <loc>https://hansonzhao007.github.io/blog/2017/08/16/talking-storage-chapter2/</loc>
+    
+    <lastmod>2017-09-05T02:57:37.846Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://hansonzhao007.github.io/blog/2017/04/09/Install-tensorflow-devEnv/</loc>
     
     <lastmod>2017-09-05T02:57:37.846Z</lastmod>
@@ -79,14 +79,14 @@
   </url>
   
   <url>
-    <loc>https://hansonzhao007.github.io/blog/2017/03/26/markdown-syntax/</loc>
+    <loc>https://hansonzhao007.github.io/blog/2017/03/28/Google-Cpp-Style-Guide-Naming/</loc>
     
     <lastmod>2017-09-05T02:57:37.845Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://hansonzhao007.github.io/blog/2017/03/28/Google-Cpp-Style-Guide-Naming/</loc>
+    <loc>https://hansonzhao007.github.io/blog/2017/03/26/markdown-syntax/</loc>
     
     <lastmod>2017-09-05T02:57:37.845Z</lastmod>
     
