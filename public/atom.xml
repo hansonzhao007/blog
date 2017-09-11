@@ -5,7 +5,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="https://hansonzhao007.github.io/blog/"/>
-  <updated>2017-09-09T20:31:52.337Z</updated>
+  <updated>2017-09-11T23:12:39.827Z</updated>
   <id>https://hansonzhao007.github.io/blog/</id>
   
   <author>
@@ -16,11 +16,102 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>FSCK-and-journaling</title>
+    <title>LFS</title>
+    <link href="https://hansonzhao007.github.io/blog/2017/09/11/LFS/"/>
+    <id>https://hansonzhao007.github.io/blog/2017/09/11/LFS/</id>
+    <published>2017-09-11T23:11:52.000Z</published>
+    <updated>2017-09-11T23:12:39.827Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Background"><a href="#Background" class="headerlink" title="Background:"></a>Background:</h1><ul>
+<li>System merories are growing</li>
+<li>There is a large gap between random I/O performance and sequential I/O performance</li>
+<li>Existing file systems perform poorly on many common workloads</li>
+<li>File systems are not RAID-aware</li>
+</ul>
+<p>LFS</p>
+<ol>
+<li>first buffer all updates (inlcuding metadata)  in an in memory <code>segment</code>,</li>
+<li>when segment is full, it is written to disk in one long, sequential transfer to an unused part of disk</li>
+</ol>
+<p>LFS never overwrite existing data, but rather always writes segments to free locations. Because segments are large, the disk is used efficiently, and performance of the file system approaches its zenith.</p>
+<h1 id="Writing-To-Disk-Sequentially"><a href="#Writing-To-Disk-Sequentially" class="headerlink" title="Writing To Disk Sequentially"></a>Writing To Disk Sequentially</h1><p>Imagine we are writing a data block D to a file. Writing the data block to disk might result in the following on-disk layout, with D written at disk address A0:</p>
+<p><img src="Selection_001.png" alt=""><br>it is not only data that gets written to disk; there is also other metadata that needs to be updated. In this case, let’s also write the inode (I) of the file to disk, and have it point to the data block D. When written to disk, the data block and inode would look something like this (note that the inode looks as big as the data block, which generally isn’t the case; in most systems, data blocks are 4 KB in size, whereas an inode is much smaller, around 128 bytes):</p>
+<p>This basic idea, of simply <code>writing all updates</code> (such as data blocks, inodes, etc.) to the disk sequentially, sits at the heart of LFS.</p>
+<p>保证顺序写不足够保证 throughput，因为对于 HDD，如果每次写的数据块之间间隔过长，磁盘已经转过头了，就必须等待下一次经过时候。所以为了保证HDD的 throughput，必须 , you must issue <code>a large number of contiguous writes</code> (or <code>one large write</code>) to the drive in order to achieve good write performance.</p>
+<p><code>write buffering</code> 应运而生。</p>
+<p>LFS buffer all updates and when reach to limit, write the whole <code>segment</code> to disk at once.</p>
+<p>Here is an example, in which LFS buffers two sets of updates into a small segment; actual segments are larger (a few MB). The first update is of four block writes to file <code>j</code>; the second is one block being added to file <code>k</code>. LFS then commits the entire segment of seven blocks to disk at once. The resulting on-disk layout of these blocks is as follows:</p>
+<p><img src="Selection_002.png" alt=""></p>
+<h1 id="How-Much-To-Buffer"><a href="#How-Much-To-Buffer" class="headerlink" title="How Much To Buffer?"></a>How Much To Buffer?</h1><ul>
+<li>assume that positioning before each write takes roughly <code>Tposition</code> seconds</li>
+<li>disk transfer rate is <code>Rpeak</code> MB/s</li>
+</ul>
+<p>let’s assume we are writing out <code>D</code> MB. The time to write out this chunk of data (<code>Twrite</code>) is the positioning time <code>Tposition</code> plus the time to transfer D.</p>
+<p><img src="Selection_003.png" alt=""><br>effective rate of writing :</p>
+<p><img src="Selection_004.png" alt=""><br>we want the effective rate to be some fraction F of the peak rate, where 0 &lt; F &lt; 1.<br>In mathematical form, this means we want Reffective = F × Rpeak.</p>
+<p><img src="Selection_005.png" alt=""><br>with a disk with a positioning time of 10 milliseconds and peak transfer rate of 100 MB/s; assume we want an effective bandwidth of 90% of peak (F = 0.9). In this case, D = 0.9 0.1 × 100 MB/s × 0.01 seconds = 9 MB</p>
+<h1 id="Problem-Finding-Inodes"><a href="#Problem-Finding-Inodes" class="headerlink" title="Problem: Finding Inodes"></a>Problem: Finding Inodes</h1><p>We’ve managed to scatter the inodes all throughout the disk! Worse, we never overwrite in place, and thus the latest version of an inode (i.e., the one we want) keeps moving.</p>
+<h1 id="Solution-Through-Indirection-The-Inode-Map"><a href="#Solution-Through-Indirection-The-Inode-Map" class="headerlink" title="Solution Through Indirection: The Inode Map"></a>Solution Through Indirection: The Inode Map</h1><p> LFS introduced a level of indirection between inode numbers and the inodes through a data structure called the <code>inode map</code> (imap).<br>The imap is a structure that takes an inode number as input and produces the disk address of the most recent version of the inode. Thus, you can imagine it would often be implemented as a simple array, with 4 bytes (a disk pointer) per entry. Any time an inode is written to disk, the imap is updated with its new location.<br>总结就是有个 inode map 结构存储了最新的 inode 信息，并随之更新。</p>
+<p>问题是，inode map 存在哪儿，如果存在一个 fixed 的位置，那么随之而来的问题就是，每次更新文件，就需要重新 seek 到 inode map 位置并更新，这样就和 FFS 没有区别了（更新文件以后更新inode 和 metadata）。</p>
+<p>LFS places chunks of the inode map right next to where it is writing all of the other new information. Thus, when appending a data block to a file k, LFS actually writes the new data block, its inode, and a piece of the inode map all together onto the disk, as follows:</p>
+<p><img src="Selection_006.png" alt=""><br>In this picture, the piece of the imap array stored in the block marked imap tells LFS that the inode k is at disk address A1; this inode, in turn, tells LFS that its data block D is at address A0.</p>
+<h1 id="Completing-The-Solution-The-Checkpoint-Region"><a href="#Completing-The-Solution-The-Checkpoint-Region" class="headerlink" title="Completing The Solution: The Checkpoint Region"></a>Completing The Solution: The Checkpoint Region</h1><p> LFS has a fixed place on disk, known as <code>checkpoint region</code> <code>(CR)</code>, checkpioint region contains pointers to the latest pieces of the inode map, so  the inode map pieces can be found by reading the CR first. And the CR is only updated periodically, thus performance is not ill-affected.</p>
+<h1 id="Reading-A-File-From-Disk-A-Recap"><a href="#Reading-A-File-From-Disk-A-Recap" class="headerlink" title="Reading A File From Disk: A Recap"></a>Reading A File From Disk: A Recap</h1><p>Assuming there is nothing in memory.</p>
+<ol>
+<li>read checkpoint region to get the entire inode map and cache it in memory</li>
+<li>when given an inode number of a file, LFS looks up the inode-number to inode-disk-address mapping in the imap, read the latest version of the inode.</li>
+<li>after get the inode, read a block like the typical UNIX like system<br>通常情况，inode map 都是被cache 在内存中的，所以 LFS 读文件的唯一额外操作，就是从 inode map 中读取到 最新 inode 的 address。</li>
+</ol>
+<h1 id="What-About-Directories"><a href="#What-About-Directories" class="headerlink" title="What About Directories?"></a>What About Directories?</h1><p>creating a file foo in a directory would lead to the following new structures on disk:</p>
+<p><img src="Selection_007.png" alt=""></p>
+<p>There is one other serious problem in LFS that the inode map solves, known as the <code>recursive update problem</code>.(就是一次文件更新，引起其目录 inode 更新，引发更上层的目录更新，直到 / 目录)<br>Specifically, whenever an inode is updated, its location on disk changes. If we hadn’t been careful, this would have also entailed an update to the directory that points to this file, which then would have mandated a change to the parent of that directory, and so on, all the way up the file system tree.</p>
+<p>LFS cleverly avoids this problem with the inode map. Even though the location of an inode may change, the change is never reflected in the directory itself; rather, the imap structure is updated while the directory holds the same name-to-inumber mapping. Thus, through indirection, LFS avoids the recursive update problem.</p>
+<h1 id="A-New-Problem-Garbage-Collection"><a href="#A-New-Problem-Garbage-Collection" class="headerlink" title="A New Problem: Garbage Collection"></a>A New Problem: Garbage Collection</h1><p>LFS leaves old versions of file structures scattered throughout the disk. We (rather unceremoniously) call these old versions<code>garbage.</code><br>, LFS instead keeps only the latest live version of a file; thus (in the background), LFS must periodically find these old dead versions of file data, inodes, and other structures, and <code>clean</code> them; cleaning should thus make blocks on disk free again for use in a subsequent writes. Note that the process of cleaning is a form of <code>garbage collection</code>, a technique that arises in programming languages that automatically free unused memory for programs.</p>
+<p>如果 LFS 只是简单的将 old version block 删除，那么就会形成很多零星的 free space，导致以后可能没有整块的 block 可以写入。</p>
+<p>Instead, the LFS cleaner works on a segment-by-segment basis, thus clearing up large chunks of space for subsequent writing. The basic cleaning process works as follows:</p>
+<blockquote>
+<p>Periodically, the LFS cleaner reads in a number of old (partially-used) segments, determines which blocks are live within these segments, and then write out a new set of segments with just the live blocks within them, freeing up the old ones for writing</p>
+</blockquote>
+<p>Here arouse two problems:</p>
+<ol>
+<li>how can LFS tell which blocks within a segment are live, and which are dead?</li>
+<li>how often should the cleaner run, and which segments should it pick to clean?</li>
+</ol>
+<h1 id="Determining-Block-Liveness"><a href="#Determining-Block-Liveness" class="headerlink" title="Determining Block Liveness"></a>Determining Block Liveness</h1><p>There is a <code>segment summary block</code>  at the head of the segment,  includes, for each data block D, its inode number (which file it belongs to) and its offset (which block of the file this is).</p>
+<ol>
+<li>For a block D located on disk at address A, look in the segment summary block and find its <code>inode number N</code> and <code>offset T</code>.</li>
+<li>look in the imap to find where N lives and read N from disk (perhaps it is already in memory, which is even better)</li>
+<li>using the <code>offset T</code>, look in the inode (or some indirect block) to see where the inode thinks the Tth block of this file is on disk.</li>
+</ol>
+<p>If it points exactly to disk address A, LFS can conclude that the block D is live. If it points anywhere else, LFS can conclude that D is not in use (i.e., it is dead) and thus know that this version is no longer needed.</p>
+<p><img src="Selection_008.png" alt=""></p>
+<p>也可以在imap里面存储最新数据的 version number，然后和 segment summary block 里面的 version number 对比，如果一致则 live，不一致则是 garbage，减少一次读取。</p>
+<h1 id="Which-Blocks-To-Clean-And-When"><a href="#Which-Blocks-To-Clean-And-When" class="headerlink" title="Which Blocks To Clean, And When?"></a>Which Blocks To Clean, And When?</h1><p>an approach which tries to segregate hot and cold segments.：</p>
+<p>A hot segment is one in which the contents are being frequently over-written; thus, for such a segment, the best policy is to wait a long time before cleaning it, as more and more blocks are getting over-written (in new segments) and thus being freed for use. A cold segment, in contrast, may have a few dead blocks but the rest of its contents are relatively stable. Thus, the authors conclude that one should clean cold segments sooner and hot segments later</p>
+<h1 id="Crash-Recovery-And-The-Log"><a href="#Crash-Recovery-And-The-Log" class="headerlink" title="Crash Recovery And The Log"></a>Crash Recovery And The Log</h1><p>crash in writing to a segment, writing to the CR:</p>
+<ol>
+<li>因为会周期性的更新 CR，如果某次一旦crash，下次恢复的就是恢复老的 version，但是最新的数据会丢失。为了尽可能多恢复数据，使用 <code>roll forward</code> 技术，首先根据 CR 找到上个有效的 version 处，然后往后扫描一个 segment，看是否有 valid 数据在里面，然后恢复。</li>
+<li>有两个 CR，在更新CR 的 时候，先在CR 的header数据中写入一个 timestamp，然后接着写 body，然后写 last block with timestamp，如果两个 timestamp 不匹配，则丢弃；每次都选取有效的，并且时间戳最近的那个 CR 恢复</li>
+</ol>
+<h1 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h1><p>WAFL, ZFS, btrfs,都是 LFS</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Background&quot;&gt;&lt;a href=&quot;#Background&quot; class=&quot;headerlink&quot; title=&quot;Background:&quot;&gt;&lt;/a&gt;Background:&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;System merories are growing&lt;/l
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>42 FSCK-and-journaling</title>
     <link href="https://hansonzhao007.github.io/blog/2017/09/09/FSCK-and-journaling/"/>
     <id>https://hansonzhao007.github.io/blog/2017/09/09/FSCK-and-journaling/</id>
     <published>2017-09-09T18:00:15.000Z</published>
-    <updated>2017-09-09T20:31:52.337Z</updated>
+    <updated>2017-09-10T02:11:57.432Z</updated>
     
     <content type="html"><![CDATA[<p>old approach: <code>fsck</code>(file system checker)<br>new approach: <code>journaling</code>(also known as <code>write-ahead-logging</code>)</p>
 <h1 id="A-Detailed-Example"><a href="#A-Detailed-Example" class="headerlink" title="A Detailed Example"></a>A Detailed Example</h1><p><img src="Selection_001.png" alt=""><br>If you look at the structures in the picture, you can see that a single inode is allocated (<code>inode number 2</code>), which is marked in the <code>inode bitmap</code>, and a single allocated data block (<code>data block 4</code>), also marked in the <code>data bitmap</code>. The inode is denoted <code>I[v1]</code>,</p>
@@ -139,11 +230,11 @@
   </entry>
   
   <entry>
-    <title>fast-file-system</title>
+    <title>41 fast-file-system</title>
     <link href="https://hansonzhao007.github.io/blog/2017/09/09/fast-file-system/"/>
     <id>https://hansonzhao007.github.io/blog/2017/09/09/fast-file-system/</id>
     <published>2017-09-09T17:35:05.000Z</published>
-    <updated>2017-09-09T17:47:33.132Z</updated>
+    <updated>2017-09-10T02:12:04.233Z</updated>
     
     <content type="html"><![CDATA[<p>Old Unix file system: Simple and block size is small( 512B )</p>
 <p><img src="Selection_001.png" alt="1"><br>Problems: Performance terrible. Because old system treats disk like a random-access memory. delivering 2% overall disk bandwith:</p>
@@ -468,43 +559,6 @@
   </entry>
   
   <entry>
-    <title>构建tensorflow开发环境</title>
-    <link href="https://hansonzhao007.github.io/blog/2017/04/09/Install-tensorflow-devEnv/"/>
-    <id>https://hansonzhao007.github.io/blog/2017/04/09/Install-tensorflow-devEnv/</id>
-    <published>2017-04-09T05:00:00.000Z</published>
-    <updated>2017-09-05T02:57:37.846Z</updated>
-    
-    <content type="html"><![CDATA[<p>笔者使用的是windows 10 系统。下面会使用docker来安装 tensorflow。</p>
-<h1 id="安装-docker"><a href="#安装-docker" class="headerlink" title="安装 docker"></a>安装 docker</h1><p>对于window下docker 的安装，直接进入官网 <a href="https://www.docker.com/docker-windows" target="_blank" rel="external">https://www.docker.com/docker-windows</a> 下载安装包。需要注意的是，docker for windows 支持的是 <code>64bit</code> 操作系统。所以 <code>32bit</code> 的系统的环境，暂时这种方式还不支持。</p>
-<h1 id="安装-tensorflow"><a href="#安装-tensorflow" class="headerlink" title="安装 tensorflow"></a>安装 tensorflow</h1><p>使用命令<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -it -p <span class="number">8888</span>:<span class="number">8888</span> gcr.io/tensorflow/tensorflow</div></pre></td></tr></table></figure></p>
-<p>就会自动从 <a href="http://gcr.io" target="_blank" rel="external">http://gcr.io</a> 上，下载 <code>tensorflow</code> 的镜像并运行，等待下载安装结束，直接在浏览器中输入 <code>localhost:8888</code> 进行访问。<br><img src="/img/post/201704/ff1427c2-3dbf-4f54-84c4-ac5a3a5f823d.png" alt="tensorflow"></p>
-<p>就会进入 <a href="https://jupyter.org/" target="_blank" rel="external"><code>Jupyter Notebook</code></a> 应用。Jupter Notebook 是一个开源的 web 应用，是一款交互式的笔记。它可以在线运行输入的代码，并实时显示结果。所以我们可以在 Jupter Notebook 中，编写我们的 tensorflow 代码，同时可以直接看到代码运行结果。</p>
-<h1 id="代码编写"><a href="#代码编写" class="headerlink" title="代码编写"></a>代码编写</h1><p>这里我们尝试修改例程 <code>1_hello_tensorflow_ipynb</code> 的代码，并用快捷键 <code>ctrl+Enter</code> 查看代码运行结果。<br><img src="/img/post/201704/71d000d8-57c3-4678-866e-ff0d56fda55b.png" alt="原代码"></p>
-<p>我们这里尝试修改 <code>input2</code> 的向量为 <code>[2, 2, 4]</code> ，并使用快捷键 <code>ctrl+Enter</code> 查看二者相加的结果：<br><img src="/img/post/201704/bc16f459-722e-426e-8aa3-6429e0a369da.png" alt="修改后"></p>
-<p> 可以看到 <code>input1</code> 和 <code>input2</code> 相加的结果已经变成了 <code>[3, 3, 3, 5]</code> 。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://jupyter.org/" target="_blank" rel="external">Jupter Notebook</a></li>
-<li><a href="http://www.tuicool.com/articles/a6JRr2Y" target="_blank" rel="external">Jupyter Notebook 快速入门</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;笔者使用的是windows 10 系统。下面会使用docker来安装 tensorflow。&lt;/p&gt;
-&lt;h1 id=&quot;安装-docker&quot;&gt;&lt;a href=&quot;#安装-docker&quot; class=&quot;headerlink&quot; title=&quot;安装 docker&quot;&gt;&lt;/a&gt;安装 do
-    
-    </summary>
-    
-      <category term="Technology" scheme="https://hansonzhao007.github.io/blog/categories/Technology/"/>
-    
-    
-      <category term="tensorflow" scheme="https://hansonzhao007.github.io/blog/tags/tensorflow/"/>
-    
-      <category term="machine-learning" scheme="https://hansonzhao007.github.io/blog/tags/machine-learning/"/>
-    
-  </entry>
-  
-  <entry>
     <title>计算图形学中的微积分-反向传播算法</title>
     <link href="https://hansonzhao007.github.io/blog/2017/04/09/Calculus-on-Computational-Graphs/"/>
     <id>https://hansonzhao007.github.io/blog/2017/04/09/Calculus-on-Computational-Graphs/</id>
@@ -584,6 +638,43 @@
     
       <category term="Technology" scheme="https://hansonzhao007.github.io/blog/categories/Technology/"/>
     
+    
+      <category term="machine-learning" scheme="https://hansonzhao007.github.io/blog/tags/machine-learning/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>构建tensorflow开发环境</title>
+    <link href="https://hansonzhao007.github.io/blog/2017/04/09/Install-tensorflow-devEnv/"/>
+    <id>https://hansonzhao007.github.io/blog/2017/04/09/Install-tensorflow-devEnv/</id>
+    <published>2017-04-09T05:00:00.000Z</published>
+    <updated>2017-09-05T02:57:37.846Z</updated>
+    
+    <content type="html"><![CDATA[<p>笔者使用的是windows 10 系统。下面会使用docker来安装 tensorflow。</p>
+<h1 id="安装-docker"><a href="#安装-docker" class="headerlink" title="安装 docker"></a>安装 docker</h1><p>对于window下docker 的安装，直接进入官网 <a href="https://www.docker.com/docker-windows" target="_blank" rel="external">https://www.docker.com/docker-windows</a> 下载安装包。需要注意的是，docker for windows 支持的是 <code>64bit</code> 操作系统。所以 <code>32bit</code> 的系统的环境，暂时这种方式还不支持。</p>
+<h1 id="安装-tensorflow"><a href="#安装-tensorflow" class="headerlink" title="安装 tensorflow"></a>安装 tensorflow</h1><p>使用命令<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -it -p <span class="number">8888</span>:<span class="number">8888</span> gcr.io/tensorflow/tensorflow</div></pre></td></tr></table></figure></p>
+<p>就会自动从 <a href="http://gcr.io" target="_blank" rel="external">http://gcr.io</a> 上，下载 <code>tensorflow</code> 的镜像并运行，等待下载安装结束，直接在浏览器中输入 <code>localhost:8888</code> 进行访问。<br><img src="/img/post/201704/ff1427c2-3dbf-4f54-84c4-ac5a3a5f823d.png" alt="tensorflow"></p>
+<p>就会进入 <a href="https://jupyter.org/" target="_blank" rel="external"><code>Jupyter Notebook</code></a> 应用。Jupter Notebook 是一个开源的 web 应用，是一款交互式的笔记。它可以在线运行输入的代码，并实时显示结果。所以我们可以在 Jupter Notebook 中，编写我们的 tensorflow 代码，同时可以直接看到代码运行结果。</p>
+<h1 id="代码编写"><a href="#代码编写" class="headerlink" title="代码编写"></a>代码编写</h1><p>这里我们尝试修改例程 <code>1_hello_tensorflow_ipynb</code> 的代码，并用快捷键 <code>ctrl+Enter</code> 查看代码运行结果。<br><img src="/img/post/201704/71d000d8-57c3-4678-866e-ff0d56fda55b.png" alt="原代码"></p>
+<p>我们这里尝试修改 <code>input2</code> 的向量为 <code>[2, 2, 4]</code> ，并使用快捷键 <code>ctrl+Enter</code> 查看二者相加的结果：<br><img src="/img/post/201704/bc16f459-722e-426e-8aa3-6429e0a369da.png" alt="修改后"></p>
+<p> 可以看到 <code>input1</code> 和 <code>input2</code> 相加的结果已经变成了 <code>[3, 3, 3, 5]</code> 。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://jupyter.org/" target="_blank" rel="external">Jupter Notebook</a></li>
+<li><a href="http://www.tuicool.com/articles/a6JRr2Y" target="_blank" rel="external">Jupyter Notebook 快速入门</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;笔者使用的是windows 10 系统。下面会使用docker来安装 tensorflow。&lt;/p&gt;
+&lt;h1 id=&quot;安装-docker&quot;&gt;&lt;a href=&quot;#安装-docker&quot; class=&quot;headerlink&quot; title=&quot;安装 docker&quot;&gt;&lt;/a&gt;安装 do
+    
+    </summary>
+    
+      <category term="Technology" scheme="https://hansonzhao007.github.io/blog/categories/Technology/"/>
+    
+    
+      <category term="tensorflow" scheme="https://hansonzhao007.github.io/blog/tags/tensorflow/"/>
     
       <category term="machine-learning" scheme="https://hansonzhao007.github.io/blog/tags/machine-learning/"/>
     

@@ -1,5 +1,5 @@
 ---
-title: FSCK-and-journaling
+title: 42 FSCK-and-journaling
 date: 2017-09-09 13:00:15
 categories: ['OS']
 tags:
