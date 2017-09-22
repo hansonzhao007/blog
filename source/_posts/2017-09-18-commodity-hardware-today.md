@@ -81,3 +81,5 @@ For SDRAM today each data transfer consists of 64 bits – 8 bytes. The transfer
 bus clock, RAS and CAS signals, and the address and data buses.
 > A read cycle *begins with* the memory controller making the row address available on the address bus and lowering the RAS signal. All signals are read on the rising edge of the clock (CLK) so it does not matter if the signal is not completely square as long as it is stable at the time it is read. *Setting the row address* causes the RAM chip to start latching the addressed row.
 The CAS signal can be sent after tRCD (RAS-to-CAS Delay) clock cycles. The column address is then transmitted by making it available on the address bus and lowering the CAS line.
+
+With all this preparation to get to the data it would be wasteful to only transfer one data word. This is why DRAM modules allow the memory controller to specify how much data is to be transmitted. Often the choice is between 2, 4, or 8 words. This allows `filling entire lines in the caches`(`cache line`) without a new RAS/CAS sequence
