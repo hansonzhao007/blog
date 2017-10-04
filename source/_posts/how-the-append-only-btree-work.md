@@ -1,5 +1,5 @@
 ---
-title: how-the-append-only-btree-work
+title: How the append-only btree work
 date: 2017-08-23 11:50:17
 
 categories: ['Technology']
@@ -9,7 +9,7 @@ tags:
 
 原文：http://www.bzero.se/ldapd/btree.html
 
-该 tree 也被称为 Copy-On-Write Tree 
+该 tree 也被称为 Copy-On-Write Tree
 考虑下图的这个3层 b tree.
 ![3levelbtree](http://www.bzero.se/ldapd/how-the-btree-works.png)
 该树由两层的 branch page（root 也是一个 branch page）和 5 个 leaf page 组成。key 和 data 都存储在 leaf page 里面。
@@ -44,9 +44,3 @@ leaf 7 没有被影响。而 branch 6 作为被修改 leaf 的 parent，其指�
 ![flattened-btree-page-structure](http://www.bzero.se/ldapd/flattened-btree-page-structure.png)
 
 从结果上看，对一个page的修改（修改 leaf page 8），会导致 4 个新 page 被 append 到 file 尾部。这在一定程度上浪费了磁盘空间，但是这样顺序写操作，能够非常大的提升随即写性能。并且这里并不需要再记录 transaction log，用于数据恢复，该 database file 本身，就是一个 transaction log。
-
-
-
-
-
-

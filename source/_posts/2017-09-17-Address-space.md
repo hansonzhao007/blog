@@ -1,5 +1,5 @@
 ---
-title: 13 The Abstraction Address Spaces
+title: 【TP】13 The Abstraction Address Spaces
 date: 2017-09-17 15:39:18
 categories: ['OS']
 tags:
@@ -40,3 +40,6 @@ Process A in tries to perform a load at address 0 (which we will call a `virtual
 
 [1]: Selection_001.png
 [2]: Selection_002.png
+
+# Reference
+[Address Spaces](http://pages.cs.wisc.edu/~remzi/OSTEP/vm-intro.pdf)

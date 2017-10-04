@@ -1,5 +1,5 @@
 ---
-title: commodity-hardware-today
+title: 【WEP】Commodity Hardware Today
 date: 2017-09-18 15:47:09
 categories: ['OS']
 tags:
@@ -83,3 +83,6 @@ bus clock, RAS and CAS signals, and the address and data buses.
 The CAS signal can be sent after tRCD (RAS-to-CAS Delay) clock cycles. The column address is then transmitted by making it available on the address bus and lowering the CAS line.
 
 With all this preparation to get to the data it would be wasteful to only transfer one data word. This is why DRAM modules allow the memory controller to specify how much data is to be transmitted. Often the choice is between 2, 4, or 8 words. This allows `filling entire lines in the caches`(`cache line`) without a new RAS/CAS sequence
+
+# Reference
+[Commodity Hardware Today](https://lwn.net/Articles/250967/#TOC)

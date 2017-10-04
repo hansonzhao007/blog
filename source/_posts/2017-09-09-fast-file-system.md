@@ -1,5 +1,5 @@
 ---
-title: 41 fast-file-system
+title: 41 Fast File System (FFS)
 date: 2017-09-09 12:35:05
 categories: ['OS']
 tags:
@@ -94,3 +94,6 @@ FFS was smart enough to figure out for a particular disk, how many blocks it sho
 
 Modern disk, in order to solve this problem, internally read the entire track in and buffer it in an internal disk cache( `track buffer`). Then
  on subsequent reads to the track, the disk will just return the desired data from its cache.(利用disk cache 解决 throughput 问题)
+
+# Reference
+[Fast File System (FFS)](http://pages.cs.wisc.edu/~remzi/OSTEP/file-ffs.pdf)

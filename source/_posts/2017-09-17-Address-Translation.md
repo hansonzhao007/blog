@@ -1,5 +1,5 @@
 ---
-title: Address_Translation
+title: 【TP】15 Address Translation
 date: 2017-09-17 20:15:01
 categories: ['OS']
 tags:
@@ -43,3 +43,6 @@ Transforming a virtual address into a physical address is exactly the technique 
 
 [1]: Selection_001.png
 [2]: Selection_002.png
+
+# Reference
+[Address Translation](http://pages.cs.wisc.edu/~remzi/OSTEP/vm-mechanism.pdf)

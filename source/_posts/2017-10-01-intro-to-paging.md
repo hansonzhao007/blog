@@ -1,5 +1,5 @@
 ---
-title: 17 Introduction to Paging
+title: 【TP】18 Introduction to Paging
 date: 2017-10-01 15:22:49
 categories: ['OS']
 tags:
@@ -52,3 +52,6 @@ When it runs, each instruction fetch will generate two memory references:
 4. Let’s assume these virtual-to-physical mappings for the example: (VPN 39 → PFN 7), (VPN 40 → PFN 8), (VPN 41 → PFN 9), (VPN 42 → PFN 10)
 
 there are 10 memory accesses per loop, which includes four instruction fetches, one explicit update of memory, and five page table accesses to translate those four fetches and one explicit update.
+
+# Reference
+[Introduction to Paging](http://pages.cs.wisc.edu/~remzi/OSTEP/vm-paging.pdf)

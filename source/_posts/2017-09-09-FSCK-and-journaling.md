@@ -1,5 +1,5 @@
 ---
-title: 42 FSCK-and-journaling
+title: 【TP】42 FSCK-and-journaling
 date: 2017-09-09 13:00:15
 categories: ['OS']
 tags:
@@ -147,3 +147,6 @@ ext3 do like this:
 [10]: Selection_010.png
 [11]: Selection_011.png
 [12]: Selection_012.png
+
+# Reference
+[FSCK and Journaling](http://pages.cs.wisc.edu/~remzi/OSTEP/file-journaling.pdf)

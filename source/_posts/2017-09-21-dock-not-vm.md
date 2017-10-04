@@ -1,5 +1,5 @@
 ---
-title: dock-not-vm
+title: Docker is not VM
 date: 2017-09-21 20:10:00
 categories: ['Technology']
 tags:
