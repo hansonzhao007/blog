@@ -1,6 +1,7 @@
 ---
 title: 【WEP】Commodity Hardware Today
 date: 2017-09-18 15:47:09
+mathjax: true
 categories: ['OS']
 tags:
   - memory

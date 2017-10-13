@@ -1,6 +1,7 @@
 ---
 title: 【TP】18 Introduction to Paging
 date: 2017-10-01 15:22:49
+mathjax: true
 categories: ['OS']
 tags:
   - memory

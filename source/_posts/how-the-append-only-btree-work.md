@@ -1,7 +1,7 @@
 ---
 title: How the append-only btree work
 date: 2017-08-23 11:50:17
-
+mathjax: true
 categories: ['Technology']
 tags:
     - storage

@@ -1,6 +1,7 @@
 ---
 title: 【TP】15 Address Translation
 date: 2017-09-17 20:15:01
+mathjax: true
 categories: ['OS']
 tags:
   - memory

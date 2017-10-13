@@ -1,6 +1,7 @@
 ---
 title: Docker is not VM
 date: 2017-09-21 20:10:00
+mathjax: true
 categories: ['Technology']
 tags:
     - docker
