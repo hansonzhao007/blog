@@ -5,6 +5,7 @@ subtitle:   "Calculus on Computational Graphs: Backpropagation"
 date:       2017-04-09
 author:     "Hanson Zhao"
 header-img: "img/post/201704/hero-bg2x.webp"
+mathjax: true
 categories: ['Technology']
 tags:
     - machine-learning
