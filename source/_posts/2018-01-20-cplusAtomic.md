@@ -5,11 +5,14 @@ categories: ['program']
 tags:
   - multi-thread
   - levelDB
+
 ---
 [What exactly is std::atomic](https://stackoverflow.com/questions/6319146/c11-introduced-a-standardized-memory-model-what-does-it-mean-and-how-is-it-g)
 [C++ atomics and memory ordering](https://bartoszmilewski.com/2008/12/01/c-atomics-and-memory-ordering/)
 
 This is used to prevent the CPU from doing the instruction reordering.
+
+An operation (or set of operations) is atomic, linearizable, indivisible or uninterruptible if it appears to the rest of the system to occur at once without being interrupted. Atomicity is a guarantee of isolation from interrupts, signals, concurrent processes and threads. 
 
 ```cpp
 atomic<bool> ready = false;
