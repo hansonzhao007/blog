@@ -11,9 +11,6 @@ tags:
     - machine-learning
 comments:   true
 ---
-* 目录
-{:toc}
-
 
 # Introduction
 

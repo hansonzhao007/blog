@@ -1,8 +1,8 @@
 ---
 title: {{ title }}
-subtitle: 
+subtitle:
 date: {{ date }}
-mathjax: true
+mathjax: false
 comments: true
 author: "XS Zhao"
 categories: ['database']

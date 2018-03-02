@@ -4,7 +4,7 @@ title:      "构建tensorflow开发环境"
 subtitle:   "Install tensorflow development environment"
 date:       2017-04-09
 author:     "Hanson Zhao"
-header-img: "img/post/201704/hero-bg2x.webp"
+image: "https://www1-lw.xda-cdn.com/files/2017/05/google-tensorflow-android.png"
 categories: ['Technology']
 tags:
     - tensorflow
