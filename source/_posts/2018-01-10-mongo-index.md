@@ -14,7 +14,7 @@ tags:
 - can find a range of values
 - can use dot notation to index field in subdocuments
 - can be used to find several distinct values in a single query
-
+<!-- more -->
 首先下载 [people](https://university.mongodb.com/static/MongoDB_2018_M201_January/handouts/people.json) 文件。然后利用下面的命令导入数据库。
 ```bash
 mongoimport -d m201 -c people --drop people.json

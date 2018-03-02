@@ -12,7 +12,7 @@ tags:
 - index-*.wt: 数据库建立的 index 文件
 
 ![](2.png)
-
+<!-- more -->
 现在的数据库组织形式还是 flat 的，也就是所有数据库 collection 存储在一个目录下。
 
 # 创建数据库子目录

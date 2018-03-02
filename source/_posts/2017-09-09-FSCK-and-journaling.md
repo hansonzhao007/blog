@@ -14,7 +14,7 @@ new approach: `journaling`(also known as `write-ahead-logging`)
 If you look at the structures in the picture, you can see that a single inode is allocated (`inode number 2`), which is marked in the `inode bitmap`, and a single allocated data block (`data block 4`), also marked in the `data bitmap`. The inode is denoted `I[v1]`,
 
 let's see the simple inode inside:
-
+<!-- more -->
 ![][2]
 In this simplified inode,
 - the size of the file is 1 (it has one block allocated),

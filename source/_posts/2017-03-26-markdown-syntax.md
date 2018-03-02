@@ -27,7 +27,7 @@ Markdown 的目标是实现「易读易写」。
   [4]: http://docutils.sourceforge.net/rst.html
   [5]: http://www.triptico.com/software/grutatxt.html
   [6]: http://ettext.taint.org/doc/
-
+<!-- more -->
 总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像\*强调\*。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。
 
 ## 兼容 HTML
@@ -152,7 +152,7 @@ Markdown 标记区块引用是使用类似 email 中用 `>` 的引用方式。�
     > This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
     > consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
     > Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
-    > 
+    >
     > Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
     > id sem consectetuer libero luctus adipiscing.
 
@@ -176,12 +176,12 @@ Markdown 也允许你偷懒只在整个段落的第一行最前面加上 `>` ：
 引用的区块内也可以使用其他的 Markdown 语法，包括标题、列表、代码区块等：
 
     > ## 这是一个标题。
-    > 
+    >
     > 1.   这是第一行列表项。
     > 2.   这是第二行列表项。
-    > 
+    >
     > 给出一些例子代码：
-    > 
+    >
     >     return shell_exec("echo $input | $markdown_script");
 
 任何像样的文本编辑器都能轻松地建立 email 型的引用。例如在 BBEdit 中，你可以选取文字后然后从选单中选择*增加引用阶层*。
@@ -256,7 +256,7 @@ Markdown 支持有序列表和无序列表。
     *   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.
     Suspendisse id sem consectetuer libero luctus adipiscing.
 
-如果列表项目间用空行分开，在输出 HTML 时 Markdown 就会将项目内容用 `<p>` 
+如果列表项目间用空行分开，在输出 HTML 时 Markdown 就会将项目内容用 `<p>`
 标签包起来，举例来说：
 
     *   Bird
@@ -572,13 +572,13 @@ Markdown 使用星号（`*`）和底线（`_`）作为标记强调字词的符�
 代码区段的起始和结束端都可以放入一个空白，起始端后面一个，结束端前面一个，这样你就可以在区段的一开始就插入反引号：
 
     A single backtick in a code span: `` ` ``
-    
+
     A backtick-delimited string in a code span: `` `foo` ``
 
 会产生：
 
     <p>A single backtick in a code span: <code>`</code></p>
-    
+
     <p>A backtick-delimited string in a code span: <code>`foo`</code></p>
 
 在代码区段内，`&` 和尖括号**都**会被自动地转成 HTML 实体，这使得插入 HTML 原始码变得很容易，Markdown 会把下面这段：

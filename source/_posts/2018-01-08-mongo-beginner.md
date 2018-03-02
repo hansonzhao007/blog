@@ -14,7 +14,7 @@ tags:
 ```bash
 mongoimport --type csv --headerline --db mflix --collection movies_initial --host "cluster0-shard-00-00-1cvum.mongodb.net:27017,cluster0-shard-00-01-1cvum.mongodb.net:27017,cluster0-shard-00-02-1cvum.mongodb.net:27017" --authenticationDatabase admin --ssl --username hansonzhao007 --password XXXXXX --file movies_initial.csv
 ```
-
+<!-- more -->
 # Aggregation Framework
 ## pipeline
 ![pipeline](pipeline.png)

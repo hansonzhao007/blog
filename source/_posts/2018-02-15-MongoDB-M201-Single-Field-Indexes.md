@@ -5,8 +5,6 @@ categories: ['database']
 tags:
   - mongoDB
 ---
-• db.<collection>.createIndex({<field>: <direction>})
-
 # 导入数据
 
 首先到 https://s3.amazonaws.com/m312/people.json 下载数据。然后导入本地 MongoDB 数据库里。
@@ -15,7 +13,7 @@ tags:
 ```
 MongoDB 启动以后（即 mongod 运行），使用 MongoDB compass 链接本地数据库，查看：
 ![](1.png)
-
+<!-- more -->
 然后可以进入 mongo shell 使用如下命令查看 m201 的数据。
 ```bash
   db.people.count({ "email" : {"$exists": 1} })

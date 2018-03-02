@@ -11,7 +11,7 @@ I spend a good portion of my time at Docker talking to community members with va
 
 I get it because I did the exact same thing when I first started working with Docker. It’s easy to connect those dots as both technologies share some characteristics. Both are designed to provide an isolated environment in which to run an application. Additionally, in both cases that environment is represented as a binary artifact that can be moved between hosts. There may be other similarities, but to me these are the two biggies.
 
-
+<!-- more -->
 The key is that the underlying architecture is fundamentally different between the two. The analogy I use (because if you know me, you know I love analogies) is comparing houses (VMs) to apartment buildings (containers).
 
 Houses (the VMs) are fully self-contained and offer protection from unwanted guests. They also each possess their own infrastructure – plumbing, heating, electrical, etc. Furthermore, in the vast majority of cases houses are all going to have at a minimum a bedroom, living area, bathroom, and kitchen. I’ve yet to ever find a “studio house” – even if I buy the smallest house I may end up buying more than I need because that’s just how houses are built.  (for the pedantic out there, yes I’m ignoring the new trend in micro houses because they break my analogy)

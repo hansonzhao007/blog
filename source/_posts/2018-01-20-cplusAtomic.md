@@ -12,8 +12,8 @@ tags:
 
 This is used to prevent the CPU from doing the instruction reordering.
 
-An operation (or set of operations) is atomic, linearizable, indivisible or uninterruptible if it appears to the rest of the system to occur at once without being interrupted. Atomicity is a guarantee of isolation from interrupts, signals, concurrent processes and threads. 
-
+An operation (or set of operations) is atomic, linearizable, indivisible or uninterruptible if it appears to the rest of the system to occur at once without being interrupted. Atomicity is a guarantee of isolation from interrupts, signals, concurrent processes and threads.
+<!-- more -->
 ```cpp
 atomic<bool> ready = false;
 atomic<int> data = 0;

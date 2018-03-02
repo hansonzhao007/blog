@@ -27,7 +27,7 @@ tags:
 # 基本API
 ---
 `require` 会定义三个变量：**define**, **require**, **requirejs**，其中 `require` === `requirejs`，一般使用 `require` 更简短
-
+<!-- more -->
 * define 从名字就可以看出这个api是用来定义一个**模块**
 * require 加载依赖模块，并执行加载完后的回调函数
 

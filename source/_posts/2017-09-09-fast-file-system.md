@@ -16,7 +16,7 @@ Problems: Performance terrible. Because old system treats disk like a random-acc
 E gets spread across the disk, and as a result, when accessing E, you don’t get peak (sequential) performance from the disk. Rather, you first read E1 and E2, then seek, then read E3 and E4. This fragmentation problem happened all the time in the old UNIX file system, and it hurt performance.
 
 small block size cause transferring data from disk inefficient.
-
+<!-- more -->
 # Fast File system(FFS) from Berkeley group
 let file system be "disk aware". Keep the same api (open(), read(), write(), close()) but changing internal implementation.
 

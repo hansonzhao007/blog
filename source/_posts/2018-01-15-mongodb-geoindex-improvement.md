@@ -12,7 +12,7 @@ In mongoDB version before v3.2, `$geoNear` operation was sometimes slow for quer
 After version v3.2, this algorithm had been upgrade. This is a brief explanation about the upgrade.
 
 The `$geoNear` algorithm iteratively expands its search in distance `intervals` (the red annulus shown below), aiming to have a few hundred documents per interval. Searching all documents in an interval is accomplished by finding an index `cell covering`. This covering ensures that all of the documents in the interval can be found using an index scan. The documents in the covering but not in the interval are filtered out afterwards. After all of the documents in an interval are found, they are sorted and returned.
-
+<!-- more -->
 ![](1.png)
 
 Problem is that the cell covering may have overlaps in different iterations (Also called stages).

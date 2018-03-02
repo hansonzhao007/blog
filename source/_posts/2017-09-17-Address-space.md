@@ -18,7 +18,7 @@ The OS was a set of routines (a library, really) that sat in memory (starting at
 After a time, because machines were expensive, people began to share machines more effectively. Thus the era of `multiprogramming` was born [DV66], in which multiple processes were ready to run at a given time, and the OS would switch between them, for example when one decided to perform an I/O. Doing so increased the effective utilization of the CPU. Such increases in efficiency were particularly important in those days where each machine cost hundreds of thousands or even millions of dollars.
 
 Soon enough, however, people began demanding more of machines, and the era of `time sharing` was born.
-
+<!-- more -->
 ![][2]
 
 In the diagram, there are three processes (A, B, and C) and each of them have a small part of the 512KB physical memory carved out for them. Assuming a single CPU, the OS chooses to run one of the processes (say A), while the others (B and C) sit in the ready queue waiting to run.

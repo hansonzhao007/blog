@@ -15,7 +15,7 @@ A couple of bottlenecks are immediately apparent in this design
 
 RAM bandwidth 争抢 (DMA 允许 device 直接从 RAM 里读写数据，但是都要通过 Northbridge，这样就 CPU 通过 Northbridge 访问 RAM 的 bandwidth冲突)
 > In the earliest days of the PC, all communication with devices on either bridge had to pass through the CPU, negatively impacting overall system performance. To work around this problem some devices became capable of direct memory access (DMA). DMA allows devices, with the help of the Northbridge, to store and receive data in RAM directly without the intervention of the CPU (and its inherent performance cost). Today all high-performance devices attached to any of the buses can utilize DMA. While this greatly reduces the workload on the CPU, it also creates contention for the bandwidth of the Northbridge as DMA requests compete with RAM access from the CPUs.
-
+<!-- more -->
 因为有限的 Northbandwidth，所以需要 schedule memory access in ways that minimize delays.
 
 On some more expensive systems, the Northbridge does not actually contain the memory controller. Instead the Northbridge can be connected to a number of external memory controllers （外接 memory controller）

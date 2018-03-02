@@ -33,7 +33,7 @@ int wgc_connections;       // 只有贵团队知道是啥意思。
 int pc_reader;             // "pc" 有太多可能的解释了。
 int cstmr_id;              // 有删减若干字母。
 ```
-
+<!-- more -->
 # 文件命名
 
 文件名要全部小写, 可以包含下划线 (`_`) 或连字符 (`-`). 按项目约定来. 如果并没有项目约定，”_” 更好。
@@ -193,7 +193,3 @@ enum AlternateUrlTableErrors {
 * Banner图转自[一张图总结Google C++编程规范](http://blog.csdn.net/voidccc/article/details/37599203)
 * 转载自[Google开源风格项目指南](http://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/naming/)
 * 英文原文:[Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html#Naming)
-
-
-
-

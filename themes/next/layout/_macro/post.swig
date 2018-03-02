@@ -280,7 +280,13 @@
           </div>
           <!--/noindex-->
         {% elif post.excerpt  %}
+        {% if post.image %}
+          <div class="out-img-topic" id="poster">
+            <img src={{ post.image }} class="img-topic" />
+          </div>
+        {% endif %}
           {{ post.excerpt }}
+
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="{{ url_for(post.path) }}{% if theme.scroll_to_more %}#{{ __('post.more') }}{% endif %}" rel="contents">
@@ -289,6 +295,11 @@
           </div>
           <!--/noindex-->
         {% elif theme.auto_excerpt.enable %}
+        {% if post.image %}
+          <div class="out-img-topic" id="poster">
+            <img src={{ post.image }} class="img-topic" />
+          </div>
+        {% endif %}
           {% set content = post.content | striptags %}
           {{ content.substring(0, theme.auto_excerpt.length) }}
           {% if content.length > theme.auto_excerpt.length %}...{% endif %}

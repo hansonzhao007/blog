@@ -23,7 +23,7 @@ When these instructions run, from the perspective of the process, the following 
 - Execute this instruction (no memory reference)
 - Fetch the instruction at address 135
 - Execute this instruction (store to address 15 KB)
-
+<!-- more -->
 
 ![][1]
 

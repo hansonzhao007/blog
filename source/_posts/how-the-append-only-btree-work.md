@@ -13,7 +13,7 @@ tags:
 考虑下图的这个3层 b tree.
 ![3levelbtree](http://www.bzero.se/ldapd/how-the-btree-works.png)
 该树由两层的 branch page（root 也是一个 branch page）和 5 个 leaf page 组成。key 和 data 都存储在 leaf page 里面。
-
+<!-- more -->
 这里，leaf chaining（叶节点之间的指针连接）并没有被支持，也就是叶子节点之间的顺序 access 特性不被支持（即没有指针从一个 leaf 指向下一个 leaf），这是因为该特性的实现，会要求每次 update 都去 rewrite 整个 tree。
 
 该 tree 的 page 在 database 文件中，被顺序存储着。添加 page numbers 也只是意味着增加 file 的 offset（类似于给vector数组后面添加一个位置一样）。

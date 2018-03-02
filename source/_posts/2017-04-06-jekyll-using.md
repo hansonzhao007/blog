@@ -19,20 +19,20 @@ comments:   true
 比如设置了：`categories: ['Life', 'eassy']`，那么访问该文章的时候，URL路径就是 http://webname/`Life`/`essay`/...
 因为 `｛%` 会被 jekyll 解析成内部语法，所以用中文字符 `｛` 替换了 英文字符 `{` 。
 ```
-｛% for category in site.categories %｝ 
+｛% for category in site.categories %｝
 
-｛｛ category [0] ｝｝ 是 category name 
-｛｛ category [1] ｝｝ 包含 category  下的 posts 
+｛｛ category [0] ｝｝ 是 category name
+｛｛ category [1] ｝｝ 包含 category  下的 posts
 
 ｛\% endfor %｝
 ```
-
+<!-- more -->
 ## tags
 ```
-｛\% for tag in site.tags %｝ 
+｛\% for tag in site.tags %｝
 
-｛｛ tag[0] ｝｝是 tag name 
-｛｛ tag[1] ｝｝包含 tag 下的 posts 
+｛｛ tag[0] ｝｝是 tag name
+｛｛ tag[1] ｝｝包含 tag 下的 posts
 
 ｛% endfor %｝
 
@@ -60,7 +60,7 @@ tags作为二级目录
 
 ![效果图](/img/post/20170408/db593a7f-0d24-4e0f-a1ec-58ec7a399ee4.png)
 
- 
+
 # 一些问题
 ## jekyll 生成文章过慢
 在某天的某刻，突然发现进行一次微小的post文章修改，jekyll serve --watch 命令下，regeneration 需要耗费 20s 多，以往都是 1-2s 就结束了。反复定位，发现是文章的 title 中写了一个 "C++"，而将其改为 “Cpp”以后就好了。虽然不知道为什么，但是问题还是解决了。猜测也许是因为 `+` 被jekyll 解析时候出了问题。

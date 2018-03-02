@@ -14,7 +14,7 @@ OS may find free spaces from a `free list` to your program, and there will be a 
 
 ![](Selection_001.png)
 To record where each virtual page of the address space is placed in physical memory, the operating system usually keeps a `per-process` data structure known as a `page table`.
-
+<!-- more -->
 The major role of the page table is to store `address translations` for each of the virtual pages of the address space.
 
 It is important to remember that this page table is a per-process data structure (most page table structures we discuss are per-process structures; an exception we’ll touch on is the `inverted page table`).

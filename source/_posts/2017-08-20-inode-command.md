@@ -25,6 +25,6 @@ comments:   true
 `df -i`：查看inode资源的使用情况
 ![dfi](dfi.png)
 可以清楚看到inode的最大使用数目。
-
+<!-- more -->
 也可以使用 find 命令找出文件所在目录
 ![dir](dir.png)
