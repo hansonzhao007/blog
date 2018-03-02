@@ -75,6 +75,7 @@ $("figure").hover(
         $(this).find(".code").attr("copyFlag", 1);
         //获取复制按钮
         $copyBtn = $("#copyBtn");
+        console.log($(this).offset());
 
         if ($copyBtn.lenght != 0) {
             //获取到按钮的前提下进行一下操作
@@ -86,7 +87,7 @@ $("figure").hover(
             $copyBtn.css("opacity", 0.8);
             $copyBtn.css("display", "block");
             $copyBtn.css("top", parseInt($copyBtn.css("top")) + $(this).offset().top - $copyBtn.offset().top + 3);
-            $copyBtn.css("left", $(this).offset().left - 30);
+            $copyBtn.css("left", -$copyBtn.width() - 3);
         }
     },
     function() {
