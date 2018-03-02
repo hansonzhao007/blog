@@ -38,11 +38,14 @@ render_drafts: false
 post_asset_folder: true
 relative_link: false
 future: true
+
 highlight:
   enable: true
   line_number: true
-  auto_detect: false
+  auto_detect: true
   tab_replace:
+
+
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -332,7 +335,7 @@ custom_logo:
 # Available value:
 #    normal | night | night eighties | night blue | night bright
 # https://github.com/chriskempson/tomorrow-theme
-highlight_theme: night eighties
+highlight_theme: normal
 
 
 # ---------------------------------------------------------------

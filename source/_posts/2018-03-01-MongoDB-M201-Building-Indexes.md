@@ -70,7 +70,7 @@ db.restaurants.createIndex({"cuisine":1,"name":1,"address.zipcode":1},{"backgrou
 
 index 建立结束以后的状态如下：
 ```bash
-> db.restaurants.createIndex({"cuisine":1,"name":1,"address.zipcode":1},{"background":true})
+db.restaurants.createIndex({"cuisine":1,"name":1,"address.zipcode":1},{"background":true})
 {
 	"createdCollectionAutomatically" : false,
 	"numIndexesBefore" : 1,
