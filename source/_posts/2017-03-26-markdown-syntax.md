@@ -64,11 +64,12 @@ HTML 的区段（行内）标签如 `<span>`、`<cite>`、`<del>` 可以在 Mark
 
 `&` 字符尤其让网络文档编写者受折磨，如果你要打「`AT&T`」 ，你必须要写成「`AT&amp;T`」。而网址中的 `&` 字符也要转换。比如你要链接到：
 
-    http://images.google.com/images?num=30&q=larry+bird
+  http://images.google.com/images?num=30 `&`q=larry+bird
+
 
 你必须要把网址转换写为：
 
-    http://images.google.com/images?num=30&amp;q=larry+bird
+  http://images.google.com/images?num=30 `&amp;`q=larry+bird
 
 才能放到链接标签的 `href` 属性里。不用说也知道这很容易忽略，这也可能是 HTML 标准检验所检查到的错误中，数量最多的。
 

@@ -4,6 +4,7 @@ date: 2018-02-15 10:52:14
 categories: ['database']
 tags:
   - mongoDB
+image: "http://hansonzhao007.github.io/blog/images/infinite2.gif"
 ---
 
 任何一次 query 的结果都可以被排序，如下：

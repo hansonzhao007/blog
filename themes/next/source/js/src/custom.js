@@ -75,8 +75,6 @@ $("figure").hover(
         $(this).find(".code").attr("copyFlag", 1);
         //获取复制按钮
         $copyBtn = $("#copyBtn");
-        console.log($(this).offset());
-
         if ($copyBtn.lenght != 0) {
             //获取到按钮的前提下进行一下操作
             //停止按钮动画效果
@@ -101,4 +99,5 @@ $("figure").hover(
 //页面载入完成后，创建复制按钮
 $(document).ready(function() {
   createCopyBtns();
+
 });

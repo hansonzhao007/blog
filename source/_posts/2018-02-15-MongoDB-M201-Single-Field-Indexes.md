@@ -4,6 +4,7 @@ date: 2018-02-15 10:46:46
 categories: ['database']
 tags:
   - mongoDB
+image: "http://hansonzhao007.github.io/blog/images/infinite1.gif"
 ---
 # 导入数据
 
