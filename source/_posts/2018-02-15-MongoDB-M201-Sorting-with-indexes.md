@@ -3,7 +3,7 @@ title: MongoDB M201 - Sorting with indexes
 date: 2018-02-15 10:52:14
 categories: ['database']
 tags:
-  - mongoDB
+  - MongoDB
 image: "http://hansonzhao007.github.io/blog/images/infinite2.gif"
 ---
 

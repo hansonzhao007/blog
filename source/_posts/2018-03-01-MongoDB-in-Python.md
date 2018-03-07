@@ -3,7 +3,7 @@ title: MongoDB in Python
 date: 2018-03-01 15:03:58
 categories: ['database']
 tags:
-  - mongoDB
+  - MongoDB
 image: "http://hansonzhao007.github.io/blog/images/infinite3.gif"
 ---
 

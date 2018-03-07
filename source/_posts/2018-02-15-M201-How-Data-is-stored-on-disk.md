@@ -3,7 +3,7 @@ title: "MongoDB M201 - How Data is stored on disk"
 date: 2018-02-15 10:33:59
 categories: ['database']
 tags:
-  - mongoDB
+  - MongoDB
 ---
 # 配置本地环境
 默认情况下，MongoDB 数据库目录的组织结构如下：
