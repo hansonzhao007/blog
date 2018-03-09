@@ -96,8 +96,21 @@ $("figure").hover(
         }, 2000);
     }
 );
+
 //页面载入完成后，创建复制按钮
 $(document).ready(function() {
+  var month = ["0","JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
   createCopyBtns();
-
+    $("div.out-img-topic").each(function(){
+      $(this).addClass("post-media-wrapper");
+      $post_block = $(this).parent().parent()
+      $post_block.prepend($(this));
+      var $datecircle=$('<div class="datecircle"><span class="datecircle-date"><span class="day">19</span><span class="month"> JUL</span></span></div>');
+      $(this).prepend($datecircle);
+      var post_create_date = $post_block.find("time").first().text().toString();
+      var res = post_create_date.split("-");
+      // console.log(res);
+      $datecircle.find(".day").text(res[2]);
+      $datecircle.find(".month").text(month[parseInt(res[1])]);
+  });
 });
