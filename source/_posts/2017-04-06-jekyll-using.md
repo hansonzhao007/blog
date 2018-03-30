@@ -1,14 +1,16 @@
 ---
-layout:     post
-title:      "Jekyll使用总结"
-date:       2017-04-06
-author:     "Hanson Zhao"
-header-img: "img/post/20170326/jekyll_affix_side_bar.webp"
-categories: ['Technology']
+layout: post
+title: Jekyll使用总结
+author: Hanson Zhao
+header-img: img/post/20170326/jekyll_affix_side_bar.webp
+categories:
+  - Technology
 tags:
-    - 前端开发
-    - 查阅
-comments:   true
+  - 前端开发
+  - 查阅
+comments: true
+abbrlink: 13169
+date: 2017-04-06 00:00:00
 ---
 
 

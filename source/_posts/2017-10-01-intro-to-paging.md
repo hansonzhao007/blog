@@ -1,10 +1,12 @@
 ---
 title: 【TP】18 Introduction to Paging
-date: 2017-10-01 15:22:49
 mathjax: true
-categories: ['OS']
+categories:
+  - OS
 tags:
   - memory
+abbrlink: 52771
+date: 2017-10-01 15:22:49
 ---
 将 memory 分割成 fixed-sized 块，这就叫 `paging`
 

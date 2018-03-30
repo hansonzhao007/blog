@@ -1,10 +1,12 @@
 ---
 title: Docker is not VM
-date: 2017-09-21 20:10:00
 mathjax: true
-categories: ['Technology']
+categories:
+  - Technology
 tags:
-    - docker
+  - docker
+abbrlink: 16725
+date: 2017-09-21 20:10:00
 ---
 
 I spend a good portion of my time at Docker talking to community members with varying degrees of familiarity with Docker and I sense a common theme: people’s natural response when first working with Docker is to try and frame it in terms of virtual machines. I can’t count the number of times I have heard Docker containers described as “lightweight VMs”.

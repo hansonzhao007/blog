@@ -1,15 +1,17 @@
 ---
-layout:     post
-title:      "构建tensorflow开发环境"
-subtitle:   "Install tensorflow development environment"
-date:       2017-04-09
-author:     "Hanson Zhao"
-image: "https://www1-lw.xda-cdn.com/files/2017/05/google-tensorflow-android.png"
-categories: ['Technology']
+layout: post
+title: 构建tensorflow开发环境
+subtitle: Install tensorflow development environment
+author: Hanson Zhao
+image: 'https://www1-lw.xda-cdn.com/files/2017/05/google-tensorflow-android.png'
+categories:
+  - Technology
 tags:
-    - tensorflow
-    - machine-learning
-comments:   true
+  - tensorflow
+  - machine-learning
+comments: true
+abbrlink: 21100
+date: 2017-04-09 00:00:00
 ---
 
 笔者使用的是windows 10 系统。下面会使用docker来安装 tensorflow。

@@ -1,9 +1,11 @@
 ---
 title: 【TP】42 FSCK-and-journaling
-date: 2017-09-09 13:00:15
-categories: ['OS']
+categories:
+  - OS
 tags:
   - storage
+abbrlink: 12282
+date: 2017-09-09 13:00:15
 ---
 old approach: `fsck`(file system checker)
 new approach: `journaling`(also known as `write-ahead-logging`)

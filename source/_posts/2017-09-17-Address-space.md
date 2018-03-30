@@ -1,10 +1,12 @@
 ---
 title: 【TP】13 The Abstraction Address Spaces
-date: 2017-09-17 15:39:18
 mathjax: true
-categories: ['OS']
+categories:
+  - OS
 tags:
   - memory
+abbrlink: 25427
+date: 2017-09-17 15:39:18
 ---
 
 # Early Systems

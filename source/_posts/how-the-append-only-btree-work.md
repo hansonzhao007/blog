@@ -1,10 +1,12 @@
 ---
 title: How the append-only btree work
-date: 2017-08-23 11:50:17
 mathjax: true
-categories: ['Technology']
+categories:
+  - Technology
 tags:
-    - storage
+  - storage
+abbrlink: 21757
+date: 2017-08-23 11:50:17
 ---
 
 原文：http://www.bzero.se/ldapd/btree.html

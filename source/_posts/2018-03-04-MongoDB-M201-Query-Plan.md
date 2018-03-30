@@ -8,6 +8,7 @@ categories:
 tags:
   - MongoDB
 image: 'http://hansonzhao007.github.io/blog/images/infinite7.gif'
+abbrlink: 19708
 date: 2018-03-04 16:06:28
 subtitle:
 ---

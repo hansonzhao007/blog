@@ -1,5 +1,7 @@
 ---
-title: "Review:The bright side of sitting in traffic: Crowdsourcing road congestion data"
+title: >-
+  Review:The bright side of sitting in traffic: Crowdsourcing road congestion
+  data
 mathjax: false
 comments: true
 author: XS Zhao
@@ -8,6 +10,7 @@ categories:
 tags:
   - google map
 image: 'http://hansonzhao007.github.io/blog/images/infinite3.gif'
+abbrlink: 50023
 date: 2018-03-07 10:25:23
 subtitle:
 ---

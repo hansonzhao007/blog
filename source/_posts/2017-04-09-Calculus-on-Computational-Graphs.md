@@ -1,15 +1,17 @@
 ---
-layout:     post
-title:      "计算图形学中的微积分-反向传播算法"
-subtitle:   "Calculus on Computational Graphs: Backpropagation"
-date:       2017-04-09
-author:     "Hanson Zhao"
-header-img: "img/post/201704/hero-bg2x.webp"
+layout: post
+title: 计算图形学中的微积分-反向传播算法
+subtitle: 'Calculus on Computational Graphs: Backpropagation'
+author: Hanson Zhao
+header-img: img/post/201704/hero-bg2x.webp
 mathjax: true
-categories: ['Technology']
+categories:
+  - Technology
 tags:
-    - machine-learning
-comments:   true
+  - machine-learning
+comments: true
+abbrlink: 56934
+date: 2017-04-09 00:00:00
 ---
 
 # Introduction

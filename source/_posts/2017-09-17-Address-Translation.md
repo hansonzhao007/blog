@@ -1,10 +1,12 @@
 ---
 title: 【TP】15 Address Translation
-date: 2017-09-17 20:15:01
 mathjax: true
-categories: ['OS']
+categories:
+  - OS
 tags:
   - memory
+abbrlink: 61490
+date: 2017-09-17 20:15:01
 ---
 
 a general mechanism: `limited direct execution (LDE)`:

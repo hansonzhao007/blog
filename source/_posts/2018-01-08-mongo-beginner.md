@@ -1,9 +1,11 @@
 ---
 title: mongoDB 基础
-date: 2018-01-08 21:19:04
-categories: ['database']
+categories:
+  - database
 tags:
-  - MongoDB 
+  - MongoDB
+abbrlink: 45199
+date: 2018-01-08 21:19:04
 ---
 # Basic
 - NoSQL 数据库

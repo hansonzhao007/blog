@@ -1,9 +1,11 @@
 ---
 title: 【TP】41 Fast File System (FFS)
-date: 2017-09-09 12:35:05
-categories: ['OS']
+categories:
+  - OS
 tags:
   - storage
+abbrlink: 12099
+date: 2017-09-09 12:35:05
 ---
 Old Unix file system: Simple and block size is small( 512B )
 

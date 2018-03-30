@@ -1,15 +1,17 @@
 ---
-layout:     post
-title:      "第二章-IO大法"
-subtitle:   "Chapter2-IO"
-date:       2017-08-16
-author:     "Hanson Zhao"
-header-img: "img/post/201708/HardDiskDriveStorage.png"
-categories: ['Technology']
+layout: post
+title: 第二章-IO大法
+subtitle: Chapter2-IO
+author: Hanson Zhao
+header-img: img/post/201708/HardDiskDriveStorage.png
+categories:
+  - Technology
 tags:
-    - storage
-    - 大话存储
-comments:   true
+  - storage
+  - 大话存储
+comments: true
+abbrlink: 36106
+date: 2017-08-16 00:00:00
 ---
 # IO大法
 ## PCI

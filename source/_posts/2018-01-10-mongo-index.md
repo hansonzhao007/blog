@@ -1,9 +1,11 @@
 ---
 title: mongoDB index 与 performance
-date: 2018-01-10 13:58:50
-categories: ['database']
+categories:
+  - database
 tags:
   - MongoDB
+abbrlink: 46964
+date: 2018-01-10 13:58:50
 ---
 - [Introduce to NoSql](https://www.youtube.com/watch?v=qI_g07C_Q5I)
 

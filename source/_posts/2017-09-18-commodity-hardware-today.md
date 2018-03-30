@@ -1,10 +1,12 @@
 ---
 title: 【WEP】Commodity Hardware Today
-date: 2017-09-18 15:47:09
 mathjax: true
-categories: ['OS']
+categories:
+  - OS
 tags:
   - memory
+abbrlink: 2159
+date: 2017-09-18 15:47:09
 ---
 # Commodity Hardware today
 Over the years personal computers and smaller servers standardized on a chipset with two parts: the `Northbridge` and `Southbridge`.

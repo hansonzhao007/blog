@@ -1,10 +1,11 @@
 ---
 title: LevelDb 详解
-date: 2017-08-23 15:50:17
-
-categories: ['Technology']
+categories:
+  - Technology
 tags:
-    - storage
+  - storage
+abbrlink: 59227
+date: 2017-08-23 15:50:17
 ---
 
 说起LevelDb也许您不清楚，但是如果作为IT工程师，不知道下面两位大神级别的工程师，那您的领导估计会Hold不住了：Jeff Dean和Sanjay Ghemawat。这两位是Google公司重量级的工程师，为数甚少的Google Fellow之二。

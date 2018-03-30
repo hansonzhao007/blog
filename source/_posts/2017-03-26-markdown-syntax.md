@@ -1,14 +1,16 @@
 ---
-layout:     post
-title:      "Markdown基本语法"
-date:       2017-03-26
-author:     "riku"
-header-img: "img/post/20170326/markdown.webp"
-categories: ['Technology']
+layout: post
+title: Markdown基本语法
+author: riku
+header-img: img/post/20170326/markdown.webp
+categories:
+  - Technology
 tags:
-    - MarkDown    
-    - 查阅    
-comments:   true
+  - MarkDown
+  - 查阅
+comments: true
+abbrlink: 18133
+date: 2017-03-26 00:00:00
 ---
 
 # 概述

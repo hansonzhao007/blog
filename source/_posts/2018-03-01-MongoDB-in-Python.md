@@ -1,10 +1,12 @@
 ---
 title: MongoDB in Python
-date: 2018-03-01 15:03:58
-categories: ['database']
+categories:
+  - database
 tags:
   - MongoDB
-image: "http://hansonzhao007.github.io/blog/images/infinite3.gif"
+image: 'http://hansonzhao007.github.io/blog/images/infinite3.gif'
+abbrlink: 49849
+date: 2018-03-01 15:03:58
 ---
 
 # 导入数据

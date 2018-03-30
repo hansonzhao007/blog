@@ -1,9 +1,11 @@
 ---
-title: "review on Geospatial Performance Improvements in MongoDB 3.2"
-date: 2018-01-15 18:13:02
-categories: ['database']
+title: review on Geospatial Performance Improvements in MongoDB 3.2
+categories:
+  - database
 tags:
   - MongoDB
+abbrlink: 21963
+date: 2018-01-15 18:13:02
 ---
 [link](https://www.mongodb.com/blog/post/geospatial-performance-improvements-in-mongodb-3-2)
 

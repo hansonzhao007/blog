@@ -1,15 +1,17 @@
 ---
-layout:     post
-title:      "inode相关命令"
-subtitle:   "inode related commands"
-date:       2017-08-20
-author:     "Hanson Zhao"
-header-img: "img/post/201708/inode_with_signatures.jpg"
-categories: ['Technology']
+layout: post
+title: inode相关命令
+subtitle: inode related commands
+author: Hanson Zhao
+header-img: img/post/201708/inode_with_signatures.jpg
+categories:
+  - Technology
 tags:
-    - storage
-    - linux-cmd
-comments:   true
+  - storage
+  - linux-cmd
+comments: true
+abbrlink: 15356
+date: 2017-08-20 00:00:00
 ---
 
 

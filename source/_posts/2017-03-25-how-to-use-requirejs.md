@@ -1,16 +1,18 @@
 ---
-layout:     post
-title:      "10分钟入门requireJs"
-subtitle:   "入门requireJs的操作心得"
-date:       2017-03-25
-author:     "Hanson Zhao"
-header-img: "img/post/20170325/requirejs.webp"
-catalog:    true
-categories: ['Technology']
-timeline:   true
+layout: post
+title: 10分钟入门requireJs
+subtitle: 入门requireJs的操作心得
+author: Hanson Zhao
+header-img: img/post/20170325/requirejs.webp
+catalog: true
+categories:
+  - Technology
+timeline: true
 tags:
-    - 前端开发
-    - JavaScript
+  - 前端开发
+  - JavaScript
+abbrlink: 45943
+date: 2017-03-25 00:00:00
 ---
 # 引入
 ---

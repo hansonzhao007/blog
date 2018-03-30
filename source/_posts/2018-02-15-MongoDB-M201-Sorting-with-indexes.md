@@ -1,10 +1,12 @@
 ---
 title: MongoDB M201 - Sorting with indexes
-date: 2018-02-15 10:52:14
-categories: ['database']
+categories:
+  - database
 tags:
   - MongoDB
-image: "http://hansonzhao007.github.io/blog/images/infinite2.gif"
+image: 'http://hansonzhao007.github.io/blog/images/infinite2.gif'
+abbrlink: 21218
+date: 2018-02-15 10:52:14
 ---
 
 任何一次 query 的结果都可以被排序，如下：

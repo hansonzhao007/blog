@@ -1,15 +1,17 @@
 ---
-layout:     post
-title:      "Google Cpp Style Guide - Naming"
-subtitle:   "Google 开源项目风格指南"
-date:       2017-03-28
-author:     "Hanson Zhao"
-header-img: "img/post/20170328/Google_sytle_guide.webp"
-categories: ['Technology']
+layout: post
+title: Google Cpp Style Guide - Naming
+subtitle: Google 开源项目风格指南
+author: Hanson Zhao
+header-img: img/post/20170328/Google_sytle_guide.webp
+categories:
+  - Technology
 tags:
-    - Cpp
-    - 查阅
-comments:   true
+  - Cpp
+  - 查阅
+comments: true
+abbrlink: 52230
+date: 2017-03-28 00:00:00
 ---
 
 # 通用命名规则

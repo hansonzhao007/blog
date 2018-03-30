@@ -1,11 +1,12 @@
 ---
-title: "C++ Atomic"
-date: 2018-01-20 20:32:03
-categories: ['program']
+title: C++ Atomic
+categories:
+  - program
 tags:
   - multi-thread
   - levelDB
-
+abbrlink: 59687
+date: 2018-01-20 20:32:03
 ---
 [What exactly is std::atomic](https://stackoverflow.com/questions/6319146/c11-introduced-a-standardized-memory-model-what-does-it-mean-and-how-is-it-g)
 [C++ atomics and memory ordering](https://bartoszmilewski.com/2008/12/01/c-atomics-and-memory-ordering/)

@@ -1,10 +1,12 @@
 ---
 title: 'MongoDB M201 - Building Indexes '
-date: 2018-03-01 15:46:20
-categories: ['database']
+categories:
+  - database
 tags:
   - MongoDB
-image: https://docs.mongodb.com/manual/_images/compass-create-index-button.png
+image: 'https://docs.mongodb.com/manual/_images/compass-create-index-button.png'
+abbrlink: 52943
+date: 2018-03-01 15:46:20
 ---
 # Building Indexes
 
