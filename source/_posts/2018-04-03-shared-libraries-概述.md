@@ -8,6 +8,7 @@ categories:
 tags:
   - make
 image: 'http://hansonzhao007.github.io/blog/images/infinite6.gif'
+abbrlink: 2914
 date: 2018-04-03 10:30:57
 subtitle:
 keywords:
@@ -23,6 +24,7 @@ Shared Libraries 是程序在运行的时候才装载的 libraries，换句话�
 Shared Libraries 有两种名字：
 1. soname：`lib`+ `library name` + `.so` + `version number`
 比如：libleveldb.so.1.20。在 linux 系统中，soname 是 shared libraries 的 real name 的 symlink。
+
 ```bash soname示例
 $ ls -al | grep level
 -rw-r--r--  1 root root 789K 2018-04-03 01:42 libleveldb.a
@@ -30,6 +32,7 @@ lrwxrwxrwx  1 root root   `18` 2018-04-03 01:42 libleveldb.so -> libleveldb.so.1
 lrwxrwxrwx  1 root root   `18` 2018-04-03 01:42 libleveldb.so.1 -> libleveldb.so.1.20*
 -rwxr-xr-x  1 root root `459K` 2018-04-03 01:42 libleveldb.so.1.20*
 ```
+<!-- more -->
 可以看到 `libleveldb.so` 和 `libleveldb.so.1`都是 `libleveldb.so.1.20*` 的 symlink。
 
 2. real name:
