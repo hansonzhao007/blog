@@ -9,6 +9,7 @@ tags:
   - hadoop
   - mapreudce
 image: 'http://hansonzhao007.github.io/blog/images/infinite5.gif'
+abbrlink: 59732
 date: 2018-04-25 16:20:40
 subtitle:
 keywords:
