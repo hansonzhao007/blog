@@ -4,9 +4,10 @@ mathjax: false
 comments: true
 author: XS Zhao
 categories:
-  - database
+  - os
 tags:
-  - null
+  - hadoop
+  - mapreudce
 image: 'http://hansonzhao007.github.io/blog/images/infinite5.gif'
 date: 2018-04-25 16:20:40
 subtitle:
@@ -33,7 +34,7 @@ su hduser
 ssh-keygen -t rsa -P ""
 cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys
 ```
-
+<!-- more -->
 The output looks like this:
 ```
 hduser@hanson:~$ ssh-keygen -t rsa -P ""
