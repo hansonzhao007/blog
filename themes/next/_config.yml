@@ -322,9 +322,10 @@ han: false
 # Gitment
 gitment: 
   enable: true
-  clientId: 4fe1228acaf3e7b057de
-  clientSecret: 48dc7c1aa2e663a79e994f8cffc90423ea3f5e25
-
+  client_id: 4fe1228acaf3e7b057de
+  client_secret: 48dc7c1aa2e663a79e994f8cffc90423ea3f5e25
+  mint: true
+  
 # Disqus
 disqus:
   enable: false
