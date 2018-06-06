@@ -318,6 +318,12 @@ han: false
 # Duoshuo ShortName
 #duoshuo_shortname:
 
+
+# Gitment
+gitment: 
+  clientId: 4fe1228acaf3e7b057de
+  clientSecret: 48dc7c1aa2e663a79e994f8cffc90423ea3f5e25
+
 # Disqus
 disqus:
   enable: false
