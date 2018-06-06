@@ -327,7 +327,6 @@ gitment:
   github_user: hansonzhao007
   github_repo: hansonzhao007.github.io
   mint: true
-  lazy: true
   
 
 # Disqus
