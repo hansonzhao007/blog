@@ -69,5 +69,5 @@ gulp.task('compressHtml', function () {
 // 默认任务
 gulp.task('default', function () {
     runSequence.options.ignoreUndefinedTasks = true;
-    runSequence('compressHtml','compressCss','compressJs');
+    runSequence('compressHtml','compressCss'); //,'compressJs');
 });
