@@ -81,5 +81,8 @@
   {% include '_third-party/scroll-cookie.swig' %}
   {% include '_third-party/exturl.swig' %}
   {% include '_custom/custom.swig' %}
+
+  <script type="text/javascript" src= "https://cdnjs.cloudflare.com/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+  <script data-no-instant>InstantClick.init();</script>
 </body>
 </html>
