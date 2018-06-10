@@ -52,6 +52,8 @@ menu:
   archives: archives/
   tags: tags/
   sitemap: sitemap.xml
+  feed: atom.xml
+
 # Sitemap
 sitemap:
   path: sitemap.xml
@@ -74,7 +76,7 @@ menu_icons:
   archives: archive
   commonweal: heartbeat
   sitemap: sitemap
-
+  feed: rss
 # ---------------------------------------------------------------
 # Scheme Settings
 # ---------------------------------------------------------------
