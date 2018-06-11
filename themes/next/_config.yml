@@ -12,7 +12,14 @@ keywords: "Stay Foolish, Stay Hungry"
 # Leave rss as empty to use site's feed link.
 # Set rss to specific value if you have burned your feed already.
 rss:
-
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+  hub:
+  content:
+  content_limit: 140
+  content_limit_delim: ' '
 # Specify the date when the site was setup
 since: 2017
 
@@ -134,7 +141,6 @@ social_icons:
 # in theme directory(source/images): /images/avatar.jpg
 # in site  directory(source/uploads): /uploads/avatar.jpg
 avatar: /img/avatar.webp
-
 # Table Of Contents in the Sidebar
 toc:
   enable: true
