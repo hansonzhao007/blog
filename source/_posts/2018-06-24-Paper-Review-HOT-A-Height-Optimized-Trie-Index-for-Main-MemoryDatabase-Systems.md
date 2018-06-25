@@ -10,6 +10,7 @@ categories:
 tags:
   - index
 image: 'http://hansonzhao007.github.io/blog/images/infinite2.gif'
+abbrlink: 60274
 date: 2018-06-24 19:34:58
 subtitle:
 keywords:
@@ -31,7 +32,7 @@ The adaptive radix tree is a radix tree variant that integrates `adaptive node s
 {% note danger %} 
 既然是动态增加的，node 本身的 memory 分配也应该是动态的，那么 memory 不连续，可能会导致 cache miss 问题。这个需要看原文 paper 看是否存在。[link](https://db.in.tum.de/~leis/papers/ART.pdf)
 {% endnote %}
-
+<!-- more -->
 # Summary
 
 ![HOT](3.png)

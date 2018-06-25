@@ -35,6 +35,7 @@ by implementing 2 `Embedded Indexes` and 3 `Stand-Alone Indexes` on top of Level
 
 They conclude that : the `embedded indexes` offer superior `write throughput` and are more space efficient, whereas the `stand-alone secondary indexes` achieve `faster query` response times. So the optimal choice depends on the application workload.
 
+<!-- more -->
 # Details
 
 ## Stand-Alone Indexes
