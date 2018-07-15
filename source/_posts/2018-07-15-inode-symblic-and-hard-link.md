@@ -1,5 +1,5 @@
 ---
-title: inode symblic and hard link
+title: inode symbolic and hard link
 mathjax: false
 comments: true
 author: XS Zhao
@@ -7,14 +7,15 @@ categories:
   - database
 tags:
   - null
-image: 'http://hansonzhao007.github.io/blog/images/infinite3.gif'
+image: 'http://hansonzhao007.github.io/blog/images/infinite4.gif'
+abbrlink: 1111
 date: 2018-07-15 14:39:32
 subtitle:
 keywords:
 description:
 ---
 
-一张图介绍 symblic 和 hard link。
+一张图介绍 symbolic 和 hard link。
 ![inode](1.png)
 
 # hard link explain in bash
