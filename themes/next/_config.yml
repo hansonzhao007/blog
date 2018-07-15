@@ -494,6 +494,14 @@ calendar:
   singleEvents: true
   maxResults: 250
 
+
+algolia:
+  applicationID: 'C04V4Z2EKD'
+  apiKey: 'C04V4Z2EKD'
+  adminApiKey: 'f85b3cf8ff9f383c57ca03020a526cbc'
+  indexName: 'myblog'
+  chunkSize: 5000
+
 # Algolia Search
 algolia_search:
   enable: false
