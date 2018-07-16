@@ -1,7 +1,7 @@
 git add .
 git commit -m "new post"
 git push origin master
-# hexo clean
+hexo clean
 hexo g
 hexo algolia
 gulp
