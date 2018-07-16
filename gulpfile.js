@@ -12,6 +12,7 @@ var cssversion = require('gulp-make-css-url-version');   //css资源添加版本
 var uglify = require('gulp-uglify');        //js压缩组件
 var htmlmin = require('gulp-htmlmin');      //html压缩组件
 var htmlclean = require('gulp-htmlclean');  //html清理组件
+var image = require('gulp-image');          //图片压缩
 var assetRev = require('gulp-asset-rev');   //版本控制插件
 var runSequence = require('run-sequence');  //异步执行组件
 var changed = require('gulp-changed');      //文件更改校验组件
@@ -42,6 +43,15 @@ gulp.task('compressCss', function () {
         .pipe(cleancss({rebase: false}))
         .pipe(gulp.dest('./public'));
 });
+
+// 压缩图片
+gulp.task('compressImage', function () {
+    gulp.src('./public/**/*.png')
+      .pipe(image())
+      .pipe(gulp.dest('./public'));
+  });
+
+  
 // 压缩html文件
 gulp.task('compressHtml', function () {
     var cleanOptions = {
@@ -69,5 +79,5 @@ gulp.task('compressHtml', function () {
 // 默认任务
 gulp.task('default', function () {
     runSequence.options.ignoreUndefinedTasks = true;
-    runSequence('compressHtml','compressCss'); //,'compressJs');
+    runSequence('compressHtml','compressCss','compressImage'); //,'compressJs');
 });

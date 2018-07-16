@@ -46,5 +46,8 @@
     "hexo-tag-aplayer": "^2.0.7",
     "hexo-tag-dplayer": "^0.3.1",
     "run-sequence": "^2.2.0"
+  },
+  "devDependencies": {
+    "gulp-image": "^4.3.0"
   }
 }
