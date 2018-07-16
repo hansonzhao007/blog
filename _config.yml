@@ -10,6 +10,13 @@ author: XS Zhao
 language: en
 timezone:
 
+algolia:
+  applicationID: 'C04V4Z2EKD'
+  apiKey: 'aed9efacc66cdcd0647b6fe1e4808317'
+  adminApiKey: 'f85b3cf8ff9f383c57ca03020a526cbc'
+  indexName: 'myblog'
+  chunkSize: 5000
+  
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: https://hansonzhao007.github.io/blog
