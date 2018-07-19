@@ -281,13 +281,13 @@ font:
 
   # 全局字体，应用在 body 元素上
   global:
-    external: true
-    family: Monda
+    external: false
+    family: 
 
   # 标题字体 (h1, h2, h3, h4, h5, h6)
   headings:
-    external: true
-    family: Roboto Slab
+    external: false
+    family: "lucida grande"
 
   # 文章字体
   posts:
@@ -303,7 +303,7 @@ font:
   # 代码字体，应用于 code 以及代码块
   codes:
     external: true
-    family: PT Mono
+    family: lucida grande
 
 
 # ---------------------------------------------------------------
