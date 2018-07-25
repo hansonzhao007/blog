@@ -8,6 +8,7 @@ categories:
 tags:
   - null
 image: 'http://hansonzhao007.github.io/blog/images/infinite4.gif'
+abbrlink: 41849
 date: 2018-07-25 01:02:06
 subtitle:
 keywords:
@@ -81,4 +82,21 @@ int main(int argc, char** argv) {
   // Finalize the MPI environment. No more MPI calls can be made after this
   MPI_Finalize();
 }
+```
+
+# 使用 hostfile 文件
+
+```bash :hostfile
+# This is an example hostfile.  Comments begin with #
+#
+# The following nodes have eight processor machine, we absolutely
+# want to disallow over-subscribing it:
+p10 slots=8 max-slots=8
+p15 slots=8 max-slots=8
+p16 slots=8 max-slots=8
+p18 slots=8 max-slots=8
+```
+
+```bash
+mpirun -np 20 --hostfile hostfile ./hello
 ```
