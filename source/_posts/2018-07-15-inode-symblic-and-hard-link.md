@@ -18,6 +18,7 @@ description:
 一张图介绍 symbolic 和 hard link。
 ![inode](1.png)
 
+<!-- more -->
 # hard link explain in bash
 <script src="https://asciinema.org/a/aBvSNT6fDqNQ3F6Zl631XVU7S.js" id="asciicast-aBvSNT6fDqNQ3F6Zl631XVU7S" async></script>
 

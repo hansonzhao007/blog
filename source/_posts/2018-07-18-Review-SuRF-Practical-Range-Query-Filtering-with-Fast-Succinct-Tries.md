@@ -29,6 +29,7 @@ Suppose that Z is the information-theoretical optimal number of bits needed to s
 
 For example, a data structure that uses 2Z bits of storage is compact, Z + \sqrt{Z} bits is succinct,  Z+lgZ bits is also succinct, and Z+3 bits is implicit.
 
+<!-- more -->
 # Succinct Tree
 
 Goal: represent the data in close to optimal space, while supporting the operations efficiently.

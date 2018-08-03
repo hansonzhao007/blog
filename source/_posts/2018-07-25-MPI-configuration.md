@@ -42,7 +42,7 @@ scp $output $USER@$slave3:~/
 mpirun -n 4 -H $master,$slave1,$slave2,$slave3 ./$output
 
 ```
-
+<!-- more -->
 ```c
 // Author: Wes Kendall
 // Copyright 2011 www.mpitutorial.com
