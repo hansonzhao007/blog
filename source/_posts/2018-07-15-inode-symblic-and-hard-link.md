@@ -15,7 +15,7 @@ keywords:
 description:
 ---
 
-一张图介绍 symbolic 和 hard link。
+一张图介绍 symbolic 和 hard link。
 ![inode](1.png)
 
 # hard link explain in bash
