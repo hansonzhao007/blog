@@ -4,7 +4,7 @@ mathjax: false
 comments: true
 author: XS Zhao
 categories:
-  - database
+  - project
 tags:
   - null
 image: 'http://hansonzhao007.github.io/blog/images/infinite4.gif'
