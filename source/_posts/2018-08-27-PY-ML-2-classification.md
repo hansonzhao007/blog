@@ -4,9 +4,9 @@ mathjax: false
 comments: true
 author: XS Zhao
 categories:
-  - Machine Learning
+  - Practical Machine Learning with Python
 tags:
-  - null
+  - machine learning
 image: 'http://hansonzhao007.github.io/blog/images/infinite4.gif'
 abbrlink: 23884
 date: 2018-08-27 11:18:26
