@@ -1,5 +1,5 @@
 ---
-title: 'Review: Mutant: Balancing Storage Cost and Latency in LSM-Tree Data Stores'
+title: 'Review: Mutant: Balancing Storage Cost and Latency in LSM Tree Data Stores'
 mathjax: true
 comments: true
 author: XS Zhao
@@ -8,6 +8,7 @@ categories:
 tags:
   - LSM
 image: 'http://hansonzhao007.github.io/blog/images/infinite5.gif'
+abbrlink: 10124
 date: 2018-11-05 16:17:45
 subtitle:
 keywords:
