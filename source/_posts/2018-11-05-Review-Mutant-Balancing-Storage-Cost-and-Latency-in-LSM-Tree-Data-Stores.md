@@ -87,4 +87,5 @@ Write one or more paragraphs to summarize the results for each experiment, each 
 
 # My thoughts
 
-The thing I don't understand is that why memory caching is not enough for those hot data.
+The thing I don't understand is that why memory caching is not enough for those hot data. Maybe one possible explanation is that even hot data is too big to be stored in memory.
+
