@@ -19,7 +19,7 @@ description:
 Cloud databases should support dynamic allocation of hot and cold data to fast and slow device. So the client can get the best performance within their budget.
 
 The author introduced a system that support dynamic allocation of storage system based on LSM-tree.
-
+<!-- more -->
 # Background
 
 ## Locality in SSTable
@@ -28,11 +28,9 @@ The author introduced a system that support dynamic allocation of storage system
 
 There are some locality in SSTable access. (This paper uses QuizUp workload to do the analysis)
 
-`Figure 3` indicates that younger data will have more access while older data have less access.
-
-`Figure 4` illustrates that the hottest data can be 4 orders of magnitudes than the coldest data.
-
-`Figure 5` says that As more records are inserted over time, the number of infrequently accessed SSTables (“cold” SSTables) increases, while the number of frequently accessed SSTables (“hot” SSTables) stays about the same.
+* `Figure 3` indicates that younger data will have more access while older data have less access.
+* `Figure 4` illustrates that the hottest data can be 4 orders of magnitudes than the coldest data.
+* `Figure 5` says that As more records are inserted over time, the number of infrequently accessed SSTables (“cold” SSTables) increases, while the number of frequently accessed SSTables (“hot” SSTables) stays about the same.
 
 ## Locality in SSTable components
 
@@ -43,20 +41,29 @@ Components consist of `metadata`(including `bloomfilter`, `record index`) and `d
 ## Get the optimal SSTable to be stored in fast storage
 
 With those pattern, this paper try to solve this specific question:
+
 > Find a subset of SSTables to be stored in the fast storage (optimization goal) such that the sum of fast storage SSTable accesses is maximized, (constraint) while bounding the volume of SSTables in fast storage.
 
 They use this model to do some optimization.
 
-$P _ { f } S _ { f } + P _ { s } S _ { s } \leq C _ { \max }$
-$S _ { f } + S _ { s } = S$
+$$
+P _ { f } S _ { f } + P _ { s } S _ { s } \leq C _ { \max }
+$$
+
+$$ 
+S _ { f } + S _ { s } = S
+$$
 
 * Pf, Ps: unit price for fast and slow device
 * Sf, Ss: sum of all SSTable sizes in the fast and slow storage
 
-$S _ { f } < \frac { C _ { \max } - P _ { s } S } { P _ { f } - P _ { s } } = S _ { f , \max }$
+$$ 
+S _ { f } < \frac { C _ { \max } - P _ { s } S } { P _ { f } - P _ { s } } = S _ { f , \max }$$
 
-maximize $\sum _ { i \in SSTables} A _ { i } x _ { i }$
-subject to $\sum _ { i \in SSTables} S _ { i } x _ { i } \leq S _ { f ,$ max $}$ and $x _ { i } \in \{ 0,1 \}$
+maximize 
+$$\sum _ { i \in SSTables} A _ { i } x _ { i }$$
+subject to 
+$$\sum _ { i \in SSTables} S _ { i } x _ { i } \leq S _ { f , max }  and  x _ { i } \in \{ 0,1 \} $$
 
 * Ai: number of accesses to SSTable i
 * Si: the size of SSTable i

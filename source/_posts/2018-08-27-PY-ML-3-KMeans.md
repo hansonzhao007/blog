@@ -17,5 +17,6 @@ description:
 
 
 # KMeans Code
+<!-- more -->
 <script src="http://code.jquery.com/jquery-2.0.0.js"></script>
 {% asset_jupyter /Users/mac/anaconda3/bin/python3 ../../jupyter-demo/KMeans.ipynb %}

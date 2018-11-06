@@ -17,6 +17,7 @@ description:
 
 
 # KNN Code
+<!-- more -->
 ![](1.png)
 https://pythonprogramming.net/support-vector-assertions-machine-learning-tutorial/
 

@@ -18,7 +18,7 @@ description:
 # Preparation
 
 Create a new directory where all the files would live.
-
+<!-- more -->
 ## Create Node.js app
 
 ```json :package.json
