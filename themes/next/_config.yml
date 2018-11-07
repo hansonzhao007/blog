@@ -274,7 +274,7 @@ highlight_theme: night bright
 # - Introduce in 5.0.1
 # ---------------------------------------------------------------
 font:
-  enable: false
+  enable: true
 
   # 外链字体库地址，例如 //fonts.googleapis.com (默认值)
   host:
