@@ -126,7 +126,7 @@
             </ul>
           </div>
         {% endif %}
-
+        
         {% include '../_custom/sidebar.swig' %}
 
       </section>

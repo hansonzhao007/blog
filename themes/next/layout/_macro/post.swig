@@ -335,9 +335,22 @@
         {{ post.content }}
       {% endif  %}
     </div>
+
+    {% if theme.related_posts.enable and (theme.related_posts.display_in_home or not is_index) %}
+    {% include 'post-related.swig' with { post: post } %}
+    {% endif %}
+
+
     {#####################}
     {### END POST BODY ###}
     {#####################}
+
+    {% if theme.recommended_posts.enabled and not is_index %}
+      <div>
+        {% include 'recommended_posts.swig' with {post: post, site: site} %}
+      </div>
+    {% endif %}
+
 
     {% if theme.wechat_subscriber.enabled and not is_index %}
       <div>

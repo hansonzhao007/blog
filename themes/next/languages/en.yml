@@ -35,6 +35,8 @@ post:
   visitors: Visitors
   wordcount: Words count in article
   min2read: Reading time
+  related_posts: Related Posts
+  recommended_posts: Recommended Posts
   copyright:
     author: Post author
     link: Post link
