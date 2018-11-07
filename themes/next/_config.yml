@@ -693,7 +693,7 @@ recent_posts: true
 # Recommended posts
 # Dependency: https://github.com/huiwang/hexo-recommended-posts
 recommended_posts:
-  enabled: false
+  enabled: true
 
 # Related popular posts
 # Dependencies: https://github.com/tea3/hexo-related-popular-posts
