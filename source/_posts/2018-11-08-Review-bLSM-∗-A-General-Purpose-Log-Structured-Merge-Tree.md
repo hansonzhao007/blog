@@ -9,6 +9,7 @@ tags:
   - LSM tree
   - kv
 image: 'http://hansonzhao007.github.io/blog/images/infinite4.gif'
+abbrlink: 4011
 date: 2018-11-08 09:14:52
 subtitle:
 keywords:
@@ -23,7 +24,7 @@ LSM tree will sacrifice read performance with write performance. This paper, `bL
 
 bLSM is designed as a backing storage for Yahoo's geographically distributed key-value storage system, and Walnut, a elastic cloud storage system.
 
-![summary][result.png]
+![summary](result.png)
 
 # Specific question
 
