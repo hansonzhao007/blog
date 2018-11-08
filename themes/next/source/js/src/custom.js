@@ -126,4 +126,9 @@ $(document).ready(function() {
     var s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(bp, s);
 
+    // banner gif random
+    $("div.post-block > div > a > img").each(function(index) {
+        console.log($(this));
+        $(this).attr("src", "http://hansonzhao007.github.io/blog/images/infinite" + Math.round((Math.random() * 15 + 1)).toString() + ".gif")
+    });
 });
