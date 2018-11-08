@@ -29,7 +29,7 @@ In leveldb, in order to reduce unnecessary I/O for non-exist data, bloom filter 
 Since bloom filter has a parameter, called `false positive rate (FPR)`. It may tell a lie when the key is not exist in SSTable. This will cause unnecessary I/O. In order to reduce those I/O, we must reduce `FPR` and use more memory.
 
 $$ P = \left( 1 - e ^ { - k n / m } \right) ^ { k } $$
-
+<!-- more -->
 * k: number of function
 * n: number of inserted key
 * m: number of bit

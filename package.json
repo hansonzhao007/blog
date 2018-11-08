@@ -41,6 +41,7 @@
     "hexo-generator-tag": "^0.2.0",
     "hexo-ipynb": "^0.2.4",
     "hexo-jupyter-notebook": "0.0.3",
+    "hexo-recommended-posts": "^1.0.3",
     "hexo-related-popular-posts": "^3.0.3",
     "hexo-renderer-ejs": "^0.3.0",
     "hexo-renderer-kramed": "^0.1.4",

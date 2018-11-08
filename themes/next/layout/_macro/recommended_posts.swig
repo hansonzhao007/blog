@@ -1,5 +1,3 @@
-<div class="post-body">
-<div class="note primary">
 <div class="recommended_posts">
     {% set recommended_posts = recommended_posts(post, site) %}
     {% if recommended_posts.length > 0 %}
@@ -10,6 +8,4 @@
         {% endfor %}
     </ul>
     {% endif %} 
-</div> 
-</div> 
 </div> 
