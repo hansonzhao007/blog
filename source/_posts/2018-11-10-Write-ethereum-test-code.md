@@ -367,7 +367,7 @@ const {interface, bytecode} = require('./compile');
 
 const provider = new HDWalletProvider (
     'dinosaur erupt zoo ...', // your account
-    'https://rinkeby.infura.io/v3/451daf892abb41***' // block chain api, you can obtain this from rinkeby.infura.io website inside your project.
+    'https://rinkeby.infura.io/v3/451daf892abb41***' // block chain api, you can obtain this from infura.io website inside your project.
 );
 
 const web3 = new Web3(provider);

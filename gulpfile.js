@@ -46,7 +46,7 @@ gulp.task('compressCss', function () {
 
 // 压缩图片
 gulp.task('compressImage', function () {
-    gulp.src('./source/_posts/**/*.png')
+    gulp.src('./source/_posts/2018-11-10*/*.png')
       .pipe(image())
       .pipe(gulp.dest('./source/_posts'));
   });
