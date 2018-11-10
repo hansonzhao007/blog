@@ -349,6 +349,9 @@ Contract {
 
 ![deploy](deploy.png)
 
+* `Infura API`: provide the interface of real ethereum block chain.
+* `Provider`: a interface layer to communicate with real block chain using your account.
+
 ## Get infura api
 
 Go to infura.io to creata a new account and project. 
@@ -363,8 +366,8 @@ const Web3 = require('web3');
 const {interface, bytecode} = require('./compile');
 
 const provider = new HDWalletProvider (
-    'dinosaur erupt zoo ...',
-    'https://rinkeby.infura.io/v3/451daf892abb41***'
+    'dinosaur erupt zoo ...', // your account
+    'https://rinkeby.infura.io/v3/451daf892abb41***' // block chain api, you can obtain this from rinkeby.infura.io website inside your project.
 );
 
 const web3 = new Web3(provider);
