@@ -121,9 +121,22 @@ beforeEach(async () => {
     // specify who is going to deploying the contract
 });
 
+
 describe('Inbox', () => {
-    it('deploy a contract', () => {
-        console.log(inbox);
+    it('deploys a contract', () => {
+        assert.ok(inbox.options.address);
+      });
+
+    it('has a default message', async () => {
+        const message = await inbox.methods.message().call();
+        assert.equal(message, 'Hi there!');
+    });
+
+    it('can change message', async () => {
+        // because you want to modify, so you need to identify who is going to change and the gas you want to pay
+        await inbox.methods.setMessage('bye').send({from: accounts[0], gas: '1000000'});
+        const message = await inbox.methods.message().call();
+        assert.equal(message, 'bye');
     });
 });
 ```
@@ -332,7 +345,74 @@ Contract {
   1 passing (225ms)
 ```
 
-# Explaination
+# Deploy to ethereum
+
+![deploy](deploy.png)
+
+## Get infura api
+
+Go to infura.io to creata a new account and project. 
+
+![](infura.png)
+
+## Deploy
+
+```js :deploy.js
+const HDWalletProvider = require('truffle-hdwallet-provider');
+const Web3 = require('web3');
+const {interface, bytecode} = require('./compile');
+
+const provider = new HDWalletProvider (
+    'dinosaur erupt zoo ...',
+    'https://rinkeby.infura.io/v3/451daf892abb41***'
+);
+
+const web3 = new Web3(provider);
+
+const deploy = async () => {
+    const accounts = await web3.eth.getAccounts();
+
+    console.log('Attempting to deploy from account', accounts[0]);
+
+    const result = await new web3.eth.Contract(JSON.parse(interface))
+    .deploy({data: bytecode, arguments: ['Hi there!']})
+    .send({gas: '5000000', from: accounts[0]});
+
+    console.log('Contract deployed to', result.options.address);
+};
+
+deploy();
+```
+
+```bash
+mac@HansonMac  ~/Code/blockchain  node deploy.js
+Attempting to deploy from account 0x01C65bfDeD8c69ef3C28d4EF58F1dA46DeAF13Cd
+Contract deployed to 0xF0f127B8eC22da8e811262B287BA6b8244B22891
+```
+
+copy `0xF0f127B8eC22da8e811262B287BA6b8244B22891` to `rinkey.etherscan.io` to see the results.
+
+![rinkeby](rinkeby.png)
+
+# Interact with real ethereum
+
+Go to remix website
+
+copy `0xF0f127B8eC22da8e811262B287BA6b8244B22891` to `At Address`, and click.
+
+You will see the contract deployed in real ethereum network.
+
+![](remix.png)
+
+You can then try to setMessage, for example: 'Test real ethereum'.
+
+After your submition, the transaction will be in `pending` state.
+
+![pending](pending.png)
+
+While in the pending state, the value of message will not change. After the transaction is confirmed, `message` function will return the new value: 'Test real ethereum'.
 
 
-![](web3.png)
+# Reference
+- [Error: The contract code couldn't be stored, please check your gas limit](https://stackoverflow.com/questions/50201353/unhandledpromiserejectionwarning-error-the-contract-code-couldnt-be-stored-p)
+- [rinkey.etherscan.io](https://rinkeby.etherscan.io/)
