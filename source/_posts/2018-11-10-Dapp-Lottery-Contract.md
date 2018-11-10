@@ -9,6 +9,7 @@ tags:
   - web3
   - ethereum
 image: 'http://hansonzhao007.github.io/blog/images/infinite4.gif'
+abbrlink: 41445
 date: 2018-11-10 14:08:21
 subtitle:
 keywords:
@@ -31,7 +32,7 @@ enter:      Enters a player into lottery
 pickWinner: Randomly picks a winner and sends them the prize pool
 
 ```
-
+<!-- more -->
 # Solidity Variable
 
 ```bash
