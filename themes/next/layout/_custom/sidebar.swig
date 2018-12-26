@@ -27,6 +27,7 @@ show_date_time();
 </script>
 
 {% if theme.recent_posts %}
+    <script type="text/javascript" src="//ra.revolvermaps.com/0/0/8.js?i=0457258m5ho&amp;m=2&amp;c=ff007e&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
     <div class="links-of-blogroll motion-element {{ "links-of-blogroll-" + theme.recent_posts_layout  }}">
       <div class="links-of-blogroll-title">
         <!-- modify icon to fire by szw -->
