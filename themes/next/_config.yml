@@ -64,8 +64,8 @@ menu:
 # Sitemap
 sitemap:
   path: sitemap.xml
-baidusitemap:
-  path: baidusitemap.xml
+# baidusitemap:
+#   path: baidusitemap.xml
 
 # Enable/Disable menu icons.
 # Icon Mapping:
@@ -475,7 +475,7 @@ busuanzi_count:
 
 
 # Enable baidu push so that the blog will push the url to baidu automatically which is very helpful for SEO
-baidu_push: true
+baidu_push: false
 
 # Google Calendar
 # Share your recent schedule to others via calendar page
