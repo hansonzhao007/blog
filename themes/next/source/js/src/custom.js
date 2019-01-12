@@ -114,18 +114,7 @@ $(document).ready(function() {
       $datecircle.find(".month").text(month[parseInt(res[1])]);
   });
 
-  // 百度推送
-  var bp = document.createElement('script');
-    var curProtocol = window.location.protocol.split(':')[0];
-    if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-    }
-    else {
-        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-    }
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(bp, s);
-
+  
     // banner gif random
     $("div.post-block > div > a > img").each(function(index) {
         // console.log($(this));
