@@ -22,7 +22,7 @@ description:
 https://pythonprogramming.net/support-vector-assertions-machine-learning-tutorial/
 
 <script src="http://code.jquery.com/jquery-2.0.0.js"></script>
-{% asset_jupyter /Users/mac/anaconda3/bin/python3 ../../jupyter-demo/KNN.ipynb %}
+{% asset_jupyter /Users/xingshengzhao/opt/anaconda3/bin/python3 ../../jupyter-demo/KNN.ipynb %}
 
 # Reference
 http://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/
