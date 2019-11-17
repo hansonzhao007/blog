@@ -204,9 +204,8 @@
 <li>lifeTime: when will this SSTable expire, the life interval</li>
 </ul>
 <p>A read will cause the metadata been updated (update currentTime).</p>
-<div class="note danger">
-            <p>I guess those multi level queue is priority queue, sorted by the the expireTime. Then this means every access will first locate the metadata, then reorder the queue.</p><p>How to located the metadata, brute force? How about the reorder overhead?</p>
-          </div>
+<div class="note danger"><p>I guess those multi level queue is priority queue, sorted by the the expireTime. Then this means every access will first locate the metadata, then reorder the queue.</p>
+<p>How to located the metadata, brute force? How about the reorder overhead?</p></div>
 
 <h1 id="My-comments"><a href="#My-comments" class="headerlink" title="My comments"></a>My comments</h1><p>This Elastic idea is not the first I head. In SIGMOD17,  a paper: Monkey, discussed how to use different size of bloom filter for SSTable in different level in LevelDB. Their idea is allocate more memory to higher lever SSTable and less memory to lower level SSTable.</p>
 ]]></content>
@@ -251,14 +250,10 @@
 <li>Xi: SSTable in fast storage or not</li>
 </ul>
 <p>This becomes a 0/1 knapsack problem. They use a greedy algorithm to solve this problem.</p>
-<div class="note danger">
-            <p>My comment:<br>Why not just sorting by the frequency, then put as many as SSTable to fast device directly.</p>
-          </div>
+<div class="note danger"><p>My comment:<br>Why not just sorting by the frequency, then put as many as SSTable to fast device directly.</p></div>
 
 <h2 id="Solving-spike-or-dips"><a href="#Solving-spike-or-dips" class="headerlink" title="Solving spike or dips"></a>Solving spike or dips</h2><p>They use a counter to record the access frequency, but they can be affected severely by spike or dips. So they implement a filter through exponential average to smooth the frequency counter.</p>
-<div class="note danger">
-            <p>My comment:<br>This is like a digital signal filer. Transform function.</p>
-          </div>
+<div class="note danger"><p>My comment:<br>This is like a digital signal filer. Transform function.</p></div>
 <!-- 
 # Approach
 
@@ -367,27 +362,39 @@ Write one or more paragraphs to summarize the results for each experiment, each 
 <h3 id="rank-amp-select"><a href="#rank-amp-select" class="headerlink" title="rank &amp; select"></a>rank &amp; select</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">R  : <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span>   <span class="number">5</span> <span class="number">6</span>   <span class="number">7</span>        <span class="number">8</span>                 <span class="comment">// use r to indicate the index</span></span><br><span class="line"><span class="built_in">bit</span>: <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span>  <span class="number">0</span>  <span class="number">0</span>  <span class="number">1</span>  <span class="number">0</span>  <span class="number">0</span>  <span class="number">0</span>  <span class="number">0</span>  <span class="number">0</span></span><br><span class="line">S  : <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> <span class="number">9</span> <span class="number">10</span> <span class="number">11</span> <span class="number">12</span> <span class="number">13</span> <span class="number">14</span> <span class="number">15</span> <span class="number">16</span> <span class="number">17</span>  <span class="comment">// use s to indicate the index</span></span><br></pre></td></tr></table></figure>
 
 <p>这里需要介绍针对该 bit 序列，所需要的两个基本操作：</p>
-<div class="note warning">
-            <p><code>rank(s)</code>: Count the number of element in S less or equal than s.<br><code>select(i)</code>: Find the i-th smallest element in S.</p><ol><li><code>rank(s)</code>: 其实就是在 S 序列编号范围 [1,s]，bit 序列中 1 的个数。可以看到，rank(6) = 5, rank(9) = 7。这里可以理解为 S[s] 所在的 1 bit，在 R 中对应的编号。rank 是从 <code>S 到 R</code> 的映射。</li><li><code>select(i)</code>: 在 S 序列编号下，在 bit 序列中找到第 i 个 1 所在的编号。可以看到，select(5) = 6, select(7) = 9。这里可以理解成为 R[i] 所在的 1 bit，在 S 中对应的编号。select 是 <code>R 到 S</code> 的映射。</li></ol>
-          </div>
+<div class="note warning"><p><code>rank(s)</code>: Count the number of element in S less or equal than s.<br><code>select(i)</code>: Find the i-th smallest element in S.</p>
+<ol>
+<li><code>rank(s)</code>: 其实就是在 S 序列编号范围 [1,s]，bit 序列中 1 的个数。可以看到，rank(6) = 5, rank(9) = 7。这里可以理解为 S[s] 所在的 1 bit，在 R 中对应的编号。rank 是从 <code>S 到 R</code> 的映射。</li>
+<li><code>select(i)</code>: 在 S 序列编号下，在 bit 序列中找到第 i 个 1 所在的编号。可以看到，select(5) = 6, select(7) = 9。这里可以理解成为 R[i] 所在的 1 bit，在 S 中对应的编号。select 是 <code>R 到 S</code> 的映射。</li>
+</ol></div>
 
 <p>这两个操作是互补的。可以看到 rank(select(5)) = 5. select(rank(9)) = 9。当然这种互补只对 internal node 成立。对于 external node 是不成立的。比如 external node 11：rank(13) = 8, select(8) = 12。</p>
 <h3 id="left-right-child-and-parent"><a href="#left-right-child-and-parent" class="headerlink" title="left, right child and parent"></a>left, right child and parent</h3><p>有了 rank 和 select 这两个基本操作，我们就可以在该 <code>bit 序列</code>进行 left child，right child 和 parent 的操作了。</p>
 <p>对于 internal node n:</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line">R  : <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span>     <span class="number">5</span>  <span class="number">6</span>     <span class="number">7</span>            <span class="number">8</span>                           <span class="comment">// use r to indicate the index</span></span><br><span class="line"><span class="built_in">bit</span>: <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span>  <span class="number">0</span>  <span class="number">1</span>  <span class="number">1</span>  <span class="number">0</span>  <span class="number">1</span>   <span class="number">0</span>    <span class="number">0</span>   <span class="number">1</span>   <span class="number">0</span>    <span class="number">0</span>    <span class="number">0</span>    <span class="number">0</span>    <span class="number">0</span></span><br><span class="line">S  : <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> (<span class="number">5</span>) <span class="number">6</span>  <span class="number">7</span> (<span class="number">8</span>) <span class="number">9</span> (<span class="number">10</span>) (<span class="number">11</span>) <span class="number">12</span> (<span class="number">13</span>) (<span class="number">14</span>) (<span class="number">15</span>) (<span class="number">16</span>) (<span class="number">17</span>)  <span class="comment">// use s to indicate the index, () means this number is not belonging to data set S.</span></span><br><span class="line"></span><br><span class="line">假设node是如下结构：</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span> &#123;</span></span><br><span class="line">  <span class="built_in">bit</span> val;</span><br><span class="line">  <span class="keyword">int</span> r; <span class="comment">// value in R</span></span><br><span class="line">  <span class="keyword">int</span> s; <span class="comment">// value in S</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">有如下关系：</span><br><span class="line">  rank(n.s) = n.r</span><br><span class="line">select(n.r) = n.s</span><br><span class="line"></span><br><span class="line">-  left-child(n).s = <span class="number">2</span> * rank(n.s)     = <span class="number">2</span> * n.r     <span class="comment">// 这里看出 node 的 r 编号乘二，得到其 left child 的 s 编号</span></span><br><span class="line">- right-child(n).s = <span class="number">2</span> * rank(n.s) + <span class="number">1</span> = <span class="number">2</span> * n.r + <span class="number">1</span> <span class="comment">// 这里看出 node 的 r 编号乘二加一，得到其 right child 的 s 编号</span></span><br><span class="line">-      parent(n).s = select(n.s / <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">parent 可以推出来。对于 left-child，有：</span><br><span class="line">       left-child(n).s      = <span class="number">2</span> * n.r</span><br><span class="line">       left-child(n).s / <span class="number">2</span>  = n.r           <span class="comment">// 这里看出 node 的 s 编号直接除以二，得到其 parent node 的 r 编号</span></span><br><span class="line">select(left-child(n).s / <span class="number">2</span>) = select(n.r)</span><br><span class="line">select(left-child(n).s / <span class="number">2</span>) = n.s</span><br><span class="line">对 right-child 同理。</span><br><span class="line"></span><br><span class="line">简单看来就是:</span><br><span class="line">-  left-node(n).s = S[<span class="number">2</span> * n.r]</span><br><span class="line">- right-node(n).s = S[<span class="number">2</span> * n.r + <span class="number">1</span>]</span><br><span class="line">-     parent(n).r = R[n.s / <span class="number">2</span>]</span><br></pre></td></tr></table></figure>
 
-<div class="note success">
-            <p><strong>Left Child:</strong></p><p>internal node 6 (bit 序列中，第 6 个 1 bit 所在 node, R 中编号为 6 的 node)。</p><ul><li>rank(6.s) = rank(7) = 6</li><li>left-node(6).s = 2 * rank(6.s) = 2 * 6 = 12</li><li>S 编号中，12 对应的 node 是 R 中编号为 8 的 node。</li></ul>
-          </div>
+<div class="note success"><p><strong>Left Child:</strong></p>
+<p>internal node 6 (bit 序列中，第 6 个 1 bit 所在 node, R 中编号为 6 的 node)。</p>
+<ul>
+<li>rank(6.s) = rank(7) = 6</li>
+<li>left-node(6).s = 2 * rank(6.s) = 2 * 6 = 12</li>
+<li>S 编号中，12 对应的 node 是 R 中编号为 8 的 node。</li>
+</ul></div>
 
 
-<div class="note success">
-            <p><strong>Right Child</strong><br>internal node 4 (bit 序列中，第 4 个 1 bit 所在 node, R 中编号为 4 的 node)。</p><ul><li>rank(4.s) = rank(4) = 4</li><li>right-node(4).s = 2 * rank(4.s) + 1 = 2 * 4 = 8 + 1 = 9</li><li>S 编号中，9 对应的 node 是 R 中编号为 7 的 node。</li></ul>
-          </div>
+<div class="note success"><p><strong>Right Child</strong><br>internal node 4 (bit 序列中，第 4 个 1 bit 所在 node, R 中编号为 4 的 node)。</p>
+<ul>
+<li>rank(4.s) = rank(4) = 4</li>
+<li>right-node(4).s = 2 * rank(4.s) + 1 = 2 * 4 = 8 + 1 = 9</li>
+<li>S 编号中，9 对应的 node 是 R 中编号为 7 的 node。</li>
+</ul></div>
 
-<div class="note success">
-            <p><strong>Parent</strong><br>internal node 8 (bit 序列中，第 8 个 1 bit 所在 node, R 中编号为 8 的 node)。</p><ul><li>select(8.r) = select(8) = 12</li><li>parent(8).r = select(8.r) / 2 = 12 / 2 = 6</li><li>R 编号中，6 对应的 node 是 S 中编号为 7 的 node。</li></ul>
-          </div>
+<div class="note success"><p><strong>Parent</strong><br>internal node 8 (bit 序列中，第 8 个 1 bit 所在 node, R 中编号为 8 的 node)。</p>
+<ul>
+<li>select(8.r) = select(8) = 12</li>
+<li>parent(8).r = select(8.r) / 2 = 12 / 2 = 6</li>
+<li>R 编号中，6 对应的 node 是 S 中编号为 7 的 node。</li>
+</ul></div>
 
 <h2 id="Level-Order-Unary-Degree-Sequence-LOUDS"><a href="#Level-Order-Unary-Degree-Sequence-LOUDS" class="headerlink" title="Level Order Unary Degree Sequence (LOUDS)"></a>Level Order Unary Degree Sequence (LOUDS)</h2><p>下面对于任意的 tree 进行编码。<br>首先对已有的 tree 的 root 之上，添加一个 super root。给每个节点编码的方式也很简单：<code>该节点子节点的个数个 “1” 加上一个 “0”</code>。然后按照层序遍历的方式，将这些编码组成一个 <code>bit 序列</code>。 </p>
 <p><img src="3.png" alt="3"></p>
@@ -518,9 +525,7 @@ Write one or more paragraphs to summarize the results for each experiment, each 
     <url>/blog/Paper-Review-HOT-A-Height-Optimized-Trie-Index-for-Main-MemoryDatabase-Systems/</url>
     <content><![CDATA[<h1 id="Backgroud"><a href="#Backgroud" class="headerlink" title="Backgroud"></a>Backgroud</h1><h2 id="Patricia-Tree-or-Radix-Tree-or-Compact-Prefix-Tree"><a href="#Patricia-Tree-or-Radix-Tree-or-Compact-Prefix-Tree" class="headerlink" title="Patricia Tree or Radix Tree or Compact Prefix Tree"></a><a href="https://en.wikipedia.org/wiki/Radix_tree" target="_blank" rel="noopener">Patricia Tree or Radix Tree or Compact Prefix Tree</a></h2><p><img src="1.png" alt="Radix Tree"><br>A trie that each node which is the only child is merged with its parent.</p>
 <h2 id="Adaptive-Radix-Tree-ART"><a href="#Adaptive-Radix-Tree-ART" class="headerlink" title="Adaptive Radix Tree (ART)"></a>Adaptive Radix Tree (ART)</h2><p><img src="2.png" alt="ART"><br>The adaptive radix tree is a radix tree variant that integrates <code>adaptive node sizes</code> to the radix tree. One major drawback of the usual <code>radix trees</code> is the use of space, because it uses a <code>constant node</code> size in every level. The <code>major difference</code> between the radix tree and the adaptive radix tree is <code>its variable size for each node</code> based on the number of child elements, which grows while adding new entries. Hence, the adaptive radix tree leads to a better use of space without reducing its speed.</p>
-<div class="note danger">
-            <p>既然是动态增加的，node 本身的 memory 分配也应该是动态的，那么 memory 不连续，可能会导致 cache miss 问题。这个需要看原文 paper 看是否存在。<a href="https://db.in.tum.de/~leis/papers/ART.pdf" target="_blank" rel="noopener">link</a></p>
-          </div>
+<div class="note danger"><p>既然是动态增加的，node 本身的 memory 分配也应该是动态的，那么 memory 不连续，可能会导致 cache miss 问题。这个需要看原文 paper 看是否存在。<a href="https://db.in.tum.de/~leis/papers/ART.pdf" target="_blank" rel="noopener">link</a></p></div>
 <a id="more"></a>
 
 <h1 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h1><p><img src="3.png" alt="HOT"></p>
@@ -2729,8 +2734,8 @@ Write one or more paragraphs to summarize the results for each experiment, each 
         <category>Technology</category>
       </categories>
       <tags>
-        <tag>Cpp</tag>
         <tag>查阅</tag>
+        <tag>Cpp</tag>
       </tags>
   </entry>
   <entry>
@@ -3057,8 +3062,8 @@ _   底线
         <category>Technology</category>
       </categories>
       <tags>
-        <tag>查阅</tag>
         <tag>MarkDown</tag>
+        <tag>查阅</tag>
       </tags>
   </entry>
   <entry>
