@@ -23,3 +23,5 @@ search:
   limit: 10000
 ```
 之后，才会生成 search.xml 文件
+
+部署参考 [打造个性超赞博客](https://io-oi.me/tech/hexo-next-optimization/#%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E5%88%B0-github-pages)
