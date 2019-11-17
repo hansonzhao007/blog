@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/blog/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/blog/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="google59b6e75580092421.html" />
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lobster Two:300,300italic,400,400italic,700,700italiclucida grande:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ethereum,web3," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="OverviewThe fold tree is like following: 123456--| contracts----| Inbox.sol--| test----| Inbox_test.js--| compile.js--| package.json">
+<meta name="keywords" content="ethereum,web3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Write ethereum test code">
+<meta property="og:url" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;Write-ethereum-test-code&#x2F;index.html">
+<meta property="og:site_name" content="Infinite">
+<meta property="og:description" content="OverviewThe fold tree is like following: 123456--| contracts----| Inbox.sol--| test----| Inbox_test.js--| compile.js--| package.json">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;Write-ethereum-test-code&#x2F;deploy.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;Write-ethereum-test-code&#x2F;infura.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;Write-ethereum-test-code&#x2F;rinkeby.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;Write-ethereum-test-code&#x2F;remix.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;Write-ethereum-test-code&#x2F;pending.png">
+<meta property="og:updated_time" content="2019-11-17T04:18:03.003Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;Write-ethereum-test-code&#x2F;deploy.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'C04V4Z2EKD',
+      apiKey: 'aed9efacc66cdcd0647b6fe1e4808317',
+      indexName: 'myblog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://hansonzhao007.github.io/blog/Write-ethereum-test-code/"/>
+
+
+
+
+
+  <title>Write ethereum test code | Infinite</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-115007486-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Infinite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/blog/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            Sitemap
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-feed">
+          <a href="/blog/atom.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-rss"></i> <br />
+            
+            RSS
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" target="_blank" rel="noopener" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hansonzhao007.github.io/blog/blog/Write-ethereum-test-code/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XS Zhao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/img/avatar.webp">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Infinite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Write ethereum test code</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-10T09:37:55-08:00">
+                2018-11-10
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2019-11-16T20:18:03-08:00">
+                2019-11-16
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/blockchain/" itemprop="url" rel="index">
+                    <span itemprop="name">blockchain</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/Write-ethereum-test-code/" class="leancloud_visitors" data-flag-title="Write ethereum test code">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>The fold tree is like following:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">--| contracts</span><br><span class="line">----| Inbox.sol</span><br><span class="line">--| <span class="built_in">test</span></span><br><span class="line">----| Inbox_test.js</span><br><span class="line">--| compile.js</span><br><span class="line">--| package.json</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h1><h2 id="Smart-Contract"><a href="#Smart-Contract" class="headerlink" title="Smart Contract"></a>Smart Contract</h2><figure class="highlight js"><figcaption><span>:Inbox.sol</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.17</span>;</span><br><span class="line"></span><br><span class="line">contract Inbox &#123;</span><br><span class="line">    <span class="comment">// a globle store</span></span><br><span class="line">    string public message;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Inbox</span>(<span class="params">string initialMessage</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        message = initialMessage;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">setMessage</span>(<span class="params">string newMessage</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        message = newMessage;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Compile-Script"><a href="#Compile-Script" class="headerlink" title="Compile Script"></a>Compile Script</h2><figure class="highlight js"><figcaption><span>:compile.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">const</span> solc = <span class="built_in">require</span>(<span class="string">'solc'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> inboxPath = path.resolve(__dirname, <span class="string">'contracts'</span>, <span class="string">'Inbox.sol'</span>);</span><br><span class="line"><span class="keyword">const</span> source = fs.readFileSync(inboxPath, <span class="string">'utf8'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(solc.compile(source, <span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// export the smart contract bytecode and interface, which are used to create or deploy a contract, interact with the contract.</span></span><br><span class="line"><span class="comment">// module.exports = solc.compile(source, 1).contracts[':Inbox'];</span></span><br></pre></td></tr></table></figure>
+
+<p>run <code>node compile</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123; contracts:</span><br><span class="line">  <span class="comment"># we will see multiple contract pairs if we use compile.js to compile multiple smart contracts</span></span><br><span class="line">   &#123; <span class="string">':Inbox'</span>: <span class="comment"># contract name</span></span><br><span class="line">      &#123; assembly: [Object],</span><br><span class="line">        <span class="comment"># `bytecode is the actual content that is deployed on ethereum network`</span></span><br><span class="line">        bytecode: <span class="string">'608060405234801561001057600080fd5b5060405161038c38038061038c83398101604052805101805161003a906000906020840190610041565b50506100dc565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061008257805160ff19168380011785556100af565b828001600101855582156100af579182015b828111156100af578251825591602001919060010190610094565b506100bb9291506100bf565b5090565b6100d991905b808211156100bb57600081556001016100c5565b90565b6102a1806100eb6000396000f30060806040526004361061004b5763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663368b87728114610050578063e21f37ce146100ab575b600080fd5b34801561005c57600080fd5b506040805160206004803580820135601f81018490048402850184019095528484526100a99436949293602493928401919081908401838280828437509497506101359650505050505050565b005b3480156100b757600080fd5b506100c061014c565b6040805160208082528351818301528351919283929083019185019080838360005b838110156100fa5781810151838201526020016100e2565b50505050905090810190601f1680156101275780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b80516101489060009060208401906101da565b5050565b6000805460408051602060026001851615610100026000190190941693909304601f810184900484028201840190925281815292918301828280156101d25780601f106101a7576101008083540402835291602001916101d2565b820191906000526020600020905b8154815290600101906020018083116101b557829003601f168201915b505050505081565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061021b57805160ff1916838001178555610248565b82800160010185558215610248579182015b8281111561024857825182559160200191906001019061022d565b50610254929150610258565b5090565b61027291905b80821115610254576000815560010161025e565b905600a165627a7a72305820387e3a84c249a8fe3de554c17239e7aefa478da030f9a901807f3b1989c4d9020029'</span>,</span><br><span class="line">        functionHashes: [Object],</span><br><span class="line">        gasEstimates: [Object],</span><br><span class="line">        <span class="comment"># `Our contract ABI`</span></span><br><span class="line">        <span class="comment"># `List out all the function we can use`</span></span><br><span class="line">        interface: <span class="string">'[&#123;"constant":false,"inputs":[&#123;"name":"newMessage","type":"string"&#125;],"name":"setMessage","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"&#125;,&#123;"constant":true,"inputs":[],"name":"message","outputs":[&#123;"name":"","type":"string"&#125;],"payable":false,"stateMutability":"view","type":"function"&#125;,&#123;"inputs":[&#123;"name":"initialMessage","type":"string"&#125;],"payable":false,"stateMutability":"nonpayable","type":"constructor"&#125;]'</span>,</span><br><span class="line">        metadata: <span class="string">'&#123;"compiler":&#123;"version":"0.4.25+commit.59dbf8f1"&#125;,"language":"Solidity","output":&#123;"abi":[&#123;"constant":false,"inputs":[&#123;"name":"newMessage","type":"string"&#125;],"name":"setMessage","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"&#125;,&#123;"constant":true,"inputs":[],"name":"message","outputs":[&#123;"name":"","type":"string"&#125;],"payable":false,"stateMutability":"view","type":"function"&#125;,&#123;"inputs":[&#123;"name":"initialMessage","type":"string"&#125;],"payable":false,"stateMutability":"nonpayable","type":"constructor"&#125;],"devdoc":&#123;"methods":&#123;&#125;&#125;,"userdoc":&#123;"methods":&#123;&#125;&#125;&#125;,"settings":&#123;"compilationTarget":&#123;"":"Inbox"&#125;,"evmVersion":"byzantium","libraries":&#123;&#125;,"optimizer":&#123;"enabled":true,"runs":200&#125;,"remappings":[]&#125;,"sources":&#123;"":&#123;"keccak256":"0xcbb1d3ea37d011841c666c5ac8aeb21eacca3d151de9e40dde61095138cc17c0","urls":["bzzr://2d2ff492c4461ba96d5e54274865acbc8bdb43f00337d4222681d001a6ea05f3"]&#125;&#125;,"version":1&#125;'</span>,</span><br><span class="line">        opcodes: <span class="string">'PUSH1 0x80 PUSH1 0x40 MSTORE CALLVALUE DUP1 ISZERO PUSH2 0x10 JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST POP PUSH1 0x40MLOAD PUSH2 0x38C CODESIZE SUB DUP1 PUSH2 0x38C DUP4 CODECOPY DUP2 ADD PUSH1 0x40 MSTORE DUP1 MLOAD ADD DUP1 MLOAD PUSH2 0x3A SWAP1PUSH1 0x0 SWAP1 PUSH1 0x20 DUP5 ADD SWAP1 PUSH2 0x41 JUMP JUMPDEST POP POP PUSH2 0xDC JUMP JUMPDEST DUP3 DUP1 SLOAD PUSH1 0x1 DUP2 PUSH1 0x1 AND ISZERO PUSH2 0x100 MUL SUB AND PUSH1 0x2 SWAP1 DIV SWAP1 PUSH1 0x0 MSTORE PUSH1 0x20 PUSH1 0x0 KECCAK256 SWAP1 PUSH1 0x1F ADD PUSH1 0x20 SWAP1 DIV DUP2 ADD SWAP3 DUP3 PUSH1 0x1F LT PUSH2 0x82 JUMPI DUP1 MLOAD PUSH1 0xFF NOT AND DUP4 DUP1 ADD OR DUP6 SSTORE PUSH2 0xAF JUMP JUMPDEST DUP3 DUP1 ADD PUSH1 0x1 ADD DUP6 SSTORE DUP3 ISZERO PUSH2 0xAF JUMPI SWAP2 DUP3 ADD JUMPDEST DUP3 DUP2 GT ISZERO PUSH2 0xAF JUMPI DUP3 MLOAD DUP3 SSTORE SWAP2 PUSH1 0x20 ADD SWAP2 SWAP1 PUSH1 0x1 ADD SWAP1 PUSH2 0x94 JUMP JUMPDEST POP PUSH2 0xBB SWAP3 SWAP2 POP PUSH2 0xBF JUMP JUMPDEST POP SWAP1 JUMP JUMPDEST PUSH2 0xD9 SWAP2 SWAP1 JUMPDEST DUP1 DUP3 GT ISZERO PUSH2 0xBB JUMPI PUSH1 0x0 DUP2 SSTORE PUSH1 0x1 ADD PUSH2 0xC5 JUMP JUMPDEST SWAP1 JUMP JUMPDEST PUSH2 0x2A1 DUP1 PUSH2 0xEB PUSH1 0x0 CODECOPY PUSH1 0x0 RETURN STOP PUSH1 0x80 PUSH1 0x40 MSTORE PUSH1 0x4 CALLDATASIZE LT PUSH2 0x4B JUMPI PUSH4 0xFFFFFFFF PUSH29 0x100000000000000000000000000000000000000000000000000000000 PUSH1 0x0 CALLDATALOAD DIV AND PUSH4 0x368B8772 DUP2 EQ PUSH2 0x50 JUMPI DUP1 PUSH4 0xE21F37CE EQ PUSH2 0xAB JUMPI JUMPDEST PUSH1 0x0 DUP1 REVERT JUMPDEST CALLVALUE DUP1 ISZERO PUSH2 0x5C JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST POP PUSH1 0x40 DUP1 MLOAD PUSH1 0x20 PUSH1 0x4 DUP1 CALLDATALOAD DUP1 DUP3 ADD CALLDATALOAD PUSH1 0x1F DUP2 ADD DUP5 SWAP1 DIV DUP5 MUL DUP6 ADD DUP5 ADD SWAP1 SWAP6 MSTORE DUP5 DUP5 MSTORE PUSH2 0xA9 SWAP5 CALLDATASIZE SWAP5 SWAP3 SWAP4 PUSH1 0x24 SWAP4 SWAP3 DUP5 ADD SWAP2 SWAP1 DUP2 SWAP1 DUP5 ADD DUP4 DUP3 DUP1 DUP3 DUP5 CALLDATACOPY POP SWAP5 SWAP8 POP PUSH2 0x135 SWAP7POP POP POP POP POP POP POP JUMP JUMPDEST STOP JUMPDEST CALLVALUE DUP1 ISZERO PUSH2 0xB7 JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST POP PUSH2 0xC0 PUSH2 0x14C JUMP JUMPDEST PUSH1 0x40 DUP1 MLOAD PUSH1 0x20 DUP1 DUP3 MSTORE DUP4 MLOAD DUP2 DUP4 ADD MSTORE DUP4 MLOAD SWAP2 SWAP3 DUP4 SWAP3 SWAP1 DUP4 ADD SWAP2 DUP6 ADD SWAP1 DUP1 DUP4 DUP4 PUSH1 0x0 JUMPDEST DUP4 DUP2 LT ISZERO PUSH2 0xFA JUMPI DUP2 DUP2 ADD MLOAD DUP4 DUP3 ADD MSTORE PUSH1 0x20 ADD PUSH2 0xE2 JUMP JUMPDEST POP POP POP POP SWAP1 POP SWAP1 DUP2 ADD SWAP1 PUSH1 0x1F AND DUP1 ISZERO PUSH2 0x127 JUMPI DUP1 DUP3 SUB DUP1 MLOAD PUSH1 0x1 DUP4 PUSH1 0x20 SUB PUSH2 0x100 EXP SUB NOT AND DUP2 MSTORE PUSH1 0x20 ADD SWAP2 POP JUMPDEST POP SWAP3 POP POP POP PUSH1 0x40 MLOAD DUP1 SWAP2 SUB SWAP1 RETURN JUMPDEST DUP1 MLOAD PUSH2 0x148 SWAP1 PUSH1 0x0 SWAP1 PUSH1 0x20 DUP5 ADD SWAP1 PUSH2 0x1DA JUMP JUMPDEST POP POP JUMP JUMPDEST PUSH1 0x0 DUP1 SLOAD PUSH1 0x40 DUP1MLOAD PUSH1 0x20 PUSH1 0x2 PUSH1 0x1 DUP6 AND ISZERO PUSH2 0x100 MUL PUSH1 0x0 NOT ADD SWAP1 SWAP5 AND SWAP4 SWAP1 SWAP4 DIV PUSH1 0x1F DUP2 ADD DUP5 SWAP1 DIV DUP5 MUL DUP3 ADD DUP5 ADD SWAP1 SWAP3 MSTORE DUP2 DUP2 MSTORE SWAP3 SWAP2 DUP4 ADD DUP3 DUP3 DUP1 ISZERO PUSH2 0x1D2 JUMPI DUP1 PUSH1 0x1F LT PUSH2 0x1A7 JUMPI PUSH2 0x100 DUP1 DUP4 SLOAD DIV MUL DUP4 MSTORE SWAP2 PUSH1 0x20 ADD SWAP2PUSH2 0x1D2 JUMP JUMPDEST DUP3 ADD SWAP2 SWAP1 PUSH1 0x0 MSTORE PUSH1 0x20 PUSH1 0x0 KECCAK256 SWAP1 JUMPDEST DUP2 SLOAD DUP2 MSTORE SWAP1 PUSH1 0x1 ADD SWAP1 PUSH1 0x20 ADD DUP1 DUP4 GT PUSH2 0x1B5 JUMPI DUP3 SWAP1 SUB PUSH1 0x1F AND DUP3 ADD SWAP2 JUMPDEST POP POP POP POP POP DUP2 JUMP JUMPDEST DUP3 DUP1 SLOAD PUSH1 0x1 DUP2 PUSH1 0x1 AND ISZERO PUSH2 0x100 MUL SUB AND PUSH1 0x2 SWAP1 DIV SWAP1 PUSH1 0x0 MSTORE PUSH1 0x20 PUSH1 0x0 KECCAK256 SWAP1 PUSH1 0x1F ADD PUSH1 0x20 SWAP1 DIV DUP2 ADD SWAP3 DUP3 PUSH1 0x1F LT PUSH2 0x21B JUMPI DUP1 MLOAD PUSH1 0xFF NOT AND DUP4 DUP1 ADD OR DUP6 SSTORE PUSH2 0x248 JUMP JUMPDEST DUP3 DUP1 ADD PUSH1 0x1 ADD DUP6SSTORE DUP3 ISZERO PUSH2 0x248 JUMPI SWAP2 DUP3 ADD JUMPDEST DUP3 DUP2 GT ISZERO PUSH2 0x248 JUMPI DUP3 MLOAD DUP3 SSTORE SWAP2 PUSH1 0x20 ADD SWAP2 SWAP1 PUSH1 0x1 ADD SWAP1 PUSH2 0x22D JUMP JUMPDEST POP PUSH2 0x254 SWAP3 SWAP2 POP PUSH2 0x258 JUMP JUMPDEST POP SWAP1 JUMP JUMPDEST PUSH2 0x272 SWAP2 SWAP1 JUMPDEST DUP1 DUP3 GT ISZERO PUSH2 0x254 JUMPI PUSH1 0x0 DUP2 SSTORE PUSH1 0x1 ADD PUSH20x25E JUMP JUMPDEST SWAP1 JUMP STOP LOG1 PUSH6 0x627A7A723058 KECCAK256 CODESIZE PUSH31 0x3A84C249A8FE3DE554C17239E7AEFA478DA030F9A901807F3B1989C4D90200 0x29 '</span>,</span><br><span class="line">        runtimeBytecode: <span class="string">'60806040526004361061004b5763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663368b87728114610050578063e21f37ce146100ab575b600080fd5b34801561005c57600080fd5b506040805160206004803580820135601f81018490048402850184019095528484526100a99436949293602493928401919081908401838280828437509497506101359650505050505050565b005b3480156100b757600080fd5b506100c061014c565b6040805160208082528351818301528351919283929083019185019080838360005b838110156100fa5781810151838201526020016100e2565b50505050905090810190601f1680156101275780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b80516101489060009060208401906101da565b5050565b6000805460408051602060026001851615610100026000190190941693909304601f810184900484028201840190925281815292918301828280156101d25780601f106101a7576101008083540402835291602001916101d2565b820191906000526020600020905b8154815290600101906020018083116101b557829003601f168201915b505050505081565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061021b57805160ff1916838001178555610248565b82800160010185558215610248579182015b8281111561024857825182559160200191906001019061022d565b50610254929150610258565b5090565b61027291905b80821115610254576000815560010161025e565b905600a165627a7a72305820387e3a84c249a8fe3de554c17239e7aefa478da030f9a901807f3b1989c4d9020029'</span>,</span><br><span class="line">        srcmap: <span class="string">'26:242:0:-;;;87:86;8:9:-1;5:2;;;30:1;27;20:12;5:2;87:86:0;;;;;;;;;;;;;;;;;142:24;;;;:7;;:24;;;;;:::i;:::-;;87:86;26:242;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;26:242:0;;;-1:-1:-1;26:242:0;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;'</span>,</span><br><span class="line">        srcmapRuntime: <span class="string">'26:242:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;183:83;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;183:83:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;183:83:0;;-1:-1:-1;183:83:0;;-1:-1:-1;;;;;;;183:83:0;;;55:21;;8:9:-1;5:2;;;30:1;27;20:12;5:2;55:21:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:100:-1;33:3;30:1;27:10;8:100;;;90:11;;;84:18;71:11;;;64:39;52:2;45:10;8:100;;;12:14;55:21:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;183:83;239:20;;;;:7;;:20;;;;;:::i;:::-;;183:83;:::o;55:21::-;;;;;;;;;;;;;;;-1:-1:-1;;55:21:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;26:242::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;26:242:0;;;-1:-1:-1;26:242:0;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;:::o'</span> &#125; &#125;,</span><br><span class="line">  errors:</span><br><span class="line">   [ <span class="string">':7:5: Warning: Defining constructors as functions with the same name as the contract is deprecated. Use "constructor(...) &#123; ... &#125;" instead.\n    function Inbox(string initialMessage) public &#123;\n    ^ (Relevant source part starts here and spans across multiple lines).\n'</span> ],</span><br><span class="line">  sourceList: [ <span class="string">''</span> ],</span><br><span class="line">  sources: &#123; <span class="string">''</span>: &#123; AST: [Object] &#125; &#125; &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Test-case"><a href="#Test-case" class="headerlink" title="Test case"></a>Test case</h2><figure class="highlight js"><figcaption><span>:Inbox_test.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> assert = <span class="built_in">require</span>(<span class="string">'assert'</span>);</span><br><span class="line"><span class="keyword">const</span> ganache = <span class="built_in">require</span>(<span class="string">'ganache-cli'</span>);</span><br><span class="line"><span class="keyword">const</span> Web3 = <span class="built_in">require</span>(<span class="string">'web3'</span>)</span><br><span class="line"><span class="keyword">const</span> web3 = <span class="keyword">new</span> Web3(ganache.provider());</span><br><span class="line"><span class="comment">// in order to use the compiled module, change the last line in compile.js to </span></span><br><span class="line"><span class="comment">// module.exports = solc.compile(source, 1).contracts[':Inbox'];</span></span><br><span class="line"><span class="keyword">const</span> &#123;interface, bytecode&#125; = <span class="built_in">require</span>(<span class="string">'../compile'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> accounts;</span><br><span class="line"></span><br><span class="line">beforeEach(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="comment">// Get a list of all accounts</span></span><br><span class="line">    accounts = <span class="keyword">await</span> web3.eth.getAccounts();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Use one of those accounts to deploy</span></span><br><span class="line">    <span class="comment">// the constract</span></span><br><span class="line">    inbox = <span class="keyword">await</span> <span class="keyword">new</span> web3.eth.Contract(<span class="built_in">JSON</span>.parse(interface)) </span><br><span class="line">    <span class="comment">// use web3 module eth, and the function Contract of eth module. </span></span><br><span class="line">    <span class="comment">// This function can be used to interact with the contract exist </span></span><br><span class="line">    <span class="comment">// in blockchain or deploy a new contract instance.</span></span><br><span class="line">    .deploy(&#123;<span class="attr">data</span>: bytecode, <span class="attr">arguments</span>: [<span class="string">'Hi there!'</span>]&#125;)</span><br><span class="line">    <span class="comment">// create a smart contract, create a new instance and call Inbox() function</span></span><br><span class="line">    <span class="comment">// passing argument 'Hi there!'. deploy the instance to ethereum</span></span><br><span class="line">    .send(&#123;<span class="attr">from</span>: accounts[<span class="number">0</span>], <span class="attr">gas</span>: <span class="string">'1000000'</span>&#125;);</span><br><span class="line">    <span class="comment">// Instructs web3 to send out a transaction that creates this contract</span></span><br><span class="line">    <span class="comment">// specify who is going to deploying the contract</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">describe(<span class="string">'Inbox'</span>, () =&gt; &#123;</span><br><span class="line">    it(<span class="string">'deploys a contract'</span>, () =&gt; &#123;</span><br><span class="line">        assert.ok(inbox.options.address);</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">    it(<span class="string">'has a default message'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">        <span class="keyword">const</span> message = <span class="keyword">await</span> inbox.methods.message().call();</span><br><span class="line">        assert.equal(message, <span class="string">'Hi there!'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    it(<span class="string">'can change message'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">        <span class="comment">// because you want to modify, so you need to identify who is going to change and the gas you want to pay</span></span><br><span class="line">        <span class="keyword">await</span> inbox.methods.setMessage(<span class="string">'bye'</span>).send(&#123;<span class="attr">from</span>: accounts[<span class="number">0</span>], <span class="attr">gas</span>: <span class="string">'1000000'</span>&#125;);</span><br><span class="line">        <span class="keyword">const</span> message = <span class="keyword">await</span> inbox.methods.message().call();</span><br><span class="line">        assert.equal(message, <span class="string">'bye'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>then run <code>npm run text</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br></pre></td><td class="code"><pre><span class="line">&gt; inbox@ <span class="built_in">test</span> /Users/mac/Code/blockchain</span><br><span class="line">&gt; mocha</span><br><span class="line"></span><br><span class="line">  Inbox</span><br><span class="line">(node:24604) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 data listeners added. Use emitter.setMaxListeners() to increase <span class="built_in">limit</span></span><br><span class="line">Contract &#123;</span><br><span class="line">  currentProvider: [Getter/Setter],</span><br><span class="line">  _requestManager:</span><br><span class="line">   RequestManager &#123;</span><br><span class="line">     provider:</span><br><span class="line">      l &#123;</span><br><span class="line">        domain: null,</span><br><span class="line">        _events: [Object],</span><br><span class="line">        _eventsCount: 1,</span><br><span class="line">        _maxListeners: undefined,</span><br><span class="line">        options: [Object],</span><br><span class="line">        engine: [Object],</span><br><span class="line">        manager: [Object],</span><br><span class="line">        sendAsync: [Function: bound ],</span><br><span class="line">        send: [Function: bound ],</span><br><span class="line">        close: [Function: bound ],</span><br><span class="line">        _queueRequest: [Function: bound ],</span><br><span class="line">        _processRequestQueue: [Function: bound ],</span><br><span class="line">        _requestQueue: [],</span><br><span class="line">        _requestInProgress: <span class="literal">false</span> &#125;,</span><br><span class="line">     providers:</span><br><span class="line">      &#123; WebsocketProvider: [Function: WebsocketProvider],</span><br><span class="line">        HttpProvider: [Function: HttpProvider],</span><br><span class="line">        IpcProvider: [Function: IpcProvider] &#125;,</span><br><span class="line">     subscriptions: &#123;&#125; &#125;,</span><br><span class="line">  givenProvider: null,</span><br><span class="line">  <span class="comment"># the communication layer with actual block chain</span></span><br><span class="line">  providers:</span><br><span class="line">   &#123; WebsocketProvider: [Function: WebsocketProvider],</span><br><span class="line">     HttpProvider: [Function: HttpProvider],</span><br><span class="line">     IpcProvider: [Function: IpcProvider] &#125;,</span><br><span class="line">  _provider:</span><br><span class="line">   l &#123;</span><br><span class="line">     domain: null,</span><br><span class="line">     _events: &#123; data: [Array] &#125;,</span><br><span class="line">     _eventsCount: 1,</span><br><span class="line">     _maxListeners: undefined,</span><br><span class="line">     options:</span><br><span class="line">      &#123; vmErrorsOnRPCResponse: <span class="literal">true</span>,</span><br><span class="line">        verbose: <span class="literal">false</span>,</span><br><span class="line">        asyncRequestProcessing: <span class="literal">false</span>,</span><br><span class="line">        logger: [Object],</span><br><span class="line">        seed: <span class="string">'lE5BIQtDPC'</span>,</span><br><span class="line">        mnemonic: <span class="string">'fetch frequent marble basket mad split print order census canyon spot ugly'</span>,</span><br><span class="line">        network_id: 1541867444670,</span><br><span class="line">        total_accounts: 10,</span><br><span class="line">        gasPrice: <span class="string">'0x77359400'</span>,</span><br><span class="line">        default_balance_ether: 100,</span><br><span class="line">        unlocked_accounts: [],</span><br><span class="line">        hdPath: <span class="string">'m/44\'</span>/60\<span class="string">'/0\'</span>/0/<span class="string">',</span></span><br><span class="line"><span class="string">        gasLimit: '</span>0x6691b7<span class="string">',</span></span><br><span class="line"><span class="string">        defaultTransactionGasLimit: '</span>0x15f90<span class="string">',</span></span><br><span class="line"><span class="string">        time: null,</span></span><br><span class="line"><span class="string">        debug: false,</span></span><br><span class="line"><span class="string">        allowUnlimitedContractSize: false &#125;,</span></span><br><span class="line"><span class="string">     engine:</span></span><br><span class="line"><span class="string">      s &#123;</span></span><br><span class="line"><span class="string">        domain: null,</span></span><br><span class="line"><span class="string">        _events: [Object],</span></span><br><span class="line"><span class="string">        _eventsCount: 1,</span></span><br><span class="line"><span class="string">        _maxListeners: 100,</span></span><br><span class="line"><span class="string">        _blockTracker: [Object],</span></span><br><span class="line"><span class="string">        _ready: [Object],</span></span><br><span class="line"><span class="string">        currentBlock: [Object],</span></span><br><span class="line"><span class="string">        _providers: [Array],</span></span><br><span class="line"><span class="string">        manager: [Object] &#125;,</span></span><br><span class="line"><span class="string">     manager:</span></span><br><span class="line"><span class="string">      s &#123;</span></span><br><span class="line"><span class="string">        state: [Object],</span></span><br><span class="line"><span class="string">        options: [Object],</span></span><br><span class="line"><span class="string">        initialized: true,</span></span><br><span class="line"><span class="string">        initialization_error: null,</span></span><br><span class="line"><span class="string">        post_initialization_callbacks: [],</span></span><br><span class="line"><span class="string">        engine: [Object],</span></span><br><span class="line"><span class="string">        currentBlock: [Object] &#125;,</span></span><br><span class="line"><span class="string">     sendAsync: [Function: bound ],</span></span><br><span class="line"><span class="string">     send: [Function: bound ],</span></span><br><span class="line"><span class="string">     close: [Function: bound ],</span></span><br><span class="line"><span class="string">     _queueRequest: [Function: bound ],</span></span><br><span class="line"><span class="string">     _processRequestQueue: [Function: bound ],</span></span><br><span class="line"><span class="string">     _requestQueue: [],</span></span><br><span class="line"><span class="string">     _requestInProgress: false &#125;,</span></span><br><span class="line"><span class="string">  setProvider: [Function],</span></span><br><span class="line"><span class="string">  BatchRequest: [Function: bound Batch],</span></span><br><span class="line"><span class="string">  extend:</span></span><br><span class="line"><span class="string">   &#123; [Function: ex]</span></span><br><span class="line"><span class="string">     formatters:</span></span><br><span class="line"><span class="string">      &#123; inputDefaultBlockNumberFormatter: [Function: inputDefaultBlockNumberFormatter],</span></span><br><span class="line"><span class="string">        inputBlockNumberFormatter: [Function: inputBlockNumberFormatter],</span></span><br><span class="line"><span class="string">        inputCallFormatter: [Function: inputCallFormatter],</span></span><br><span class="line"><span class="string">        inputTransactionFormatter: [Function: inputTransactionFormatter],</span></span><br><span class="line"><span class="string">        inputAddressFormatter: [Function: inputAddressFormatter],</span></span><br><span class="line"><span class="string">        inputPostFormatter: [Function: inputPostFormatter],</span></span><br><span class="line"><span class="string">        inputLogFormatter: [Function: inputLogFormatter],</span></span><br><span class="line"><span class="string">        inputSignFormatter: [Function: inputSignFormatter],</span></span><br><span class="line"><span class="string">        outputBigNumberFormatter: [Function: outputBigNumberFormatter],</span></span><br><span class="line"><span class="string">        outputTransactionFormatter: [Function: outputTransactionFormatter],</span></span><br><span class="line"><span class="string">        outputTransactionReceiptFormatter: [Function: outputTransactionReceiptFormatter],</span></span><br><span class="line"><span class="string">        outputBlockFormatter: [Function: outputBlockFormatter],</span></span><br><span class="line"><span class="string">        outputLogFormatter: [Function: outputLogFormatter],</span></span><br><span class="line"><span class="string">        outputPostFormatter: [Function: outputPostFormatter],</span></span><br><span class="line"><span class="string">        outputSyncingFormatter: [Function: outputSyncingFormatter] &#125;,</span></span><br><span class="line"><span class="string">     utils:</span></span><br><span class="line"><span class="string">      &#123; _fireError: [Function: _fireError],</span></span><br><span class="line"><span class="string">        _jsonInterfaceMethodToString: [Function: _jsonInterfaceMethodToString],</span></span><br><span class="line"><span class="string">        _flattenTypes: [Function: _flattenTypes],</span></span><br><span class="line"><span class="string">        randomHex: [Function: randomHex],</span></span><br><span class="line"><span class="string">        _: [Object],</span></span><br><span class="line"><span class="string">        BN: [Object],</span></span><br><span class="line"><span class="string">        isBN: [Function: isBN],</span></span><br><span class="line"><span class="string">        isBigNumber: [Function: isBigNumber],</span></span><br><span class="line"><span class="string">        isHex: [Function: isHex],</span></span><br><span class="line"><span class="string">        isHexStrict: [Function: isHexStrict],</span></span><br><span class="line"><span class="string">        sha3: [Object],</span></span><br><span class="line"><span class="string">        keccak256: [Object],</span></span><br><span class="line"><span class="string">        soliditySha3: [Function: soliditySha3],</span></span><br><span class="line"><span class="string">        isAddress: [Function: isAddress],</span></span><br><span class="line"><span class="string">        checkAddressChecksum: [Function: checkAddressChecksum],</span></span><br><span class="line"><span class="string">        toChecksumAddress: [Function: toChecksumAddress],</span></span><br><span class="line"><span class="string">        toHex: [Function: toHex],</span></span><br><span class="line"><span class="string">        toBN: [Function: toBN],</span></span><br><span class="line"><span class="string">        bytesToHex: [Function: bytesToHex],</span></span><br><span class="line"><span class="string">        hexToBytes: [Function: hexToBytes],</span></span><br><span class="line"><span class="string">        hexToNumberString: [Function: hexToNumberString],</span></span><br><span class="line"><span class="string">        hexToNumber: [Function: hexToNumber],</span></span><br><span class="line"><span class="string">        toDecimal: [Function: hexToNumber],</span></span><br><span class="line"><span class="string">        numberToHex: [Function: numberToHex],</span></span><br><span class="line"><span class="string">        fromDecimal: [Function: numberToHex],</span></span><br><span class="line"><span class="string">        hexToUtf8: [Function: hexToUtf8],</span></span><br><span class="line"><span class="string">        hexToString: [Function: hexToUtf8],</span></span><br><span class="line"><span class="string">        toUtf8: [Function: hexToUtf8],</span></span><br><span class="line"><span class="string">        utf8ToHex: [Function: utf8ToHex],</span></span><br><span class="line"><span class="string">        stringToHex: [Function: utf8ToHex],</span></span><br><span class="line"><span class="string">        fromUtf8: [Function: utf8ToHex],</span></span><br><span class="line"><span class="string">        hexToAscii: [Function: hexToAscii],</span></span><br><span class="line"><span class="string">        toAscii: [Function: hexToAscii],</span></span><br><span class="line"><span class="string">        asciiToHex: [Function: asciiToHex],</span></span><br><span class="line"><span class="string">        fromAscii: [Function: asciiToHex],</span></span><br><span class="line"><span class="string">        unitMap: [Object],</span></span><br><span class="line"><span class="string">        toWei: [Function: toWei],</span></span><br><span class="line"><span class="string">        fromWei: [Function: fromWei],</span></span><br><span class="line"><span class="string">        padLeft: [Function: leftPad],</span></span><br><span class="line"><span class="string">        leftPad: [Function: leftPad],</span></span><br><span class="line"><span class="string">        padRight: [Function: rightPad],</span></span><br><span class="line"><span class="string">        rightPad: [Function: rightPad],</span></span><br><span class="line"><span class="string">        toTwosComplement: [Function: toTwosComplement] &#125;,</span></span><br><span class="line"><span class="string">     Method: [Function: Method] &#125;,</span></span><br><span class="line"><span class="string">  clearSubscriptions: [Function],</span></span><br><span class="line"><span class="string">  options:</span></span><br><span class="line"><span class="string">   &#123; address: [Getter/Setter],</span></span><br><span class="line"><span class="string">     jsonInterface: [Getter/Setter],</span></span><br><span class="line"><span class="string">     data: undefined,</span></span><br><span class="line"><span class="string">     from: undefined,</span></span><br><span class="line"><span class="string">     gasPrice: undefined,</span></span><br><span class="line"><span class="string">     gas: undefined &#125;,</span></span><br><span class="line"><span class="string">  defaultAccount: [Getter/Setter],</span></span><br><span class="line"><span class="string">  defaultBlock: [Getter/Setter],</span></span><br><span class="line"><span class="string">  # methods you define in the smart contract</span></span><br><span class="line"><span class="string">  methods:</span></span><br><span class="line"><span class="string">   &#123; setMessage: [Function: bound _createTxObject],</span></span><br><span class="line"><span class="string">     '</span>0x368b8772<span class="string">': [Function: bound _createTxObject],</span></span><br><span class="line"><span class="string">     '</span>setMessage(string)<span class="string">': [Function: bound _createTxObject],</span></span><br><span class="line"><span class="string">     message: [Function: bound _createTxObject],</span></span><br><span class="line"><span class="string">     '</span>0xe21f37ce<span class="string">': [Function: bound _createTxObject],</span></span><br><span class="line"><span class="string">     '</span>message()<span class="string">': [Function: bound _createTxObject] &#125;,</span></span><br><span class="line"><span class="string">  events: &#123; allEvents: [Function: bound ] &#125;,</span></span><br><span class="line"><span class="string">  _address: '</span>0x2E4631F207D3564B7937Bf355d947c187D9a1Fad<span class="string">',</span></span><br><span class="line"><span class="string">  _jsonInterface:</span></span><br><span class="line"><span class="string">   [ &#123; constant: false,</span></span><br><span class="line"><span class="string">       inputs: [Array],</span></span><br><span class="line"><span class="string">       name: '</span>setMessage<span class="string">',</span></span><br><span class="line"><span class="string">       outputs: [],</span></span><br><span class="line"><span class="string">       payable: false,</span></span><br><span class="line"><span class="string">       stateMutability: '</span>nonpayable<span class="string">',</span></span><br><span class="line"><span class="string">       type: '</span><span class="keyword">function</span><span class="string">',</span></span><br><span class="line"><span class="string">       signature: '</span>0x368b8772<span class="string">' &#125;,</span></span><br><span class="line"><span class="string">     &#123; constant: true,</span></span><br><span class="line"><span class="string">       inputs: [],</span></span><br><span class="line"><span class="string">       name: '</span>message<span class="string">',</span></span><br><span class="line"><span class="string">       outputs: [Array],</span></span><br><span class="line"><span class="string">       payable: false,</span></span><br><span class="line"><span class="string">       stateMutability: '</span>view<span class="string">',</span></span><br><span class="line"><span class="string">       type: '</span><span class="keyword">function</span><span class="string">',</span></span><br><span class="line"><span class="string">       signature: '</span>0xe21f37ce<span class="string">' &#125;,</span></span><br><span class="line"><span class="string">     &#123; inputs: [Array],</span></span><br><span class="line"><span class="string">       payable: false,</span></span><br><span class="line"><span class="string">       stateMutability: '</span>nonpayable<span class="string">',</span></span><br><span class="line"><span class="string">       type: '</span>constructor<span class="string">',</span></span><br><span class="line"><span class="string">       constant: undefined,</span></span><br><span class="line"><span class="string">       signature: '</span>constructor<span class="string">' &#125; ] &#125;</span></span><br><span class="line"><span class="string">    ✓ deploy a contract</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  1 passing (225ms)</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Deploy-to-ethereum"><a href="#Deploy-to-ethereum" class="headerlink" title="Deploy to ethereum"></a>Deploy to ethereum</h1><p><img src="deploy.png" alt="deploy"></p>
+<ul>
+<li><code>Infura API</code>: provide the interface of real ethereum block chain.</li>
+<li><code>Provider</code>: a interface layer to communicate with real block chain using your account.</li>
+</ul>
+<h2 id="Get-infura-api"><a href="#Get-infura-api" class="headerlink" title="Get infura api"></a>Get infura api</h2><p>Go to infura.io to creata a new account and project. </p>
+<p><img src="infura.png" alt=""></p>
+<h2 id="Deploy"><a href="#Deploy" class="headerlink" title="Deploy"></a>Deploy</h2><figure class="highlight js"><figcaption><span>:deploy.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> HDWalletProvider = <span class="built_in">require</span>(<span class="string">'truffle-hdwallet-provider'</span>);</span><br><span class="line"><span class="keyword">const</span> Web3 = <span class="built_in">require</span>(<span class="string">'web3'</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;interface, bytecode&#125; = <span class="built_in">require</span>(<span class="string">'./compile'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> provider = <span class="keyword">new</span> HDWalletProvider (</span><br><span class="line">    <span class="string">'dinosaur erupt zoo ...'</span>, <span class="comment">// your account</span></span><br><span class="line">    <span class="string">'https://rinkeby.infura.io/v3/451daf892abb41***'</span> <span class="comment">// block chain api, you can obtain this from infura.io website inside your project.</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> web3 = <span class="keyword">new</span> Web3(provider);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> deploy = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> accounts = <span class="keyword">await</span> web3.eth.getAccounts();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Attempting to deploy from account'</span>, accounts[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> result = <span class="keyword">await</span> <span class="keyword">new</span> web3.eth.Contract(<span class="built_in">JSON</span>.parse(interface))</span><br><span class="line">    .deploy(&#123;<span class="attr">data</span>: bytecode, <span class="attr">arguments</span>: [<span class="string">'Hi there!'</span>]&#125;)</span><br><span class="line">    .send(&#123;<span class="attr">gas</span>: <span class="string">'5000000'</span>, <span class="attr">from</span>: accounts[<span class="number">0</span>]&#125;);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Contract deployed to'</span>, result.options.address);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">deploy();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mac@HansonMac  ~/Code/blockchain  node deploy.js</span><br><span class="line">Attempting to deploy from account 0x01C65bfDeD8c69ef3C28d4EF58F1dA46DeAF13Cd</span><br><span class="line">Contract deployed to 0xF0f127B8eC22da8e811262B287BA6b8244B22891</span><br></pre></td></tr></table></figure>
+
+<p>copy <code>0xF0f127B8eC22da8e811262B287BA6b8244B22891</code> to <code>rinkey.etherscan.io</code> to see the results.</p>
+<p><img src="rinkeby.png" alt="rinkeby"></p>
+<h1 id="Interact-with-real-ethereum"><a href="#Interact-with-real-ethereum" class="headerlink" title="Interact with real ethereum"></a>Interact with real ethereum</h1><p>Go to remix website</p>
+<p>copy <code>0xF0f127B8eC22da8e811262B287BA6b8244B22891</code> to <code>At Address</code>, and click.</p>
+<p>You will see the contract deployed in real ethereum network.</p>
+<p><img src="remix.png" alt=""></p>
+<p>You can then try to setMessage, for example: ‘Test real ethereum’.</p>
+<p>After your submition, the transaction will be in <code>pending</code> state.</p>
+<p><img src="pending.png" alt="pending"></p>
+<p>While in the pending state, the value of message will not change. After the transaction is confirmed, <code>message</code> function will return the new value: ‘Test real ethereum’.</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="https://stackoverflow.com/questions/50201353/unhandledpromiserejectionwarning-error-the-contract-code-couldnt-be-stored-p" target="_blank" rel="noopener">Error: The contract code couldn’t be stored, please check your gas limit</a></li>
+<li><a href="https://rinkeby.etherscan.io/" target="_blank" rel="noopener">rinkey.etherscan.io</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+
+    
+
+
+    
+    
+    
+
+    
+
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    XS Zhao
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="https://hansonzhao007.github.io/blog/Write-ethereum-test-code/" title="Write ethereum test code">https://hansonzhao007.github.io/blog/Write-ethereum-test-code/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/ethereum/" rel="tag"># ethereum</a>
+          
+            <a href="/blog/tags/web3/" rel="tag"># web3</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+          <div class="wp_rating">
+            <div id="wpac-rating"></div>
+          </div>
+        
+
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/Review-bLSM-%E2%88%97-A-General-Purpose-Log-Structured-Merge-Tree/" rel="next" title="Review: bLSM:* A General Purpose Log Structured Merge Tree">
+                <i class="fa fa-chevron-left"></i> Review: bLSM:* A General Purpose Log Structured Merge Tree
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/Dapp-Lottery-Contract/" rel="prev" title="Dapp: Lottery Contract">
+                Dapp: Lottery Contract <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <a href="/" class="site-author-image" rel="start" style="border:none">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/img/avatar.webp"
+               alt="XS Zhao" />
+        </a>
+          <p class="site-author-name" itemprop="name">XS Zhao</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/blog/archives/">
+                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags/index.html">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/hansonzhao007" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/hansonzhao007" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                    
+                      Facebook
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.instagram.com/hansonzhao007" target="_blank" title="Instagram">
+                  
+                    <i class="fa fa-fw fa-instagram"></i>
+                  
+                    
+                      Instagram
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:xingshengzhao@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+        
+        <div id="days"></div>
+</script>
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("03/25/2017 12:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="Running: "+daysold+" days "+hrsold+":"+minsold+":"+seconds+"";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+
+    <script type="text/javascript" src="//ra.revolvermaps.com/0/0/8.js?i=0457258m5ho&amp;m=2&amp;c=ff007e&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    <div class="links-of-blogroll motion-element links-of-blogroll-block">
+      <div class="links-of-blogroll-title">
+        <!-- modify icon to fire by szw -->
+        <i class="fa fa-history fa-" aria-hidden="true"></i>
+        Recent Posts
+      </div>
+      <ol style="text-align: left;">
+        
+        
+        
+          <li>
+            <a href="/blog/Ethereum-Project-Infrastructure/" title="Ethereum Project Infrastructure" target="_blank">Ethereum Project Infrastructure</a>
+          </li>
+        
+        
+          <li>
+            <a href="/blog/Dapp-Lottery-Contract/" title="Dapp: Lottery Contract" target="_blank">Dapp: Lottery Contract</a>
+          </li>
+        
+        
+          <li>
+            <a href="/blog/Write-ethereum-test-code/" title="Write ethereum test code" target="_blank">Write ethereum test code</a>
+          </li>
+        
+        
+          <li>
+            <a href="/blog/Review-bLSM-%E2%88%97-A-General-Purpose-Log-Structured-Merge-Tree/" title="Review: bLSM:* A General Purpose Log Structured Merge Tree" target="_blank">Review: bLSM:* A General Purpose Log Structured Merge Tree</a>
+          </li>
+        
+        
+          <li>
+            <a href="/blog/Review-ElasticBF-Fine-grained-and-Elastic-Bloom-Filter-Towards-Efficient-Read-for-LSM-tree-based-KV-Stores/" title="Review: ElasticBF: Fine-grained and Elastic Bloom Filter Towards Efficient Read for LSM-tree-based KV Stores" target="_blank">Review: ElasticBF: Fine-grained and Elastic Bloom Filter Towards Efficient Read for LSM-tree-based KV Stores</a>
+          </li>
+        
+      </ol>
+    </div>
+
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Code"><span class="nav-number">2.</span> <span class="nav-text">Code</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Smart-Contract"><span class="nav-number">2.1.</span> <span class="nav-text">Smart Contract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Compile-Script"><span class="nav-number">2.2.</span> <span class="nav-text">Compile Script</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Test-case"><span class="nav-number">2.3.</span> <span class="nav-text">Test case</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Deploy-to-ethereum"><span class="nav-number">3.</span> <span class="nav-text">Deploy to ethereum</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Get-infura-api"><span class="nav-number">3.1.</span> <span class="nav-text">Get infura api</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deploy"><span class="nav-number">3.2.</span> <span class="nav-text">Deploy</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Interact-with-real-ethereum"><span class="nav-number">4.</span> <span class="nav-text">Interact with real ethereum</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">XS Zhao</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: '1541871475000',
+            owner: 'hansonzhao007',
+            repo: 'blog',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '48dc7c1aa2e663a79e994f8cffc90423ea3f5e25',
+            
+                client_id: '4fe1228acaf3e7b057de'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("LnSmAXnUoFenNXvIMojtgaj7-gzGzoHsz", "Ei6PVzIV1zEq1wuXHCWHdDPe");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+  <script type="text/javascript">
+  wpac_init = window.wpac_init || [];
+  wpac_init.push({widget: 'Rating', id: 11916,
+    el: 'wpac-rating',
+    color: 'fc6423'
+  });
+  (function() {
+    if ('WIDGETPACK_LOADED' in window) return;
+    WIDGETPACK_LOADED = true;
+    var mc = document.createElement('script');
+    mc.type = 'text/javascript';
+    mc.async = true;
+    mc.src = '//embed.widgetpack.com/widget.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+  })();
+  </script>
+
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/js.cookie.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/blog/js/src/scroll-cookie.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/custom.js"></script>
+
+  <script type="text/javascript" src="/blog/js/src/clipboard.min.js"></script>
+
+
+
+ 
+</body>
+</html>

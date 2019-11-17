@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/blog/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/blog/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="google59b6e75580092421.html" />
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lobster Two:300,300italic,400,400italic,700,700italiclucida grande:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="dapp,ethereum," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="配置开发环境安装 NodejsMac 上安装 nodejs： 1brew install node  安装 Truffle1npm install -g truffle # http:&#x2F;&#x2F;truffleframework.com&#x2F; truffle 是一个用于在 Etherem 上开发 Dapp 的框架。它让我们能够用 solidity 编程语言去写 Dapp 并进行调试。 安装 GanacheGa">
+<meta name="keywords" content="dapp,ethereum">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第一个 Dapp">
+<meta property="og:url" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;%E7%AC%AC%E4%B8%80%E4%B8%AA-Dapp&#x2F;index.html">
+<meta property="og:site_name" content="Infinite">
+<meta property="og:description" content="配置开发环境安装 NodejsMac 上安装 nodejs： 1brew install node  安装 Truffle1npm install -g truffle # http:&#x2F;&#x2F;truffleframework.com&#x2F; truffle 是一个用于在 Etherem 上开发 Dapp 的框架。它让我们能够用 solidity 编程语言去写 Dapp 并进行调试。 安装 GanacheGa">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;%E7%AC%AC%E4%B8%80%E4%B8%AA-Dapp&#x2F;1.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;%E7%AC%AC%E4%B8%80%E4%B8%AA-Dapp&#x2F;2.gif">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;%E7%AC%AC%E4%B8%80%E4%B8%AA-Dapp&#x2F;4.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;%E7%AC%AC%E4%B8%80%E4%B8%AA-Dapp&#x2F;5.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;%E7%AC%AC%E4%B8%80%E4%B8%AA-Dapp&#x2F;3.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;%E7%AC%AC%E4%B8%80%E4%B8%AA-Dapp&#x2F;6.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;%E7%AC%AC%E4%B8%80%E4%B8%AA-Dapp&#x2F;7.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;%E7%AC%AC%E4%B8%80%E4%B8%AA-Dapp&#x2F;8.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;%E7%AC%AC%E4%B8%80%E4%B8%AA-Dapp&#x2F;9.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;%E7%AC%AC%E4%B8%80%E4%B8%AA-Dapp&#x2F;10.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;%E7%AC%AC%E4%B8%80%E4%B8%AA-Dapp&#x2F;11.png">
+<meta property="og:updated_time" content="2019-11-17T04:18:02.910Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;%E7%AC%AC%E4%B8%80%E4%B8%AA-Dapp&#x2F;1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'C04V4Z2EKD',
+      apiKey: 'aed9efacc66cdcd0647b6fe1e4808317',
+      indexName: 'myblog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://hansonzhao007.github.io/blog/第一个-Dapp/"/>
+
+
+
+
+
+  <title>第一个 Dapp | Infinite</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-115007486-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Infinite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/blog/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            Sitemap
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-feed">
+          <a href="/blog/atom.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-rss"></i> <br />
+            
+            RSS
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" target="_blank" rel="noopener" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hansonzhao007.github.io/blog/blog/%E7%AC%AC%E4%B8%80%E4%B8%AA-Dapp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XS Zhao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/img/avatar.webp">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Infinite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">第一个 Dapp</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-03T14:40:59-07:00">
+                2018-05-03
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2019-11-16T20:18:02-08:00">
+                2019-11-16
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/blockchain/" itemprop="url" rel="index">
+                    <span itemprop="name">blockchain</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/%E7%AC%AC%E4%B8%80%E4%B8%AA-Dapp/" class="leancloud_visitors" data-flag-title="第一个 Dapp">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="配置开发环境"><a href="#配置开发环境" class="headerlink" title="配置开发环境"></a>配置开发环境</h1><h2 id="安装-Nodejs"><a href="#安装-Nodejs" class="headerlink" title="安装 Nodejs"></a>安装 <a href="https://nodejs.org" target="_blank" rel="noopener">Nodejs</a></h2><p>Mac 上安装 nodejs：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install node</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装-Truffle"><a href="#安装-Truffle" class="headerlink" title="安装 Truffle"></a>安装 <a href="http://truffleframework.com/" target="_blank" rel="noopener">Truffle</a></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g truffle <span class="comment"># http://truffleframework.com/</span></span><br></pre></td></tr></table></figure>
+<p>truffle 是一个用于在 Etherem 上开发 Dapp 的框架。它让我们能够用 solidity 编程语言去写 Dapp 并进行调试。</p>
+<h2 id="安装-Ganache"><a href="#安装-Ganache" class="headerlink" title="安装 Ganache"></a>安装 <a href="http://truffleframework.com/ganache/" target="_blank" rel="noopener">Ganache</a></h2><p>Ganache 是一个本地的 in memory blockchain，让我们用于测试自己编写的 Dapp<br><img src="1.png" alt=""></p>
+<h2 id="安装-Metamask-google-插件"><a href="#安装-Metamask-google-插件" class="headerlink" title="安装 Metamask google 插件"></a>安装 <a href="https://metamask.io/" target="_blank" rel="noopener">Metamask</a> google 插件</h2><p>为了能够使用 ethereum blockchain，我们需要安装 Google Chrome 的 METAMASK 扩展插件。使用 METAMASK 就可以让我们连接到本地的 etherum blockchain (Ganache 创建的)，并和我们的 smart contract 做交互。</p>
+<p>MetaMask 能够是我们的 Chrome 浏览器变成一个 blockchain 的浏览器，一个连接到 Ethereum network 的浏览器。<br><img src="2.gif" alt=""></p>
+<a id="more"></a>
+<h2 id="快速部署-truffle-项目"><a href="#快速部署-truffle-项目" class="headerlink" title="快速部署 truffle 项目"></a>快速部署 truffle 项目</h2><p>truffle 给我们提供了模板（这里称作为 box），用于我们进行快速开发。所以只要使用 <code>unbox</code> 命令来解压模板，就可以了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mac@macs-macbook  ~/Code/blockchain/election  truffle unbox pet-shop</span><br><span class="line">Downloading...</span><br><span class="line">Unpacking...</span><br><span class="line">Setting up...</span><br><span class="line">Unbox successful. Sweet!</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line"></span><br><span class="line">  Compile:        truffle compile</span><br><span class="line">  Migrate:        truffle migrate</span><br><span class="line">  Test contracts: truffle <span class="built_in">test</span></span><br><span class="line">  Run dev server: npm run dev</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><p>分别在 contracts 和 migrations 文件夹创建如下代码：<br><img src="4.png" alt=""><br><img src="5.png" alt=""></p>
+<figure class="highlight bash"><figcaption><span>:./contracts/Election.sol</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^0.4.11;</span><br><span class="line">contract Election &#123;</span><br><span class="line">    // Read cnadidate</span><br><span class="line">    string public candidate;</span><br><span class="line">    // Constructor</span><br><span class="line">    constructor() public &#123;</span><br><span class="line">        candidate = <span class="string">"Candidate 1"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><figcaption><span>:./migrations/2_deploy_contracts.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var Election = artifacts.require(<span class="string">"./Election.sol"</span>);</span><br><span class="line">module.exports = <span class="keyword">function</span>(deployer) &#123;</span><br><span class="line">  deployer.deploy(Election);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="获取-smart-contract-的-instance（实例）"><a href="#获取-smart-contract-的-instance（实例）" class="headerlink" title="获取 smart contract 的 instance（实例）"></a>获取 smart contract 的 instance（实例）</h3><p>Election 是我们定义的 contract 名。<br>首先使用如下命令，将我们定义的 smart contract 发布到 blockchain 中。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">truffle migrate</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，每次 deploy 一个 smart contract 都会消耗 ETH，这里消耗了 0,05 的 ETH<br><img src="3.png" alt=""><br>然后使用下面的命令，获取 smart contract 的一个 instance（实例）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mac@macs-macbook  ~/Code/blockchain/election  truffle console</span><br><span class="line">truffle(development)&gt; Election.deployed().<span class="keyword">then</span>( <span class="keyword">function</span> (instance) &#123; app = instance &#125;)</span><br><span class="line">undefined</span><br><span class="line">truffle(development)&gt; app.address</span><br><span class="line"><span class="string">'0x139c2cafabda6bd79b41e0d484e5ad440adf4bcb'</span></span><br><span class="line">truffle(development)&gt; app.candidate()</span><br><span class="line"><span class="string">'Candidate 1'</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><p>下面使用一个新的 smart contract 实现投票的 Dapp。</p>
+<figure class="highlight bash"><figcaption><span>:./contracts/Election.sol</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^0.4.2;</span><br><span class="line"></span><br><span class="line">contract Election &#123;</span><br><span class="line">    // Model a Candidate</span><br><span class="line">    struct Candidate &#123;</span><br><span class="line">        uint id;</span><br><span class="line">        string name;</span><br><span class="line">        uint voteCount;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Store accounts that have voted</span><br><span class="line">    mapping(address =&gt; bool) public voters;</span><br><span class="line">    // Store Candidates</span><br><span class="line">    // Fetch Candidate</span><br><span class="line">    mapping(uint =&gt; Candidate) public candidates;</span><br><span class="line">    // Store Candidates Count</span><br><span class="line">    uint public candidatesCount;</span><br><span class="line"></span><br><span class="line">    // voted event</span><br><span class="line">    event votedEvent (</span><br><span class="line">        uint indexed _candidateId</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> Election () public &#123;</span><br><span class="line">        addCandidate(<span class="string">"Tom"</span>);</span><br><span class="line">        addCandidate(<span class="string">"Jerry"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> addCandidate (string _name) private &#123;</span><br><span class="line">        candidatesCount ++;</span><br><span class="line">        candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> vote (uint _candidateId) public &#123;</span><br><span class="line">        // require that they havent voted before</span><br><span class="line">        require(!voters[msg.sender]);</span><br><span class="line"></span><br><span class="line">        // require a valid candidate</span><br><span class="line">        require(_candidateId &gt; 0 &amp;&amp; _candidateId &lt;= candidatesCount);</span><br><span class="line"></span><br><span class="line">        // record that voter has voted</span><br><span class="line">        voters[msg.sender] = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        // update candidate vote Count</span><br><span class="line">        candidates[_candidateId].voteCount ++;</span><br><span class="line"></span><br><span class="line">        // trigger voted event</span><br><span class="line">        votedEvent(_candidateId);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而后在 terminal 里面重新 deploy 一下该 contract。因为 contract 的代码被修改了，所以需要 reset。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">truffle migrate --reset</span><br></pre></td></tr></table></figure>
+
+<p>之后重新进入 console 查询状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mac@macs-macbook  ~/Code/blockchain/election  truffle console</span><br><span class="line">truffle(development)&gt; Election.deployed().<span class="keyword">then</span>( <span class="keyword">function</span> (instance) &#123; app = instance &#125;)</span><br><span class="line">undefined</span><br><span class="line">truffle(development)&gt; app.candidates(1)</span><br><span class="line">[ BigNumber &#123; s: 1, e: 0, c: [ 1 ] &#125;,</span><br><span class="line">  <span class="string">'Tom'</span>,</span><br><span class="line">  BigNumber &#123; s: 1, e: 0, c: [ 0 ] &#125; ]</span><br><span class="line">truffle(development)&gt; app.candidates(2)</span><br><span class="line">[ BigNumber &#123; s: 1, e: 0, c: [ 2 ] &#125;,</span><br><span class="line">  <span class="string">'Jerry'</span>,</span><br><span class="line">  BigNumber &#123; s: 1, e: 0, c: [ 0 ] &#125; ]</span><br><span class="line">truffle(development)&gt; app.candidates(99) <span class="comment"># 这里因为没有 key 为99的 candidate，所以返回空</span></span><br><span class="line">[ BigNumber &#123; s: 1, e: 0, c: [ 0 ] &#125;,</span><br><span class="line">  <span class="string">''</span>,</span><br><span class="line">  BigNumber &#123; s: 1, e: 0, c: [ 0 ] &#125; ]</span><br><span class="line">truffle(development)&gt; app.candidatesCount()</span><br><span class="line">BigNumber &#123; s: 1, e: 0, c: [ 2 ] &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取指定-candidate-的值"><a href="#获取指定-candidate-的值" class="headerlink" title="获取指定 candidate 的值"></a>获取指定 candidate 的值</h2><p>在 smart contract 中，value 的获取是 async 的，所以不可以将赋值写为：<code>candidate = app.candidates(1)</code>。必须在回调函数里面赋值：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">truffle(development)&gt; app.candidates(1).<span class="keyword">then</span>( <span class="keyword">function</span>(c) &#123; candidate = c;&#125;)</span><br><span class="line">undefined</span><br><span class="line">truffle(development)&gt; candidate</span><br><span class="line">[ BigNumber &#123; s: 1, e: 0, c: [ 1 ] &#125;,</span><br><span class="line">  <span class="string">'Tom'</span>,</span><br><span class="line">  BigNumber &#123; s: 1, e: 0, c: [ 0 ] &#125; ]</span><br><span class="line"><span class="comment"># 获取得到的 candidate struct 里对应的 id，name，voteCount 值</span></span><br><span class="line">truffle(development)&gt; candidate[0].toNumber()</span><br><span class="line">1</span><br><span class="line">truffle(development)&gt; candidate[1]</span><br><span class="line"><span class="string">'Tom'</span></span><br><span class="line">truffle(development)&gt; candidate[2].toNumber()</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看-blockchain-中的-account"><a href="#查看-blockchain-中的-account" class="headerlink" title="查看 blockchain 中的 account"></a>查看 blockchain 中的 account</h2><p>在 Ganache 中，我们创建了 10 个 accounts<br><img src="6.png" alt=""></p>
+<p>同时这些账户可以在 truffl 的 console 里面使用 web3 查找到。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">truffle(development)&gt; web3.eth.accounts</span><br><span class="line">[ <span class="string">'0xdde9664954edb28dc2afb866e668447256b15365'</span>,</span><br><span class="line">  <span class="string">'0x062f0fb7e869943884698ec2bd67d8de1e612eac'</span>,</span><br><span class="line">  <span class="string">'0x26d8d3a6e3c84775150939505b407ebef4391f8e'</span>,</span><br><span class="line">  <span class="string">'0x31de3718ca3a2d6e0df954fe585b1bee596e0642'</span>,</span><br><span class="line">  <span class="string">'0x00645cf254bdb1ff4004c1f91a17a71032eb8bbf'</span>,</span><br><span class="line">  <span class="string">'0x6c8fdd7a767e8182270b301c83974a614b6d79b3'</span>,</span><br><span class="line">  <span class="string">'0x8d29c76eb9f4d978defe7e624ca95207e926fcb8'</span>,</span><br><span class="line">  <span class="string">'0xecad6764d5eacaf402ae61726c5768866c15ee4b'</span>,</span><br><span class="line">  <span class="string">'0xa2f4ba6a56c738f968e1509851b84de27207bcc3'</span>,</span><br><span class="line">  <span class="string">'0xf654b8f4bbee0a95cab96aabf3fddb77813b493e'</span> ]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><figcaption><span>:测试 vote</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># solidity 允许给 function 传递除了参数以外的一些 metadata，这里传递了一个 &#123;from: &lt;account address&gt;&#125;。</span></span><br><span class="line"><span class="comment"># 这里 "&#123;from: ...&#125;" 就是指定了 msg.sender 参数。</span></span><br><span class="line"><span class="comment"># 最后输出的值，其实是一次 transaction 的 recipt。read blockchain 不消耗 eth，但是写 消耗，这里消耗了 49101 gas。gas 到 eth 的转化，是 gas * gas_price。这个留待解释。 TODO</span></span><br><span class="line">truffle(development)&gt; app.vote(1,&#123;from: web3.eth.accounts[4]&#125;)</span><br><span class="line">&#123; tx: <span class="string">'0x4d33e6442f55fbc5f11cafc4c4d33d6e8fec879d24c5d200c82bb0d2486e01d8'</span>,</span><br><span class="line">  receipt:</span><br><span class="line">   &#123; transactionHash: <span class="string">'0x4d33e6442f55fbc5f11cafc4c4d33d6e8fec879d24c5d200c82bb0d2486e01d8'</span>,</span><br><span class="line">     transactionIndex: 0,</span><br><span class="line">     blockHash: <span class="string">'0xf524dd8578c2ef4f0d63f24f947f0eb83c551520fa856eb02c41d6d4c8e57884'</span>,</span><br><span class="line">     blockNumber: 66,</span><br><span class="line">     gasUsed: 49101,</span><br><span class="line">     cumulativeGasUsed: 49101,</span><br><span class="line">     contractAddress: null,</span><br><span class="line">     logs: [ [Object] ],</span><br><span class="line">     status: <span class="string">'0x01'</span>,</span><br><span class="line">     logsBloom: <span class="string">'0x00000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000008000000000000000000000000000040000000000004000000000000000000000000000000000040000000000004000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000000'</span> &#125;,</span><br><span class="line">  logs:</span><br><span class="line">   [ &#123; logIndex: 0,</span><br><span class="line">       transactionIndex: 0,</span><br><span class="line">       transactionHash: <span class="string">'0x4d33e6442f55fbc5f11cafc4c4d33d6e8fec879d24c5d200c82bb0d2486e01d8'</span>,</span><br><span class="line">       blockHash: <span class="string">'0xf524dd8578c2ef4f0d63f24f947f0eb83c551520fa856eb02c41d6d4c8e57884'</span>,</span><br><span class="line">       blockNumber: 66,</span><br><span class="line">       address: <span class="string">'0xeb7e9f45214c6b13dece3a14be570d9eaaa9144c'</span>,</span><br><span class="line">       <span class="built_in">type</span>: <span class="string">'mined'</span>,</span><br><span class="line">       event: <span class="string">'votedEvent'</span>,</span><br><span class="line">       args: [Object] &#125; ] &#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="编写测试用例"><a href="#编写测试用例" class="headerlink" title="编写测试用例"></a>编写测试用例</h2><p>truffle 内部使用 <a href="https://mochajs.org/" target="_blank" rel="noopener">mochajs</a> 和 <a href="http://www.chaijs.com/" target="_blank" rel="noopener">chaijs</a> 进行测试</p>
+<blockquote>
+<p>Mocha is a feature-rich JavaScript test framework running on Node.js and in the browser, making asynchronous testing simple and fun</p>
+</blockquote>
+<blockquote>
+<p>Chai is a BDD / TDD assertion library for node and the browser that can be delightfully paired with any javascript testing framework.</p>
+</blockquote>
+<figure class="highlight javascript"><figcaption><span>:./test/election.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Election = artifacts.require(<span class="string">"./Election.sol"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化 contract 实例，传入的是 web3.eth.accounts 参数</span></span><br><span class="line">contract(<span class="string">"Election"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">accounts</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> electionInstance;</span><br><span class="line"></span><br><span class="line">  it(<span class="string">"initializes with two candidates"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Election.deployed().then(<span class="function"><span class="keyword">function</span>(<span class="params">instance</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> instance.candidatesCount();</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">count</span>) </span>&#123;</span><br><span class="line">      assert.equal(count, <span class="number">2</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  it(<span class="string">"it initializes the candidates with the correct values"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Election.deployed().then(<span class="function"><span class="keyword">function</span>(<span class="params">instance</span>) </span>&#123;</span><br><span class="line">      electionInstance = instance;</span><br><span class="line">      <span class="keyword">return</span> electionInstance.candidates(<span class="number">1</span>);</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">candidate</span>) </span>&#123;</span><br><span class="line">      assert.equal(candidate[<span class="number">0</span>], <span class="number">1</span>, <span class="string">"contains the correct id"</span>);</span><br><span class="line">      assert.equal(candidate[<span class="number">1</span>], <span class="string">"Tom"</span>, <span class="string">"contains the correct name"</span>);</span><br><span class="line">      assert.equal(candidate[<span class="number">2</span>], <span class="number">0</span>, <span class="string">"contains the correct votes count"</span>);</span><br><span class="line">      <span class="keyword">return</span> electionInstance.candidates(<span class="number">2</span>);</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">candidate</span>) </span>&#123;</span><br><span class="line">      assert.equal(candidate[<span class="number">0</span>], <span class="number">2</span>, <span class="string">"contains the correct id"</span>);</span><br><span class="line">      assert.equal(candidate[<span class="number">1</span>], <span class="string">"Jerry"</span>, <span class="string">"contains the correct name"</span>);</span><br><span class="line">      assert.equal(candidate[<span class="number">2</span>], <span class="number">0</span>, <span class="string">"contains the correct votes count"</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  it(<span class="string">"allows a voter to cast a vote"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Election.deployed().then(<span class="function"><span class="keyword">function</span>(<span class="params">instance</span>) </span>&#123;</span><br><span class="line">      electionInstance = instance;</span><br><span class="line">      candidateId = <span class="number">1</span>;</span><br><span class="line">      <span class="keyword">return</span> electionInstance.vote(candidateId, &#123; <span class="attr">from</span>: accounts[<span class="number">0</span>] &#125;);</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">receipt</span>) </span>&#123;</span><br><span class="line">      assert.equal(receipt.logs.length, <span class="number">1</span>, <span class="string">"an event was triggered"</span>);</span><br><span class="line">      assert.equal(receipt.logs[<span class="number">0</span>].event, <span class="string">"votedEvent"</span>, <span class="string">"the event type is correct"</span>);</span><br><span class="line">      assert.equal(receipt.logs[<span class="number">0</span>].args._candidateId.toNumber(), candidateId, <span class="string">"the candidate id is correct"</span>);</span><br><span class="line">      <span class="keyword">return</span> electionInstance.voters(accounts[<span class="number">0</span>]);</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">voted</span>) </span>&#123;</span><br><span class="line">      assert(voted, <span class="string">"the voter was marked as voted"</span>);</span><br><span class="line">      <span class="keyword">return</span> electionInstance.candidates(candidateId);</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">candidate</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> voteCount = candidate[<span class="number">2</span>];</span><br><span class="line">      assert.equal(voteCount, <span class="number">1</span>, <span class="string">"increments the candidate's vote count"</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  it(<span class="string">"throws an exception for invalid candiates"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Election.deployed().then(<span class="function"><span class="keyword">function</span>(<span class="params">instance</span>) </span>&#123;</span><br><span class="line">      electionInstance = instance;</span><br><span class="line">      <span class="keyword">return</span> electionInstance.vote(<span class="number">99</span>, &#123; <span class="attr">from</span>: accounts[<span class="number">1</span>] &#125;)</span><br><span class="line">    &#125;).then(assert.fail).catch(<span class="function"><span class="keyword">function</span>(<span class="params">error</span>) </span>&#123;</span><br><span class="line">      assert(error.message.indexOf(<span class="string">'revert'</span>) &gt;= <span class="number">0</span>, <span class="string">"error message must contain revert"</span>);</span><br><span class="line">      <span class="keyword">return</span> electionInstance.candidates(<span class="number">1</span>);</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">candidate1</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> voteCount = candidate1[<span class="number">2</span>];</span><br><span class="line">      assert.equal(voteCount, <span class="number">1</span>, <span class="string">"candidate 1 did not receive any votes"</span>);</span><br><span class="line">      <span class="keyword">return</span> electionInstance.candidates(<span class="number">2</span>);</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">candidate2</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> voteCount = candidate2[<span class="number">2</span>];</span><br><span class="line">      assert.equal(voteCount, <span class="number">0</span>, <span class="string">"candidate 2 did not receive any votes"</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  it(<span class="string">"throws an exception for double voting"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Election.deployed().then(<span class="function"><span class="keyword">function</span>(<span class="params">instance</span>) </span>&#123;</span><br><span class="line">      electionInstance = instance;</span><br><span class="line">      candidateId = <span class="number">2</span>;</span><br><span class="line">      <span class="comment">// solidity 允许给 function 传递除了参数以外的一些 metadata，这里传递了一个 &#123;from: &lt;account address&gt;&#125;。</span></span><br><span class="line">      <span class="comment">// 这里 "&#123;from: ...&#125;" 就是指定了 msg.sender 参数。</span></span><br><span class="line">      electionInstance.vote(candidateId, &#123; <span class="attr">from</span>: accounts[<span class="number">1</span>] &#125;);</span><br><span class="line">      <span class="keyword">return</span> electionInstance.candidates(candidateId);</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">candidate</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> voteCount = candidate[<span class="number">2</span>];</span><br><span class="line">      assert.equal(voteCount, <span class="number">1</span>, <span class="string">"accepts first vote"</span>);</span><br><span class="line">      <span class="comment">// Try to vote again</span></span><br><span class="line">      <span class="keyword">return</span> electionInstance.vote(candidateId, &#123; <span class="attr">from</span>: accounts[<span class="number">1</span>] &#125;);</span><br><span class="line">    &#125;).then(assert.fail).catch(<span class="function"><span class="keyword">function</span>(<span class="params">error</span>) </span>&#123;</span><br><span class="line">      assert(error.message.indexOf(<span class="string">'revert'</span>) &gt;= <span class="number">0</span>, <span class="string">"error message must contain revert"</span>);</span><br><span class="line">      <span class="keyword">return</span> electionInstance.candidates(<span class="number">1</span>);</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">candidate1</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> voteCount = candidate1[<span class="number">2</span>];</span><br><span class="line">      assert.equal(voteCount, <span class="number">1</span>, <span class="string">"candidate 1 did not receive any votes"</span>);</span><br><span class="line">      <span class="keyword">return</span> electionInstance.candidates(<span class="number">2</span>);</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">candidate2</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> voteCount = candidate2[<span class="number">2</span>];</span><br><span class="line">      assert.equal(voteCount, <span class="number">1</span>, <span class="string">"candidate 2 did not receive any votes"</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><figcaption><span>:测试结果</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mac@macs-macbook  ~/Code/blockchain/election  truffle <span class="built_in">test</span></span><br><span class="line">Using network <span class="string">'development'</span>.</span><br><span class="line"></span><br><span class="line">  Contract: Election</span><br><span class="line">    ✓ initializes with two candidates</span><br><span class="line">    ✓ it initializes the candidates with the correct values (45ms)</span><br><span class="line">    ✓ allows a voter to cast a vote (229ms)</span><br><span class="line">    ✓ throws an exception <span class="keyword">for</span> invalid candiates (117ms)</span><br><span class="line">    ✓ throws an exception <span class="keyword">for</span> double voting (194ms)</span><br><span class="line"></span><br><span class="line">  5 passing (658ms)</span><br></pre></td></tr></table></figure>
+
+<h2 id="网页代码"><a href="#网页代码" class="headerlink" title="网页代码"></a>网页代码</h2><figure class="highlight html"><figcaption><span>:./src/index.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"IE=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Election Results<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Bootstrap --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"css/bootstrap.min.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- WARNING: Respond.js doesn't work if you view the page via file:// --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--[if lt IE 9]&gt;</span></span><br><span class="line"><span class="comment">      &lt;script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="comment">      &lt;script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="comment">    &lt;![endif]--&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span> <span class="attr">style</span>=<span class="string">"width: 650px;"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-lg-12"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">"text-center"</span>&gt;</span>Election Results<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">hr</span>/&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"loader"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"text-center"</span>&gt;</span>Loading...<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"content"</span> <span class="attr">style</span>=<span class="string">"display: none;"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">table</span> <span class="attr">class</span>=<span class="string">"table"</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                  <span class="tag">&lt;<span class="name">th</span> <span class="attr">scope</span>=<span class="string">"col"</span>&gt;</span>#<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">                  <span class="tag">&lt;<span class="name">th</span> <span class="attr">scope</span>=<span class="string">"col"</span>&gt;</span>Name<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">                  <span class="tag">&lt;<span class="name">th</span> <span class="attr">scope</span>=<span class="string">"col"</span>&gt;</span>Votes<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">tbody</span> <span class="attr">id</span>=<span class="string">"candidatesResults"</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">hr</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">form</span> <span class="attr">onSubmit</span>=<span class="string">"App.castVote(); return false;"</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"candidatesSelect"</span>&gt;</span>Select Candidate<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">select</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">id</span>=<span class="string">"candidatesSelect"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span>&gt;</span>Vote<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">hr</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"accountAddress"</span> <span class="attr">class</span>=<span class="string">"text-center"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- jQuery (necessary for Bootstrap's JavaScript plugins) --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- Include all compiled plugins (below), or include individual files as needed --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/bootstrap.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/web3.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/truffle-contract.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/app.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><figcaption><span>:./src/js/app.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line">App = &#123;</span><br><span class="line">  web3Provider: <span class="literal">null</span>,</span><br><span class="line">  contracts: &#123;&#125;,</span><br><span class="line">  account: <span class="string">'0x0'</span>,</span><br><span class="line">  hasVoted: <span class="literal">false</span>,</span><br><span class="line"></span><br><span class="line">  init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> App.initWeb3();</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  initWeb3: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> refactor conditional</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> web3 !== <span class="string">'undefined'</span>) &#123;</span><br><span class="line">      <span class="comment">// If a web3 instance is already provided by Meta Mask.</span></span><br><span class="line">      App.web3Provider = web3.currentProvider;</span><br><span class="line">      web3 = <span class="keyword">new</span> Web3(web3.currentProvider);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// Specify default instance if no web3 instance provided</span></span><br><span class="line">      App.web3Provider = <span class="keyword">new</span> Web3.providers.HttpProvider(<span class="string">'http://localhost:7545'</span>);</span><br><span class="line">      web3 = <span class="keyword">new</span> Web3(App.web3Provider);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> App.initContract();</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 初始化 smart contract 实例</span></span><br><span class="line">  initContract: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $.getJSON(<span class="string">"Election.json"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">election</span>) </span>&#123;</span><br><span class="line">      <span class="comment">// Instantiate a new truffle contract from the artifact</span></span><br><span class="line">      App.contracts.Election = TruffleContract(election);</span><br><span class="line">      <span class="comment">// Connect provider to interact with contract</span></span><br><span class="line">      App.contracts.Election.setProvider(App.web3Provider);</span><br><span class="line"></span><br><span class="line">      App.listenForEvents();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> App.render();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Listen for events emitted from the contract</span></span><br><span class="line">  listenForEvents: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    App.contracts.Election.deployed().then(<span class="function"><span class="keyword">function</span>(<span class="params">instance</span>) </span>&#123;</span><br><span class="line">      <span class="comment">// Restart Chrome if you are unable to receive this event</span></span><br><span class="line">      <span class="comment">// This is a known issue with Metamask</span></span><br><span class="line">      <span class="comment">// https://github.com/MetaMask/metamask-extension/issues/2393</span></span><br><span class="line">      instance.votedEvent(&#123;&#125;, &#123;</span><br><span class="line">        fromBlock: <span class="number">0</span>,</span><br><span class="line">        toBlock: <span class="string">'latest'</span></span><br><span class="line">      &#125;).watch(<span class="function"><span class="keyword">function</span>(<span class="params">error, event</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"event triggered"</span>, event)</span><br><span class="line">        <span class="comment">// Reload when a new vote is recorded</span></span><br><span class="line">        App.render();</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 渲染显示</span></span><br><span class="line">  render: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> electionInstance;</span><br><span class="line">    <span class="keyword">var</span> loader = $(<span class="string">"#loader"</span>);</span><br><span class="line">    <span class="keyword">var</span> content = $(<span class="string">"#content"</span>);</span><br><span class="line"></span><br><span class="line">    loader.show();</span><br><span class="line">    content.hide();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Load account data</span></span><br><span class="line">    web3.eth.getCoinbase(<span class="function"><span class="keyword">function</span>(<span class="params">err, account</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (err === <span class="literal">null</span>) &#123;</span><br><span class="line">        App.account = account;</span><br><span class="line">        $(<span class="string">"#accountAddress"</span>).html(<span class="string">"Your Account: "</span> + account);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Load contract data</span></span><br><span class="line">    App.contracts.Election.deployed().then(<span class="function"><span class="keyword">function</span>(<span class="params">instance</span>) </span>&#123;</span><br><span class="line">      electionInstance = instance;</span><br><span class="line">      <span class="keyword">return</span> electionInstance.candidatesCount();</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">candidatesCount</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> candidatesResults = $(<span class="string">"#candidatesResults"</span>);</span><br><span class="line">      candidatesResults.empty();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> candidatesSelect = $(<span class="string">'#candidatesSelect'</span>);</span><br><span class="line">      candidatesSelect.empty();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt;= candidatesCount; i++) &#123;</span><br><span class="line">        electionInstance.candidates(i).then(<span class="function"><span class="keyword">function</span>(<span class="params">candidate</span>) </span>&#123;</span><br><span class="line">          <span class="keyword">var</span> id = candidate[<span class="number">0</span>];</span><br><span class="line">          <span class="keyword">var</span> name = candidate[<span class="number">1</span>];</span><br><span class="line">          <span class="keyword">var</span> voteCount = candidate[<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">          <span class="comment">// Render candidate Result</span></span><br><span class="line">          <span class="keyword">var</span> candidateTemplate = <span class="string">"&lt;tr&gt;&lt;th&gt;"</span> + id + <span class="string">"&lt;/th&gt;&lt;td&gt;"</span> + name + <span class="string">"&lt;/td&gt;&lt;td&gt;"</span> + voteCount + <span class="string">"&lt;/td&gt;&lt;/tr&gt;"</span></span><br><span class="line">          candidatesResults.append(candidateTemplate);</span><br><span class="line"></span><br><span class="line">          <span class="comment">// Render candidate ballot option</span></span><br><span class="line">          <span class="keyword">var</span> candidateOption = <span class="string">"&lt;option value='"</span> + id + <span class="string">"' &gt;"</span> + name + <span class="string">"&lt;/ option&gt;"</span></span><br><span class="line">          candidatesSelect.append(candidateOption);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> electionInstance.voters(App.account);</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">hasVoted</span>) </span>&#123;</span><br><span class="line">      <span class="comment">// Do not allow a user to vote</span></span><br><span class="line">      <span class="keyword">if</span>(hasVoted) &#123;</span><br><span class="line">        $(<span class="string">'form'</span>).hide();</span><br><span class="line">      &#125;</span><br><span class="line">      loader.hide();</span><br><span class="line">      content.show();</span><br><span class="line">    &#125;).catch(<span class="function"><span class="keyword">function</span>(<span class="params">error</span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.warn(error);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  castVote: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> candidateId = $(<span class="string">'#candidatesSelect'</span>).val();</span><br><span class="line">    App.contracts.Election.deployed().then(<span class="function"><span class="keyword">function</span>(<span class="params">instance</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> instance.vote(candidateId, &#123; <span class="attr">from</span>: App.account &#125;);</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123;</span><br><span class="line">      <span class="comment">// Wait for votes to update</span></span><br><span class="line">      $(<span class="string">"#content"</span>).hide();</span><br><span class="line">      $(<span class="string">"#loader"</span>).show();</span><br><span class="line">    &#125;).catch(<span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.error(err);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  $(<span class="built_in">window</span>).load(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    App.init();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="运行实例"><a href="#运行实例" class="headerlink" title="运行实例"></a>运行实例</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">truffle migrate --reset</span><br><span class="line">npm run dev</span><br><span class="line"></span><br><span class="line">&gt; pet-shop@1.0.0 dev /Users/mac/Code/blockchain/election</span><br><span class="line">&gt; lite-server</span><br><span class="line"></span><br><span class="line">** browser-sync config **</span><br><span class="line">&#123; injectChanges: <span class="literal">false</span>,</span><br><span class="line">  files: [ <span class="string">'./**/*.&#123;html,htm,css,js&#125;'</span> ],</span><br><span class="line">  watchOptions: &#123; ignored: <span class="string">'node_modules'</span> &#125;,</span><br><span class="line">  server:</span><br><span class="line">   &#123; baseDir: [ <span class="string">'./src'</span>, <span class="string">'./build/contracts'</span> ],</span><br><span class="line">     middleware: [ [Function], [Function] ] &#125; &#125;</span><br><span class="line">[Browsersync] Access URLs:</span><br><span class="line"> --------------------------------------</span><br><span class="line">       Local: http://localhost:3000</span><br><span class="line">    External: http://10.181.60.166:3000</span><br><span class="line"> --------------------------------------</span><br><span class="line">          UI: http://localhost:3001</span><br><span class="line"> UI External: http://10.181.60.166:3001</span><br><span class="line"> --------------------------------------</span><br><span class="line">[Browsersync] Serving files from: ./src</span><br><span class="line">[Browsersync] Serving files from: ./build/contracts</span><br><span class="line">[Browsersync] Watching files...</span><br><span class="line">18.05.03 21:38:06 200 GET /index.html</span><br><span class="line">18.05.03 21:38:06 200 GET /js/bootstrap.min.js</span><br><span class="line">18.05.03 21:38:06 200 GET /css/bootstrap.min.css</span><br><span class="line">18.05.03 21:38:06 200 GET /js/app.js</span><br><span class="line">18.05.03 21:38:06 200 GET /js/web3.min.js</span><br><span class="line">18.05.03 21:38:06 200 GET /js/truffle-contract.js</span><br><span class="line">18.05.03 21:38:08 200 GET /Election.json</span><br><span class="line">18.05.03 21:38:08 404 GET /favicon.ico</span><br></pre></td></tr></table></figure>
+
+<p>运行之后会弹出网页，但是一直显示 <code>loading</code>，看不到任何从 smart contract 返回的数据。<br><img src="7.png" alt=""></p>
+<p>这是因为我们的客户端程序虽然在运行，但是还没有链接到我们创建的 blockchain instance 上。我们需要打开 Ganache，找到本地 in memory blockchain 的 RPC server url address：<br><img src="8.png" alt=""></p>
+<p>然后在 Google Chrome(或者 Firefox) 浏览器中 MetaMask 插件里自定义 RPC 链接：<br><img src="9.png" alt=""></p>
+<p>之后就可以看到如下界面：<br><img src="10.png" alt=""></p>
+<p>点击 vote 以后，可以看到如下结果：<br><img src="11.png" alt=""></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
+<li><a href="https://www.youtube.com/watch?v=3681ZYbDSSk&list=PLS5SEs8ZftgXXPYBH6rDk4TKnDOvinwJr" target="_blank" rel="noopener">How to Build Ethereum Dapp</a></li>
+<li><a href="https://github.com/dappuniversity/election" target="_blank" rel="noopener">dappuniversity/election</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+
+    
+
+
+    
+    
+    
+
+    
+
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    XS Zhao
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="https://hansonzhao007.github.io/blog/%E7%AC%AC%E4%B8%80%E4%B8%AA-Dapp/" title="第一个 Dapp">https://hansonzhao007.github.io/blog/%E7%AC%AC%E4%B8%80%E4%B8%AA-Dapp/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/dapp/" rel="tag"># dapp</a>
+          
+            <a href="/blog/tags/ethereum/" rel="tag"># ethereum</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+          <div class="wp_rating">
+            <div id="wpac-rating"></div>
+          </div>
+        
+
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/Hadoop-Installation/" rel="next" title="Hadoop Installation">
+                <i class="fa fa-chevron-left"></i> Hadoop Installation
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/Paper-Review-A-Comparative-Study-of-Secondary-Indexing-Techniques-inLSM-based-NoSQL-Databases/" rel="prev" title="Paper Review: A Comparative Study of Secondary Indexing Techniques in LSM-based NoSQL Databases">
+                Paper Review: A Comparative Study of Secondary Indexing Techniques in LSM-based NoSQL Databases <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <a href="/" class="site-author-image" rel="start" style="border:none">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/img/avatar.webp"
+               alt="XS Zhao" />
+        </a>
+          <p class="site-author-name" itemprop="name">XS Zhao</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/blog/archives/">
+                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags/index.html">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/hansonzhao007" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/hansonzhao007" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                    
+                      Facebook
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.instagram.com/hansonzhao007" target="_blank" title="Instagram">
+                  
+                    <i class="fa fa-fw fa-instagram"></i>
+                  
+                    
+                      Instagram
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:xingshengzhao@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+        
+        <div id="days"></div>
+</script>
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("03/25/2017 12:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="Running: "+daysold+" days "+hrsold+":"+minsold+":"+seconds+"";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+
+    <script type="text/javascript" src="//ra.revolvermaps.com/0/0/8.js?i=0457258m5ho&amp;m=2&amp;c=ff007e&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    <div class="links-of-blogroll motion-element links-of-blogroll-block">
+      <div class="links-of-blogroll-title">
+        <!-- modify icon to fire by szw -->
+        <i class="fa fa-history fa-" aria-hidden="true"></i>
+        Recent Posts
+      </div>
+      <ol style="text-align: left;">
+        
+        
+        
+          <li>
+            <a href="/blog/Ethereum-Project-Infrastructure/" title="Ethereum Project Infrastructure" target="_blank">Ethereum Project Infrastructure</a>
+          </li>
+        
+        
+          <li>
+            <a href="/blog/Dapp-Lottery-Contract/" title="Dapp: Lottery Contract" target="_blank">Dapp: Lottery Contract</a>
+          </li>
+        
+        
+          <li>
+            <a href="/blog/Write-ethereum-test-code/" title="Write ethereum test code" target="_blank">Write ethereum test code</a>
+          </li>
+        
+        
+          <li>
+            <a href="/blog/Review-bLSM-%E2%88%97-A-General-Purpose-Log-Structured-Merge-Tree/" title="Review: bLSM:* A General Purpose Log Structured Merge Tree" target="_blank">Review: bLSM:* A General Purpose Log Structured Merge Tree</a>
+          </li>
+        
+        
+          <li>
+            <a href="/blog/Review-ElasticBF-Fine-grained-and-Elastic-Bloom-Filter-Towards-Efficient-Read-for-LSM-tree-based-KV-Stores/" title="Review: ElasticBF: Fine-grained and Elastic Bloom Filter Towards Efficient Read for LSM-tree-based KV Stores" target="_blank">Review: ElasticBF: Fine-grained and Elastic Bloom Filter Towards Efficient Read for LSM-tree-based KV Stores</a>
+          </li>
+        
+      </ol>
+    </div>
+
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#配置开发环境"><span class="nav-number">1.</span> <span class="nav-text">配置开发环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Nodejs"><span class="nav-number">1.1.</span> <span class="nav-text">安装 Nodejs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Truffle"><span class="nav-number">1.2.</span> <span class="nav-text">安装 Truffle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Ganache"><span class="nav-number">1.3.</span> <span class="nav-text">安装 Ganache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Metamask-google-插件"><span class="nav-number">1.4.</span> <span class="nav-text">安装 Metamask google 插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速部署-truffle-项目"><span class="nav-number">1.5.</span> <span class="nav-text">快速部署 truffle 项目</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编写代码"><span class="nav-number">2.</span> <span class="nav-text">编写代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#示例1"><span class="nav-number">2.1.</span> <span class="nav-text">示例1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取-smart-contract-的-instance（实例）"><span class="nav-number">2.1.1.</span> <span class="nav-text">获取 smart contract 的 instance（实例）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例2"><span class="nav-number">2.2.</span> <span class="nav-text">示例2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取指定-candidate-的值"><span class="nav-number">2.3.</span> <span class="nav-text">获取指定 candidate 的值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看-blockchain-中的-account"><span class="nav-number">2.4.</span> <span class="nav-text">查看 blockchain 中的 account</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写测试用例"><span class="nav-number">2.5.</span> <span class="nav-text">编写测试用例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网页代码"><span class="nav-number">2.6.</span> <span class="nav-text">网页代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行实例"><span class="nav-number">2.7.</span> <span class="nav-text">运行实例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">XS Zhao</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: '1525383659000',
+            owner: 'hansonzhao007',
+            repo: 'blog',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '48dc7c1aa2e663a79e994f8cffc90423ea3f5e25',
+            
+                client_id: '4fe1228acaf3e7b057de'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("LnSmAXnUoFenNXvIMojtgaj7-gzGzoHsz", "Ei6PVzIV1zEq1wuXHCWHdDPe");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+  <script type="text/javascript">
+  wpac_init = window.wpac_init || [];
+  wpac_init.push({widget: 'Rating', id: 11916,
+    el: 'wpac-rating',
+    color: 'fc6423'
+  });
+  (function() {
+    if ('WIDGETPACK_LOADED' in window) return;
+    WIDGETPACK_LOADED = true;
+    var mc = document.createElement('script');
+    mc.type = 'text/javascript';
+    mc.async = true;
+    mc.src = '//embed.widgetpack.com/widget.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+  })();
+  </script>
+
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/js.cookie.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/blog/js/src/scroll-cookie.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/custom.js"></script>
+
+  <script type="text/javascript" src="/blog/js/src/clipboard.min.js"></script>
+
+
+
+ 
+</body>
+</html>

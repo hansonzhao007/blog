@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/blog/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/blog/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="google59b6e75580092421.html" />
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lobster Two:300,300italic,400,400italic,700,700italiclucida grande:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="storage," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="old approach: fsck(file system checker)new approach: journaling(also known as write-ahead-logging) A Detailed ExampleIf you look at the structures in the picture, you can see that a single inode is al">
+<meta name="keywords" content="storage">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【TP】42 FSCK-and-journaling">
+<meta property="og:url" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;FSCK-and-journaling&#x2F;index.html">
+<meta property="og:site_name" content="Infinite">
+<meta property="og:description" content="old approach: fsck(file system checker)new approach: journaling(also known as write-ahead-logging) A Detailed ExampleIf you look at the structures in the picture, you can see that a single inode is al">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;FSCK-and-journaling&#x2F;Selection_001.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;FSCK-and-journaling&#x2F;Selection_002.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;FSCK-and-journaling&#x2F;Selection_003.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;FSCK-and-journaling&#x2F;Selection_004.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;FSCK-and-journaling&#x2F;Selection_005.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;FSCK-and-journaling&#x2F;Selection_006.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;FSCK-and-journaling&#x2F;Selection_007.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;FSCK-and-journaling&#x2F;Selection_008.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;FSCK-and-journaling&#x2F;Selection_009.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;FSCK-and-journaling&#x2F;Selection_010.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;FSCK-and-journaling&#x2F;Selection_011.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;FSCK-and-journaling&#x2F;Selection_012.png">
+<meta property="og:updated_time" content="2019-11-17T04:18:02.856Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;hansonzhao007.github.io&#x2F;blog&#x2F;FSCK-and-journaling&#x2F;Selection_001.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'C04V4Z2EKD',
+      apiKey: 'aed9efacc66cdcd0647b6fe1e4808317',
+      indexName: 'myblog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://hansonzhao007.github.io/blog/FSCK-and-journaling/"/>
+
+
+
+
+
+  <title>【TP】42 FSCK-and-journaling | Infinite</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-115007486-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Infinite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/blog/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            Sitemap
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-feed">
+          <a href="/blog/atom.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-rss"></i> <br />
+            
+            RSS
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" target="_blank" rel="noopener" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hansonzhao007.github.io/blog/blog/FSCK-and-journaling/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XS Zhao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/img/avatar.webp">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Infinite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【TP】42 FSCK-and-journaling</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-09T13:00:15-07:00">
+                2017-09-09
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2019-11-16T20:18:02-08:00">
+                2019-11-16
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/OS/" itemprop="url" rel="index">
+                    <span itemprop="name">OS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/FSCK-and-journaling/" class="leancloud_visitors" data-flag-title="【TP】42 FSCK-and-journaling">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>old approach: <code>fsck</code>(file system checker)<br>new approach: <code>journaling</code>(also known as <code>write-ahead-logging</code>)</p>
+<h1 id="A-Detailed-Example"><a href="#A-Detailed-Example" class="headerlink" title="A Detailed Example"></a>A Detailed Example</h1><p><img src="Selection_001.png" alt=""><br>If you look at the structures in the picture, you can see that a single inode is allocated (<code>inode number 2</code>), which is marked in the <code>inode bitmap</code>, and a single allocated data block (<code>data block 4</code>), also marked in the <code>data bitmap</code>. The inode is denoted <code>I[v1]</code>,</p>
+<p>let’s see the simple inode inside:</p>
+<a id="more"></a>
+<p><img src="Selection_002.png" alt=""><br>In this simplified inode,</p>
+<ul>
+<li>the size of the file is 1 (it has one block allocated),</li>
+<li>the first direct pointer points to block 4 (the first data block of the file, Da)</li>
+<li>all three other direct pointers are set to null (indicating that they are not used)</li>
+</ul>
+<p>When we append to the file, we are adding a new data block to it, and update on-disk structures.</p>
+<p><img src="Selection_003.png" alt=""></p>
+<p><img src="Selection_004.png" alt=""><br>we must update three blocks to do this update.</p>
+<ul>
+<li>Data bitmap</li>
+<li>Inodes</li>
+<li>Data Blocks</li>
+</ul>
+<p>when user issues a write() system call, usually it will cache them in the main memory first for some time, then to the disk. If a crash happens and will interfere with these updates to the disk.</p>
+<h1 id="Crash-Scenarios"><a href="#Crash-Scenarios" class="headerlink" title="Crash Scenarios"></a>Crash Scenarios</h1><p>Three outcomes when crash:</p>
+<ul>
+<li>Just the data block (Db) is written to disk.(no a bit deal)</li>
+<li>Just the updated inode (I[v2]) is written to disk.(it could cause new problem: file-system inconsistency. The on-disk bitmap is telling us that data block 5 has not been allocated, but the inode is saying that it has. This disagreement in the file system data structures is an inconsistency in the data structures of the file system;)</li>
+<li>Just the updated Data bitmap (B[v2]) is written to disk.(this cause a space leak, as block 5 would never be used by the file system)</li>
+<li>…</li>
+</ul>
+<h1 id="Solution-1-The-File-System-Checker"><a href="#Solution-1-The-File-System-Checker" class="headerlink" title="Solution #1: The File System Checker"></a>Solution #1: The File System Checker</h1><p>fsck is too slow:<br>scanning the entire disk to find all the allocated blocks and read the entire directory tree may take many minutes or hours. Performance of fsck, as disks grew in capacity and RAIDs grew in popularity, became prohibitive.</p>
+<p>This situation is akin to dropping your keys on the floor in your bedroom, and then commencing a search-the-entire-house-for-keys recovery algorithm, starting in the basement and working your way through every room. It works but is wasteful.</p>
+<h1 id="Solution-2-Journaling-or-Write-Ahead-Logging"><a href="#Solution-2-Journaling-or-Write-Ahead-Logging" class="headerlink" title="Solution #2: Journaling (or Write-Ahead Logging)"></a>Solution #2: Journaling (or Write-Ahead Logging)</h1><p>Let’s see EXT3.</p>
+<p>Most of the on-disk structures are identical to Linux ext2(disk is divided into block groups). The new key structure is the <code>journal</code> itself.<br>ext2 file system looks like:</p>
+<p><img src="Selection_005.png" alt=""><br>Assuming the journal is palced within the same file system image (though sometimes it is placed on a separate device, or as a file within the file system), an ext3 file system with a journal looks like this:</p>
+<p><img src="Selection_006.png" alt=""></p>
+<h1 id="Data-Journaling"><a href="#Data-Journaling" class="headerlink" title="Data Journaling"></a>Data Journaling</h1><p>Let’s look at a simple example to understand how data journaling works.<br>Say we have our canonical update again, where we wish to write the inode (I[v2]), bitmap (B[v2]), and data block (Db) to disk again. Before writing them to their final disk locations, we are now first going to write them to the log (a.k.a. journal). This is what this will look like in the log:</p>
+<p><img src="Selection_007.png" alt=""><br>You can see we have written five blocks here. The transaction begin (<code>TxB</code>) tells us about this update, including information about the pending update to the file system), as well as some kind of <code>transaction identifier (TID)</code>. The middle three blocks just contain the exact contents of the blocks themselves; this is known as <code>physical logging</code> as we are putting the exact physical contents of the update in the journal (an alternate idea, <code>logical logging</code>, puts a more compact logical representation of the update in the journal, e.g., “this update wishes to append data block Db to file X”, which is a little more complex but can save space in the log and perhaps improve performance). The final block (<code>TxE</code>) is a marker of the end of this transaction, and will also contain the TID.</p>
+<p>Once this transaction is safely on disk, we are ready to overwrite the old structures in the file system; this process is called <code>checkpointing</code>. Thus, to <code>checkpoint</code> the file system (i.e., bring it up to date with the pending update in the journal), we issue the writes I[v2], B[v2], and Db to their disk locations as seen above; if these writes complete successfully, we have successfully checkpointed the file system and are basically done.</p>
+<p>So the steps of operation:</p>
+<ul>
+<li>Journal write:</li>
+<li>Checkpoint: 就是将 journal 里面的disk更新信息，写到原本的位置中</li>
+</ul>
+<p>Best way is to issue all the five block at once. However, when the changing data is big, OS may reorder the write sequence, it may write TxB, I[v2], B[v2], and TxE and only later write Db. Unfortunately, if the disk loses power between (1) and (2), this is what ends up on disk:</p>
+<p><img src="Selection_008.png" alt=""></p>
+<p>FS can not know if the fourth block is wrong. so in recovery, it can cause problem, even worse if the data in there belongs to superblock, which could render the FS unmountable.</p>
+<blockquote>
+<p>ASIDE: FORCING WRITES TO DISK To enforce ordering between two disk writes, modern file systems have to take a few extra precautions. In olden times, forcing ordering between two writes, A and B, was easy: just issue the write of A to the disk, wait for the disk to interrupt the OS when the write is complete, and then issue the write of B. Things got slightly more complex due to the increased use of write caches within disks. With write buffering enabled (sometimes called <code>immediate reporting</code>), a disk will inform the OS the write is complete when it simply has been placed in the disk’s memory cache, and has not yet reached disk. If the OS then issues a subsequent write, it is not guaranteed to reach the disk after previous writes; thus ordering between writes is not preserved. One solution is to disable <code>write buffering</code>. However, more modern systems take extra precautions and issue explicit write barriers; such a barrier, when it completes, guarantees that all writes issued before the barrier will reach disk before any writes issued after the barrier. All of this machinery requires a great deal of trust in the correct operation of the disk. Unfortunately, recent research shows that <strong>some disk manufacturers, in an effort to deliver “higher performing” disks, explicitly ignore write-barrier requests</strong>, thus making the disks seemingly run faster but at the risk of incorrect operation [C+13, R+11]. As Kahan said, the fast almost always beats out the slow, even if the fast is wrong.</p>
+</blockquote>
+<p>To avoid this problem, the file system issues the transactional write in two steps.</p>
+<ul>
+<li>it writes all blocks except the TxE block to the journal, issuing these writes all at once</li>
+</ul>
+<p><img src="Selection_009.png" alt=""></p>
+<ul>
+<li>When those writes complete(There will be a flush() CMD before TxE), the file system issues the write of the TxE block, thus leaving the journal in this final, safe state:</li>
+</ul>
+<p><img src="Selection_010.png" alt=""></p>
+<p>So the final process is:</p>
+<ul>
+<li><code>Journal write</code>: write the first 4 chunks</li>
+<li><code>Journal commit</code>: wait 1st complete and write TxE to the log <code>( This could cause inefficience when transfer data)</code></li>
+<li><code>Checkpoint</code>: Write contents of the update to their final on-disk locations</li>
+</ul>
+<blockquote>
+<p>to solve the efficiency problem, we could inlcude a <code>checksum</code> in TxB and TxE, then we could write the entire transaction at once, without any wait. During recovery, if the file system sees a mismatch in the computed checksum versus the stored checksum, then it can discard the update in journal.</p>
+</blockquote>
+<h1 id="Making-The-Log-Finite"><a href="#Making-The-Log-Finite" class="headerlink" title="Making The Log Finite"></a>Making The Log Finite</h1><ul>
+<li>FS buffers updates in memory for some time(few seconds);</li>
+<li>when write to the disk, first write to journal</li>
+<li>after transaction complete, FS checkpoint those blocks to final location on disk</li>
+</ul>
+<p>Log has finite size and in order to continue log new write, FS treat the log as a circular data structure, namely <code>circular log.</code></p>
+<p>Once a checkpoint success, FS should free the space. FS could simply mark the oldest and newest no-checkpointed transaction in a <code>journal superblock</code>.</p>
+<p><img src="Selection_011.png" alt=""><br>In the journal superblock (not to be confused with the main file system superblock), the journaling system records enough information to know which transactions have not yet been checkpointed, and thus reduces recovery time as well as enables re-use of the log in a circular fashion. And thus we add another step to our basic protocol:</p>
+<ol>
+<li>Journal write:</li>
+<li>Jornal commit:</li>
+<li>Checkpoint:</li>
+<li><code>Free</code>: mark the transaction free in the journal by updating the journal superblock.(意思就是标记这个更新已经结束，可以被复写）</li>
+</ol>
+<p>However, all the process discussed above indicated that we will <code>write data twice</code>（because we store all the new data in journal log)</p>
+<h1 id="Metadata-Journaling"><a href="#Metadata-Journaling" class="headerlink" title="Metadata Journaling"></a>Metadata Journaling</h1><p>all the discussion above is called <code>data journaling</code>(as in linux ext3). A simple form of journaling is called <code>orderd journaling</code>( <code>metadata journaling</code> ).</p>
+<p><img src="Selection_012.png" alt=""><br>The data block Db, previously written to the log, would instead be written to the file system proper, avoiding the extra write; given that most I/O traffic to the disk is data, not writing data twice substantially reduces the I/O load of journaling.</p>
+<p>Then when should we write data blocks to disk?</p>
+<p>ext3 do like this:</p>
+<ol>
+<li>Data write: write data to final location; wait for completion(optional)</li>
+<li>Journal metadata write</li>
+<li>Journal commit:Write the transaction commit block (containing TxE) to the log; wait for the write to complete; the transaction (including data) is now committed. 在这一步完成同时，必须保证data也被传输结束。（那如果使用checksum的话，怎么保证journalok时候，data也肯定ok呢？如果metadata journal 没有问题，data还在transaction，这时候crash了，那recovery岂不是错的？）</li>
+<li>Checkpoint commit:</li>
+<li>Free<br>（this is ordered journaling, ext3 also provide <code>unordered modes</code>, which data can be written at any time)</li>
+</ol>
+<h1 id="Solution-3-Other-Approaches"><a href="#Solution-3-Other-Approaches" class="headerlink" title="Solution #3: Other Approaches"></a>Solution #3: Other Approaches</h1><ul>
+<li><p>Soft Updates</p>
+<blockquote>
+<p>This approach carefully orders all writes to the file system to ensure that the on-disk structures are never left in an inconsistent state. For example, by writing a pointed-to data block to disk before the inode that points to it, we can ensure that the inode never points to garbage; similar rules can be derived for all the structures of the file system</p>
+</blockquote>
+</li>
+<li><p>copy-on-write(COW) like FS ZFS</p>
+<blockquote>
+<p>This technique never overwrites files or directories in place; rather, it places new updates to previously unused locations on disk. After a number of updates are completed, COW file systems flip the root structure of the file system to include pointers to the newly updated structures. Doing so makes keeping the file system consistent straightforward</p>
+</blockquote>
+</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="http://pages.cs.wisc.edu/~remzi/OSTEP/file-journaling.pdf" target="_blank" rel="noopener">FSCK and Journaling</a></p>
+
+      
+    </div>
+
+    
+    
+
+    
+
+
+    
+    
+    
+
+    
+
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    XS Zhao
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="https://hansonzhao007.github.io/blog/FSCK-and-journaling/" title="【TP】42 FSCK-and-journaling">https://hansonzhao007.github.io/blog/FSCK-and-journaling/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/storage/" rel="tag"># storage</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+          <div class="wp_rating">
+            <div id="wpac-rating"></div>
+          </div>
+        
+
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/fast-file-system/" rel="next" title="【TP】41 Fast File System (FFS)">
+                <i class="fa fa-chevron-left"></i> 【TP】41 Fast File System (FFS)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/LFS/" rel="prev" title="【TP】43 Log-structured File System">
+                【TP】43 Log-structured File System <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <a href="/" class="site-author-image" rel="start" style="border:none">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/img/avatar.webp"
+               alt="XS Zhao" />
+        </a>
+          <p class="site-author-name" itemprop="name">XS Zhao</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/blog/archives/">
+                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags/index.html">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/hansonzhao007" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/hansonzhao007" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                    
+                      Facebook
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.instagram.com/hansonzhao007" target="_blank" title="Instagram">
+                  
+                    <i class="fa fa-fw fa-instagram"></i>
+                  
+                    
+                      Instagram
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:xingshengzhao@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+        
+        <div id="days"></div>
+</script>
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("03/25/2017 12:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="Running: "+daysold+" days "+hrsold+":"+minsold+":"+seconds+"";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+
+    <script type="text/javascript" src="//ra.revolvermaps.com/0/0/8.js?i=0457258m5ho&amp;m=2&amp;c=ff007e&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"></script>
+    <div class="links-of-blogroll motion-element links-of-blogroll-block">
+      <div class="links-of-blogroll-title">
+        <!-- modify icon to fire by szw -->
+        <i class="fa fa-history fa-" aria-hidden="true"></i>
+        Recent Posts
+      </div>
+      <ol style="text-align: left;">
+        
+        
+        
+          <li>
+            <a href="/blog/Ethereum-Project-Infrastructure/" title="Ethereum Project Infrastructure" target="_blank">Ethereum Project Infrastructure</a>
+          </li>
+        
+        
+          <li>
+            <a href="/blog/Dapp-Lottery-Contract/" title="Dapp: Lottery Contract" target="_blank">Dapp: Lottery Contract</a>
+          </li>
+        
+        
+          <li>
+            <a href="/blog/Write-ethereum-test-code/" title="Write ethereum test code" target="_blank">Write ethereum test code</a>
+          </li>
+        
+        
+          <li>
+            <a href="/blog/Review-bLSM-%E2%88%97-A-General-Purpose-Log-Structured-Merge-Tree/" title="Review: bLSM:* A General Purpose Log Structured Merge Tree" target="_blank">Review: bLSM:* A General Purpose Log Structured Merge Tree</a>
+          </li>
+        
+        
+          <li>
+            <a href="/blog/Review-ElasticBF-Fine-grained-and-Elastic-Bloom-Filter-Towards-Efficient-Read-for-LSM-tree-based-KV-Stores/" title="Review: ElasticBF: Fine-grained and Elastic Bloom Filter Towards Efficient Read for LSM-tree-based KV Stores" target="_blank">Review: ElasticBF: Fine-grained and Elastic Bloom Filter Towards Efficient Read for LSM-tree-based KV Stores</a>
+          </li>
+        
+      </ol>
+    </div>
+
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#A-Detailed-Example"><span class="nav-number">1.</span> <span class="nav-text">A Detailed Example</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Crash-Scenarios"><span class="nav-number">2.</span> <span class="nav-text">Crash Scenarios</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution-1-The-File-System-Checker"><span class="nav-number">3.</span> <span class="nav-text">Solution #1: The File System Checker</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution-2-Journaling-or-Write-Ahead-Logging"><span class="nav-number">4.</span> <span class="nav-text">Solution #2: Journaling (or Write-Ahead Logging)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Data-Journaling"><span class="nav-number">5.</span> <span class="nav-text">Data Journaling</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Making-The-Log-Finite"><span class="nav-number">6.</span> <span class="nav-text">Making The Log Finite</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Metadata-Journaling"><span class="nav-number">7.</span> <span class="nav-text">Metadata Journaling</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution-3-Other-Approaches"><span class="nav-number">8.</span> <span class="nav-text">Solution #3: Other Approaches</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">9.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">XS Zhao</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: '1504987215000',
+            owner: 'hansonzhao007',
+            repo: 'blog',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '48dc7c1aa2e663a79e994f8cffc90423ea3f5e25',
+            
+                client_id: '4fe1228acaf3e7b057de'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("LnSmAXnUoFenNXvIMojtgaj7-gzGzoHsz", "Ei6PVzIV1zEq1wuXHCWHdDPe");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+  <script type="text/javascript">
+  wpac_init = window.wpac_init || [];
+  wpac_init.push({widget: 'Rating', id: 11916,
+    el: 'wpac-rating',
+    color: 'fc6423'
+  });
+  (function() {
+    if ('WIDGETPACK_LOADED' in window) return;
+    WIDGETPACK_LOADED = true;
+    var mc = document.createElement('script');
+    mc.type = 'text/javascript';
+    mc.async = true;
+    mc.src = '//embed.widgetpack.com/widget.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+  })();
+  </script>
+
+
+  
+  
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/js.cookie.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/blog/js/src/scroll-cookie.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/custom.js"></script>
+
+  <script type="text/javascript" src="/blog/js/src/clipboard.min.js"></script>
+
+
+
+ 
+</body>
+</html>
