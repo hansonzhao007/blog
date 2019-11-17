@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "hexo": {
-    "version": "3.8.0"
+    "version": "3.9.0"
   },
   "dependencies": {
     "dtrace-provider": "^0.8.5",
@@ -36,7 +36,7 @@
     "hexo-generator-index": "^0.2.0",
     "hexo-generator-json-content": "^3.0.1",
     "hexo-generator-search": "^2.1.1",
-    "hexo-generator-searchdb": "^1.0.8",
+    "hexo-generator-searchdb": "^1.1.0",
     "hexo-generator-sitemap": "^1.2.0",
     "hexo-generator-tag": "^0.2.0",
     "hexo-ipynb": "^0.2.4",
@@ -52,6 +52,8 @@
     "run-sequence": "^2.2.0"
   },
   "devDependencies": {
-    "gulp-image": "^4.4.1"
+    "ajv": "^6.9.1",
+    "gulp-image": "^4.4.1",
+    "webpack": "^4.4.0"
   }
 }
