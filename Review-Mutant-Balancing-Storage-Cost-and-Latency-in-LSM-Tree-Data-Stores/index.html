@@ -490,10 +490,14 @@
 <li>Xi: SSTable in fast storage or not</li>
 </ul>
 <p>This becomes a 0/1 knapsack problem. They use a greedy algorithm to solve this problem.</p>
-<div class="note danger"><p>My comment:<br>Why not just sorting by the frequency, then put as many as SSTable to fast device directly.</p></div>
+<div class="note danger">
+            <p>My comment:<br>Why not just sorting by the frequency, then put as many as SSTable to fast device directly.</p>
+          </div>
 
 <h2 id="Solving-spike-or-dips"><a href="#Solving-spike-or-dips" class="headerlink" title="Solving spike or dips"></a>Solving spike or dips</h2><p>They use a counter to record the access frequency, but they can be affected severely by spike or dips. So they implement a filter through exponential average to smooth the frequency counter.</p>
-<div class="note danger"><p>My comment:<br>This is like a digital signal filer. Transform function.</p></div>
+<div class="note danger">
+            <p>My comment:<br>This is like a digital signal filer. Transform function.</p>
+          </div>
 <!-- 
 # Approach
 
