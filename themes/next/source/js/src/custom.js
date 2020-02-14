@@ -118,7 +118,7 @@ $(document).ready(function() {
     // banner gif random
     $("div.post-block > div > a > img").each(function(index) {
         // console.log($(this));
-        $(this).attr("src", "http://hansonzhao007.github.io/blog/images/infinite" + Math.round((Math.random() * 10)).toString() + ".gif")
+        $(this).attr("src", "http://hansonzhao007.github.io/blog/images/infinite" + Math.round((Math.random() * 7)).toString() + ".gif")
     });
 });
 
